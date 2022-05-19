@@ -11,4 +11,4 @@
 *.o
 
 #GDBInit
-*.gdbinit
+*\.gdbinit
