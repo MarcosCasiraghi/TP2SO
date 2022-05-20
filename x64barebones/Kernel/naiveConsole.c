@@ -21,6 +21,31 @@ void ncPrintChar(char character)
 	*currentVideo = character;
 	currentVideo += 2;
 }
+uint8_t* getPosition(uint16_t x,uint16_t y){
+	uint8_t* pos= (video + 2*(x +(y*width)));
+	return pos;
+}
+void printCharinPos(char character,uint16_t x, uint16_t y){
+	currentVideo=getPosition(x,y);
+	*currentVideo=character;
+	currentVideo+=2;
+}
+void printStrinPos(const char * string,uint16_t x,uint16_t y)
+{
+	uint8_t * backup = currentVideo;
+	int i;
+
+	for (i = 0; string[i] != 0; i++){
+		printCharinPos(string[i],x,y);
+		if(x>=width){
+			x=0;
+			y+=1;
+		}
+		x+=1;
+	}
+	currentVideo=backup;
+	return;
+}
 
 void ncNewline()
 {
