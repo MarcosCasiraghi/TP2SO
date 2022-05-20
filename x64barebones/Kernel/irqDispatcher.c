@@ -4,6 +4,7 @@
 #include <kb.h>
 
 static void int_20();
+static void int_21();
 static void int_80();
 static void int_81();
 static void int_82();
@@ -35,9 +36,9 @@ void int_20() {
 
 void int_21(){
     //Obtiene e imprime
-    char c = getKey();
+    char c= getKey();
     if (c > 0x00){
-        ncPrint(c);
+        ncPrint(&c);
     }
 }
 
