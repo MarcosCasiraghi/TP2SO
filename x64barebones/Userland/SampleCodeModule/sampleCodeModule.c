@@ -1,4 +1,5 @@
 #include <syscalls.h>
+#include <utilities.h>
 
 char * v = (char*)0xB8000 + 79 * 2;
 
@@ -7,7 +8,8 @@ static int var2 = 0;
 
 
 int main() {
-	sys_print();
+
+	print();
 
 	//All the following code may be removed
 	*v = 'X';
