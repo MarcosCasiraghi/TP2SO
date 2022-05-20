@@ -13,12 +13,15 @@ void irqDispatcher(uint64_t irq) {
 			int_20();
 			break;
         case 1:
+            int_21();
+            break;
+        case 2:
             int_80();
             break;
-		case 2:
+		case 3:
 			int_81();
 			break;
-        case 3:
+        case 4:
             int_82();
             break;
     }
@@ -27,6 +30,14 @@ void irqDispatcher(uint64_t irq) {
 
 void int_20() {
 	timer_handler();
+}
+
+void int_21(){
+    //Obtiene e imprime
+    char c = getKey();
+    if (c > 0x00){
+        ncPrint(c);
+    }
 }
 
 void int_80(){

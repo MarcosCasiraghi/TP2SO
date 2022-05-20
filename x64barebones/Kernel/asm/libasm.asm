@@ -1,5 +1,5 @@
 GLOBAL cpuVendor
-
+GLOBAL kbFlag
 section .text
 	
 cpuVendor:
@@ -25,3 +25,22 @@ cpuVendor:
 	mov rsp, rbp
 	pop rbp
 	ret
+
+kbFlag:
+    push rbp
+    mov rbp, rsp
+    ;limpio rax
+    mov rax,0
+
+_loop:
+    ;muevo a al el contenido del puerto 64
+    in al,0x64
+    ; dejo solo el ultimo bit
+    and al,0x01
+    cmp al,0
+    je _loop
+    in al,0x60
+
+    mov rsp, rbp
+    pop rbp
+    ret
