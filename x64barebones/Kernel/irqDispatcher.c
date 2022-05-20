@@ -18,15 +18,6 @@ void irqDispatcher(uint64_t irq) {
         case 1:
             int_21();
             break;
-        case 2:
-            int_80();
-            break;
-		case 3:
-			int_81();
-			break;
-        case 4:
-            int_82();
-            break;
     }
 	return;
 }
@@ -43,9 +34,7 @@ void int_21(){
     }
 }
 
-void int_80(){
-	ncPrint("hola mundo");
-}
+//observar
 
 void int_81(){
 
