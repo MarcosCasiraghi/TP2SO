@@ -24,11 +24,11 @@ static void setup_IDT_entry (int index, uint64_t offset);
 
 void load_idt() {
 
-  setup_IDT_entry (0x20, (uint64_t)&_irq00Handler);
-  setup_IDT_entry(0x21, (uint64_t)&_irq01Handler);
-  setup_IDT_entry(0x80, (uint64_t)&_irq02Handler);
-  setup_IDT_entry (0x81, (uint64_t)&_irq03Handler);
-  setup_IDT_entry(0x82, (uint64_t)&_irq04Handler);
+  setup_IDT_entry (0x20, (uint64_t)&_irq00Handler); //TimerTick
+  setup_IDT_entry(0x21, (uint64_t)&_irq01Handler); //Keyboard
+  setup_IDT_entry(0x80, (uint64_t)&_irq02Handler); //Write
+  setup_IDT_entry (0x81, (uint64_t)&_irq03Handler); //Read
+  setup_IDT_entry(0x82, (uint64_t)&_irq04Handler); //Clear
   setup_IDT_entry (0x00, (uint64_t)&_exception0Handler);
 
 
