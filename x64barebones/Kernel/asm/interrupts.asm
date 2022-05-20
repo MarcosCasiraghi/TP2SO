@@ -5,12 +5,11 @@ GLOBAL picSlaveMask
 GLOBAL haltcpu
 GLOBAL _hlt
 
-GLOBAL _irq00Handler
-GLOBAL _irq01Handler
-GLOBAL _irq02Handler
-GLOBAL _irq03Handler
-GLOBAL _irq04Handler
-GLOBAL _irq05Handler
+GLOBAL _timerHandler
+GLOBAL _keyboardHandler
+GLOBAL _readHandler
+GLOBAL _writeHandler
+GLOBAL _clearHandler
 
 GLOBAL _exception0Handler
 
@@ -55,7 +54,7 @@ SECTION .text
 	pop rax
 %endmacro
 
-%macro irqHandlerMaster 1
+%macro interruptHandlerMaster 1
 	pushState
 
 	mov rdi, %1 ; pasaje de parametro
@@ -114,28 +113,24 @@ picSlaveMask:
 
 
 ;8254 Timer (Timer Tick)
-_irq00Handler:
-	irqHandlerMaster 0
+_timerHandler:
+	interruptHandlerMaster 0
 
 ;Keyboard
-_irq01Handler:
-	irqHandlerMaster 1
+_keyboardHandler:
+	interruptHandlerMaster 1
 
-;Cascade pic never called
-_irq02Handler:
-	irqHandlerMaster 2
 
-;Serial Port 2 and 4
-_irq03Handler:
-	irqHandlerMaster 3
+_writeHandler:
+	interruptHandlerMaster 2
 
-;Serial Port 1 and 3
-_irq04Handler:
-	irqHandlerMaster 4
 
-;USB
-_irq05Handler:
-	irqHandlerMaster 5
+_readHandler:
+	interruptHandlerMaster 3
+
+
+_clearHandler:
+	interruptHandlerMaster 4
 
 
 ;Zero Division Exception
