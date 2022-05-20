@@ -102,6 +102,8 @@ int main()
 
 	ncPrint("[Finished]");
 
+	printStrinPos("HOLA",70,24);
+
 	load_idt();
 
 	//llamar pantalla
