@@ -1,6 +1,7 @@
 #include <time.h>
 #include <stdint.h>
 #include <naiveConsole.h>
+#include <time.h>
 #include <kb.h>
 
 static void int_20();
