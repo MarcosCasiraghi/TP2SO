@@ -1,5 +1,9 @@
 #include <utilities.h>
 
-void print(){
-    sys_print();
+void clear(){
+    sys_clear();
+}
+
+void print(char * string){
+    sys_print(string);
 }

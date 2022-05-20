@@ -3,6 +3,7 @@
 
 #include <syscalls.h>
 
-void print();
+void clear();
+void print(char * string);
 
 #endif
