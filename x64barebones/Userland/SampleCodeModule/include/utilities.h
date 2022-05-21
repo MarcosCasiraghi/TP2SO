@@ -3,7 +3,10 @@
 
 #include <syscalls.h>
 
+//armar getchar
+//armar scanf
+
 void clear();
-void print(char * string);
+void print(char * string,uint8_t fontColor, uint8_t backColor);
 
 #endif
