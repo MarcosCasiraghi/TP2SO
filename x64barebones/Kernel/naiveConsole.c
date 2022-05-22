@@ -21,6 +21,21 @@ void ncPrintChar(char character)
 	*currentVideo = character;
 	currentVideo += 2;
 }
+
+void ncPrintWithAtt(const char * string, uint8_t fontColor, uint8_t backColor){
+	int i;
+	uint8_t att = ((backColor<<4)| fontColor);
+
+	for (i = 0; string[i] != 0; i++)
+		ncPrintCharWithAtt(string[i], att);
+}
+
+void ncPrintCharWithAtt(char character, uint8_t att){
+	*currentVideo=character;
+	*(currentVideo+1)=att;
+	currentVideo+=2;
+}
+
 uint8_t* getPosition(uint16_t x,uint16_t y){
 	uint8_t* pos= (video + 2*(x +(y*width)));
 	return pos;

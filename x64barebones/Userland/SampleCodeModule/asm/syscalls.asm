@@ -1,10 +1,13 @@
 section .text
 
-GLOBAL sys_print
+GLOBAL sys_write
 GLOBAL sys_clear
 
-sys_print:
-    ;deberia tener en el rdi mi string
+;----------------------------------------
+; rdi=string, rsi=fontColor, rdx=backColor
+;----------------------------------------
+sys_write:
+
     int 80h
     ret
 
