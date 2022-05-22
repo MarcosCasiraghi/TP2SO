@@ -7,7 +7,7 @@
 #include <kb.h>
 #include <naiveConsole.h>
 
-static char scancodeLToAscii[] = {
+static uint8_t scancodeLToAscii[] = {
 
         0,   27, '1', '2', '3', '4', '5', '6', '7', '8', '9',  '0', '-', '=',
         '\b', '\t', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',  '[', ']',
@@ -18,7 +18,12 @@ static char scancodeLToAscii[] = {
         0,    0,   0,   0,   0,   0
 };
 
-char getKey(){
-    char myChar= kbFlag();
-    return scancodeLToAscii[myChar];
+uint8_t getKey(){
+    uint8_t myChar= kbFlag();
+    if( myChar < 0x80 && myChar != 0x00){
+        return scancodeLToAscii[myChar];
+    }
+    else
+        //return getKey();
+        return 0;
 }
