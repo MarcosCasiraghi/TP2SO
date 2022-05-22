@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <naiveConsole.h>
+#include <kb.h>
 
 void syscallDispatcher();
 
