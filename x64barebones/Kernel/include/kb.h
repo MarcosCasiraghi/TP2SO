@@ -9,6 +9,6 @@
 
 extern uint8_t kbFlag();
 
-char getKey();
+uint8_t getKey();
 
 #endif //TPARQUI_KB_H
