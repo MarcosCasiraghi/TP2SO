@@ -1,11 +1,6 @@
-//
-// Created by Gayba on 5/20/2022.
-//
-
-#include "include/kb.h"
-
 #include <kb.h>
 #include <naiveConsole.h>
+
 
 static uint8_t scancodeLToAscii[] = {
 
@@ -24,6 +19,5 @@ uint8_t getKey(){
         return scancodeLToAscii[myChar];
     }
     else
-        //return getKey();
         return 0;
 }

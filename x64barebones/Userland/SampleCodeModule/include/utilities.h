@@ -2,6 +2,7 @@
 #define _UTILITIES_H_
 
 #include <syscalls.h>
+#include <color.h>
 #define KEYBOARD_FD 1
 #define SCREEN_FD 0
 

@@ -10,11 +10,11 @@ int main() {
 	clear();
 	print("Que modulo desea correr?", GREEN, BLACK);
 
-	//print("$", GREEN, BLACK);
 	while(1){
 		char readBuffer[BUFFER_LENGTH]={0};
 		scanf(KEYBOARD_FD, readBuffer, BUFFER_LENGTH);
-		print(readBuffer,MAGENTA,BLACK);
-		//ver si hay que limpiar buffer
+		print(readBuffer, MAGENTA, BLACK);
+		//cuando limpiar buffer, esta lleno?
 	}
+	return 0;
 }
