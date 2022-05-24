@@ -32,6 +32,8 @@ void load_idt() {
   setup_IDT_entry (0x81, (uint64_t)&_readHandler);
   //clear screen
   setup_IDT_entry(0x82, (uint64_t)&_clearHandler);
+  //write decimal
+  setup_IDT_entry(0x83, (uint64_t)&_writeDecimalHandler);
   //divide by 0 exception
   setup_IDT_entry (0x00, (uint64_t)&_exception0Handler);
 

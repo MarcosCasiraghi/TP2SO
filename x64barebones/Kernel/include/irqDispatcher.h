@@ -9,6 +9,5 @@
 
 
 void irqDispatcher(uint64_t irq);
-char getKbBuffer();
 
 #endif

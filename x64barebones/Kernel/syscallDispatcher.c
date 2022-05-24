@@ -14,6 +14,9 @@ void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx){
         case 3:
             int_82();
             break;
+        case 4:
+            int_83(rdi);
+            break;
 
 	}
 }
@@ -24,7 +27,7 @@ void int_80(char * buffer, uint8_t fontColor, uint8_t backColor){
     ncNewline();
 }
 
-//revisar corte por \n
+
 void int_81(int fd, char * buffer){
     buffer[0]=getKbBuffer();
     if (buffer[0]!=0){
@@ -42,4 +45,9 @@ void int_81(int fd, char * buffer){
 
 void int_82(){
     ncClear();
+}
+
+void int_83(int number){
+    ncPrintDec(number);
+    ncNewline();
 }

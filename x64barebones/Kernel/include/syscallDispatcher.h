@@ -10,5 +10,6 @@ void syscallDispatcher();
 void int_80(char * buffer, uint8_t fontColor, uint8_t backColor);
 void int_81(int fd, char * buffer);
 void int_82();
+void int_83(int number);
 
 #endif

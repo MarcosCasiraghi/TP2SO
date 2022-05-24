@@ -10,6 +10,7 @@ GLOBAL _keyboardHandler
 GLOBAL _readHandler
 GLOBAL _writeHandler
 GLOBAL _clearHandler
+GLOBAL _writeDecimalHandler
 
 GLOBAL _exception0Handler
 
@@ -178,6 +179,9 @@ _readHandler:
 
 _clearHandler:
 	syscallHandlerMaster 3
+
+_writeDecimalHandler:
+	syscallHandlerMaster 4
 
 
 ;Zero Division Exception

@@ -77,7 +77,7 @@ void ncNewline()
 	while((uint64_t)(currentVideo - video) % (width * 2) != 0);
 	scrollUp();
 	ncPrintWithAtt("~$ ", 0x02, 0x00);
-	
+
 }
 
 void backspace(){
@@ -95,7 +95,7 @@ void blink(uint8_t backColor){
 }
 
 void scrollUp(){
-	if( currentVideo - video > 2*80*25 - 2){
+	if( currentVideo - video >= 2*80*25){
 		for( int i = 0 ; i <= (height-1) ; i++){
 			for( int j = 0 ; j <= width; j++){
 				video[2*(i*width+j)] = video[2*((i+1)*width + j)];
@@ -107,11 +107,10 @@ void scrollUp(){
 }
 
 void restoreDefault(){
-	*(currentVideo+1) = 0x0F;
+	*(currentVideo+1) = LGREY;
 }
 
-void ncPrintDec(uint64_t value)
-{
+void ncPrintDec(uint64_t value){
 	ncPrintBase(value, 10);
 }
 
@@ -125,18 +124,20 @@ void ncPrintBin(uint64_t value)
 	ncPrintBase(value, 2);
 }
 
-void ncPrintBase(uint64_t value, uint32_t base)
-{
+void ncPrintBase(uint64_t value, uint32_t base){
+	restoreDefault();
     uintToBase(value, buffer, base);
-    ncPrint(buffer);
+    ncPrintWithAtt(buffer,LGREY,BLACK);
 }
 
 void ncClear()
 {
 	int i;
 
-	for (i = 0; i < height * width; i++)
+	for (i = 0; i < height * width; i++){
 		video[i * 2] = ' ';
+		video[i*2+1]=0x0F;
+	}
 	currentVideo = video;
 }
 

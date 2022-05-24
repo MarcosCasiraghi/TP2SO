@@ -5,6 +5,10 @@ void clear(){
     sys_clear();
 }
 
+void printDec(int number){
+    sys_write_decimal(number);
+}
+
 void print(char * string,uint8_t fontColor, uint8_t backColor){
     sys_write(string, fontColor, backColor);
 }
