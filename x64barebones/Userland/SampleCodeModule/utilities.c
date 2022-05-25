@@ -1,5 +1,6 @@
 #include <utilities.h>
 #include <stdint.h>
+#include <standardlib.h>
 
 
 void clear(){
@@ -11,7 +12,7 @@ void printDec(int number){
 }
 
 void print(char * string,uint8_t fontColor, uint8_t backColor){
-    sys_write(string, fontColor, backColor);
+    sys_write(string, fontColor, backColor, strlen(string));
 }
 
 char getChar(){

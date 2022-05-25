@@ -9,8 +9,8 @@
 
 void put_char(uint8_t fd, char c);
 void sprint(uint8_t fd, char * str);
-void my_printf(char * format, ...);
+void my_printf(const char * frmt, ...);
 char *convert(unsigned int num, int base);
-uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
+//uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 
 #endif

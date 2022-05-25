@@ -3,10 +3,10 @@
 #define KEYBOARD_FD 1
 #define SCREEN_FD 0
 
-void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx){
-	switch(rcx){
+void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8){
+	switch(r8){
 		case 1:
-			int_80(rdi,rsi,rdx);
+			int_80(rdi,rsi,rdx,rcx);
             break;
         case 2:
             int_81(rdi,rsi);
@@ -22,8 +22,8 @@ void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx){
 }
 
 //a lo mejor en el futuro haya que agregar cases o mas parametros para el split screen
-void int_80(char * buffer, uint8_t fontColor, uint8_t backColor){
-    for (int i = 0; buffer[i]; i++){
+void int_80(char * buffer, uint8_t fontColor, uint8_t backColor, int length){
+    for (int i = 0; i < length; i++){
         restoreDefault();
         if( buffer[i] == '\n'){
             ncNewline();

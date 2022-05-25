@@ -12,7 +12,7 @@
 int main() {
 	clear();
 	print("Que modulo desea correr? \n", GREEN, BLACK);
-	my_printf("hola %d \n",5);
+	my_printf("hola %dcomo te va \n",7);
 
 	while(1){
 

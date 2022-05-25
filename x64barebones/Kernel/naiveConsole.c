@@ -90,7 +90,7 @@ void ncNewline()
 
 //distinto de 2*3 como se arreglaria?
 void backspace(){
-	if( currentVideo != video && (currentVideo - video) % (width*2) != 0){
+	if( currentVideo != video && (currentVideo - video) % (width*2) != 2*3){
 		currentVideo-=2;
 		*currentVideo = ' ';
 	}
