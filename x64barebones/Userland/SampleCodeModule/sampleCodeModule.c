@@ -2,6 +2,7 @@
 #include <utilities.h>
 #include <color.h>
 #include <fibonacci.h>
+#include <shell.h>
 
 #define BUFFER_LENGTH 50
 #define KEYBOARD_FD 1
@@ -14,6 +15,7 @@ int main() {
 	while(1){
 		char readBuffer[BUFFER_LENGTH]={0};
 		scanf(KEYBOARD_FD, readBuffer, BUFFER_LENGTH);
+		run(readBuffer);
 		//fibonacci();
 		//cuando limpiar buffer, esta lleno?
 	}
