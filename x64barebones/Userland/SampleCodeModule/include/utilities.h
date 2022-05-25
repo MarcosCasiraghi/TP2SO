@@ -3,6 +3,7 @@
 
 #include <syscalls.h>
 #include <color.h>
+#include <standardlib.h>
 #define KEYBOARD_FD 1
 #define SCREEN_FD 0
 

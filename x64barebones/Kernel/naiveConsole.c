@@ -33,17 +33,25 @@ void ncPrintWithAtt(const char * string, uint8_t fontColor, uint8_t backColor){
 }
 
 void ncPrintCharWithAtt(char character, uint8_t att){
+	if (character=='\n'){
+		ncNewline();
+	}else{
 	*currentVideo=character;
 	*(currentVideo+1)=att;
 	currentVideo+=2;
-
+	}
 	scrollUp();
 }
+
+
 
 uint8_t* getPosition(uint16_t x,uint16_t y){
 	uint8_t* pos= (video + 2*(x +(y*width)));
 	return pos;
 }
+
+
+
 void printCharinPos(char character,uint16_t x, uint16_t y){
 	currentVideo=getPosition(x,y);
 	*currentVideo=character;
@@ -76,12 +84,13 @@ void ncNewline()
 	}
 	while((uint64_t)(currentVideo - video) % (width * 2) != 0);
 	scrollUp();
-	ncPrintWithAtt("~$ ", 0x02, 0x00);
+	//ncPrintWithAtt("~$ ", 0x02, 0x00);
 
 }
 
+//distinto de 2*3 como se arreglaria?
 void backspace(){
-	if( currentVideo != video && (currentVideo - video) % (width*2) != 2*3){
+	if( currentVideo != video && (currentVideo - video) % (width*2) != 0){
 		currentVideo-=2;
 		*currentVideo = ' ';
 	}

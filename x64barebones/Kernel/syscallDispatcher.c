@@ -23,24 +23,22 @@ void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx){
 
 //a lo mejor en el futuro haya que agregar cases o mas parametros para el split screen
 void int_80(char * buffer, uint8_t fontColor, uint8_t backColor){
-	ncPrintWithAtt(buffer, fontColor, backColor);
-    ncNewline();
+    for (int i = 0; buffer[i]; i++){
+        restoreDefault();
+        if( buffer[i] == '\n'){
+            ncNewline();
+        }
+        else if(buffer[i] == '\b'){
+            backspace();
+        }
+        else
+            ncPrintCharWithAtt(buffer[i], fontColor);
+    }
 }
 
 
 void int_81(int fd, char * buffer){
     buffer[0]=getKbBuffer();
-    if (buffer[0]!=0){
-        restoreDefault();
-        if( buffer[0] == '\n'){
-            ncNewline();
-        }
-        else if(buffer[0] == '\b'){
-            backspace();
-        }
-        else
-            ncPrintCharWithAtt(buffer[0], LGREY);
-    }
 }
 
 void int_82(){

@@ -1,6 +1,7 @@
 #include <utilities.h>
 #include <stdint.h>
 
+
 void clear(){
     sys_clear();
 }
@@ -26,15 +27,16 @@ void scanf(int fd, char * buffer, int maxlength){
     int size=0;
     char c;
     do {
-        c = getChar();
-        if (c!='\n'){
+        if ((c=getChar())!='\n'){
             if (c=='\b' && size>0){
                 size--;
             }else if(c!='\b'){
                 buffer[size]=c;
                 size++;
             }
+            put_char(1, c);
         }
     } while (size<maxlength-1 && c != '\n');
+    put_char(1,'\n');
     buffer[size] = 0;
 }
