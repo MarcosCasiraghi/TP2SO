@@ -1,5 +1,9 @@
 GLOBAL cpuVendor
 GLOBAL kbFlag
+GLOBAL pushRegisters1
+GLOBAL popRegisters2
+GLOBAL pushRegisters2
+GLOBAL popRegisters1
 section .text
 	
 cpuVendor:
@@ -43,4 +47,24 @@ _loop:
 
     mov rsp, rbp
     pop rbp
+    ret
+
+pushRegisters1:
+    enter 0,0
+    leave
+    ret
+
+pushRegisters2:
+    enter 0,0
+    leave
+    ret
+
+popRegisters2:
+    enter 0,0
+    leave
+    ret
+
+popRegisters1:
+    enter 0,0
+    leave
     ret

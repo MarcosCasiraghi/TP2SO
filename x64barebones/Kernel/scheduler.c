@@ -14,6 +14,7 @@ void add_task(char *name, void * task){
         if(tasks[i].present!=1){
             tasks[i].func=task;
             tasks[i].name=name;
+            tasks[i].present = 1;
             return;
         }
         i++;
@@ -33,4 +34,13 @@ void scheduler(void){
     }
     return;
 
+}
+
+int tasksRunning(){
+    if (tasks[0].present == 0){
+        return 0;
+    }
+    else if (tasks[1].present == 0 && tasks[0].present == 1)
+        return 1;
+    return 2;
 }
