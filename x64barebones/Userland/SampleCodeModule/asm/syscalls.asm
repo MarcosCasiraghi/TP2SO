@@ -5,6 +5,8 @@ GLOBAL sys_clear
 GLOBAL sys_read
 GLOBAL sys_write_decimal
 
+GLOBAL sys_scheduler
+
 ;----------------------------------------
 ; rdi=string, rsi=fontColor, rdx=backColor
 ;----------------------------------------
@@ -22,4 +24,8 @@ sys_clear:
 
 sys_write_decimal:
     int 83h
+    ret
+
+sys_scheduler:
+    int 84h
     ret

@@ -17,6 +17,8 @@ void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, u
         case 4:
             int_83(rdi);
             break;
+        case 5:
+            int_84(rdi, rsi);
 
 	}
 }
@@ -48,4 +50,8 @@ void int_82(){
 void int_83(int number){
     ncPrintDec(number);
     ncNewline();
+}
+
+void int_84(char * name, void * func){
+    add_task(name, func);
 }

@@ -13,7 +13,8 @@ static FunctionType programs[] = {{"fibonacci", &fibonacci}, {0,0}};
 int run(char * buffer){
     for( int i = 0 ; programs[i].name ; i++){
         if( strcmp(buffer, programs[i].name) == 0){
-            programs[i].func();
+            //programs[i].func();
+            sys_scheduler(programs[i].name, programs[i].func);
             return 0;
         }
     }

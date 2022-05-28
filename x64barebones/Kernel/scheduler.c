@@ -2,7 +2,9 @@
 #define READY 0
 #define HALTED 1
 #define KILLED 2
+
 typedef void (*functionPointer)(void);
+
 typedef struct{
     char * name;
     functionPointer func;
@@ -10,6 +12,7 @@ typedef struct{
     int status;
     int pID;
 }FunctionType;
+
 static int hasTasks =0;
 static FunctionType tasks[MAX_TASKS];
 
@@ -43,6 +46,13 @@ int killProcess(int pID){
         return 1;
     }
     return -1;
+}
+
+void * getTask(int pID){
+    if( pID >= 0 && pID < 2){
+        return tasks[pID].func;
+    }
+    return;
 }
 
 void scheduler(void){
