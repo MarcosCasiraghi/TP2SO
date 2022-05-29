@@ -7,7 +7,7 @@ typedef struct{
     functionPointer func;
 }FunctionType;
 
-static FunctionType programs[] = {{"fibonacci", &fibonacci}, {0,0}};
+static FunctionType programs[] = {{"fibonacci", &fibonacci},{"help",&help}, {0,0}};
 
 
 int run(char * buffer){
