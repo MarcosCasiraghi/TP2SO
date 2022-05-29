@@ -5,6 +5,7 @@
 #include <utilities.h>
 #include <color.h>
 #include <help.h>
+#include <primos.h>
 
 int run(char * buffer);
 int strcmp(char * str1, char * str2);
