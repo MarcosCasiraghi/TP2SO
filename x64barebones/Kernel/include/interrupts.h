@@ -16,6 +16,7 @@ void _writeHandler(void);
 void _readHandler(void);
 void _clearHandler(void);
 void _writeDecimalHandler(void);
+void _schedulerHandler(void);
 
 void _exception0Handler(void);
 

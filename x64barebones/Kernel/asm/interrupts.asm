@@ -12,6 +12,8 @@ GLOBAL _writeHandler
 GLOBAL _clearHandler
 GLOBAL _writeDecimalHandler
 
+GLOBAL _schedulerHandler
+
 GLOBAL _exception0Handler
 
 EXTERN irqDispatcher
@@ -182,6 +184,9 @@ _clearHandler:
 
 _writeDecimalHandler:
 	syscallHandlerMaster 4
+
+_schedulerHandler:
+	syscallHandlerMaster 5
 
 
 ;Zero Division Exception
