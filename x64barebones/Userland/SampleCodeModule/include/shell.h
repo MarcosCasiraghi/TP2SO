@@ -1,6 +1,8 @@
 #ifndef SHELL_H
 #define SHELL_H
 
+#define BUFFER_LENGTH 50
+
 #include <fibonacci.h>
 #include <utilities.h>
 #include <color.h>
@@ -8,6 +10,6 @@
 #include <primos.h>
 
 int run(char * buffer);
-int strcmp(char * str1, char * str2);
-
+void initShell();
+void shell();
 #endif

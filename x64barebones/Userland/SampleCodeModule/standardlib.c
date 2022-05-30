@@ -7,6 +7,18 @@
 
 static char buffer[64]={'0'};
 
+
+int strcmp(char * str1, char * str2){
+    int i = 0 ;
+    for( ; str1[i] && str2[i]; i++){
+         if(str1[i] != str2[i])
+            return 1;
+    }
+    if( str1[i] || str2[i] )
+        return 2;
+    return 0;
+}
+
 void put_char(uint8_t fd, char c){
   sys_write(&c, LGREY,BLACK, 1);
 }

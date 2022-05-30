@@ -20,6 +20,9 @@ EXTERN irqDispatcher
 EXTERN syscallDispatcher
 EXTERN exceptionDispatcher
 
+EXTERN setRegisters
+EXTERN getRegisters
+
 SECTION .text
 
 %macro pushState 0
@@ -163,8 +166,59 @@ picSlaveMask:
 
 
 ;8254 Timer (Timer Tick)
+
+//hardcodeado para poder usar el scheduler
 _timerHandler:
-	interruptHandlerMaster 0
+	pushState
+
+	mov rdi, 0 ; pasaje de parametro
+	call irqDispatcher
+
+	; signal pic EOI (End of Interrupt)
+	mov al, 20h
+	out 20h, al
+
+	popState
+
+	mov [regdata], rip ;creo que esta y la del rsp la tenemos que sacrar del iretq
+	mov [regdata + 1*8],rax
+	mov [regdata+2*8], rbx
+	mov [regdata+3*8], rcx
+    mov [regdata+4*8], rdx
+    mov [regdata+5*8], rsi
+    mov [regdata+6*8], rdi
+    mov [regdata+7*8], rbp
+	mov [regdata+8*8],rsp
+    mov [regdata+9*8], r8
+    mov [regdata+10*8], r9
+    mov [regdata+11*8], r10
+    mov [regdata+12*8], r11
+    mov [regdata+13*8], r12
+    mov [regdata+14*8], r13
+    mov [regdata+15*8], r14
+    mov [regdata+16*8], r15
+
+	mov rax, regdata
+	call setRegisters
+
+	call getRegisters
+
+	mov [regdata+8], [rax+8]
+	mov [regdata+2*8], [rax+2*8]
+	;...
+
+	mov eax, [regdata+8]
+	mov ebx, [regdata+2*8]
+	;mov rbx, [rax+2*8]
+	;mov rcx, [rax+3*8]
+	; ....
+	mov rbx, [rax]
+	mov [rsp+8], [rax]
+	mov [rsp+4*8], [rax+8*8]
+	mov [rsp+3*8], [rax+]
+
+
+	iretq
 
 ;Keyboard
 _keyboardHandler:
@@ -201,4 +255,6 @@ haltcpu:
 
 
 SECTION .bss
+	regdata	resq 18
+	regdump resq 17		;un registro menos porque no imprime rip
 	aux resq 1

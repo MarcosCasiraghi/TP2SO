@@ -26,15 +26,13 @@ int run(char * buffer){
     return 1;
 }
 
-
-int strcmp(char * str1, char * str2){
-    int i = 0 ;
-    for( ; str1[i] && str2[i]; i++){
-         if(str1[i] != str2[i])
-            return 1;
-    }
-    if( str1[i] || str2[i] )
-        return 2;
-    return 0;
+void initShell(){
+    sys_scheduler("shell",&shell);
 }
 
+void shell(){
+    print("~$ ",GREEN, BLACK);
+		char readBuffer[BUFFER_LENGTH]={0};
+		scanf(KEYBOARD_FD, readBuffer, BUFFER_LENGTH);
+		run(readBuffer);
+}

@@ -11,6 +11,7 @@ void put_char(uint8_t fd, char c);
 void sprint(uint8_t fd, char * str);
 void my_printf(const char * frmt, ...);
 char *convert(unsigned int num, int base);
+int strcmp(char * str1, char * str2);
 //uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 
 #endif
