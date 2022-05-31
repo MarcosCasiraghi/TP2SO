@@ -21,4 +21,6 @@ void backspace();
 void blink(uint8_t backColor);
 void scrollUp();
 void restoreDefault();
+void printCharRight(char character);
+void printCharLeft(char character);
 #endif
