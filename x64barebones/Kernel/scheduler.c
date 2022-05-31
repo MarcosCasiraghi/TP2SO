@@ -24,6 +24,9 @@ static FunctionType tasks[MAX_TASKS];
 static char stack[MAX_TASKS +1][STACK_SIZE] = {0};
 static uint64_t reg[MAX_TASKS +1][REGISTERS] = {0};
 
+//reg[0][8]=(uint64_t)stack[0];
+
+
 void add_task(char *name, void * task){
     int i =0;
     while(i<MAX_TASKS){
@@ -52,7 +55,7 @@ void next(){
             activePID= (activePID%2) + 1;
         }else
             activePID=1;
-    }   
+    }
 }
 
 void setRegisters(uint64_t * registers){
@@ -100,7 +103,7 @@ void * scheduler(void){
 
     p=(void*)tasks[activePID].func;
     //(*p)();
-    
+
     return p;
 
 }
