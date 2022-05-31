@@ -18,33 +18,48 @@ typedef struct{
 }FunctionType;
 
 static int hasTasks =0;
-static int activePID = -1;
+static int activePID = 0;
 static FunctionType tasks[MAX_TASKS];
 
 static char stack[MAX_TASKS +1][STACK_SIZE] = {0};
 static uint64_t reg[MAX_TASKS +1][REGISTERS] = {0};
 
-//reg[0][8]=(uint64_t)stack[0];
-
-
 void add_task(char *name, void * task){
-    int i =0;
-    while(i<MAX_TASKS){
-        if(tasks[i].present!=1){
-            tasks[i].func=task;
-            tasks[i].name=name;
-            tasks[i].present = 1;
-            tasks[i].status = READY;
-            tasks[i].pID = i;
+    //comente estas lineas para probar solo con scheduler
+    //int i =0;
+    // while(i<MAX_TASKS){
+    //     if(tasks[i].present!=1){
+    //         tasks[i].func=task;
+    //         tasks[i].name=name;
+    //         tasks[i].present = 1;
+    //         tasks[i].status = READY;
+    //         tasks[i].pID = i;
+
+    //         //esto esta bien?
+    //         reg[i][0]= tasks[i].func;
+    //         reg[i][8]=stack[i];
+    //         return;
+    //     }
+    //     i++;
+    // }
+        //si llega aca ya tengo dos tasks
+
+
+            tasks[0].func=task;
+            tasks[0].name=name;
+            tasks[0].present = 1;
+            tasks[0].status = READY;
+            tasks[0].pID = 0;
+            reg[0][0]= tasks[0].func;
+            reg[0][8]= stack[0]+799;
+
+            ncPrint("llegue aca");
             return;
-        }
-        i++;
-    }
-    //si llega aca ya tengo dos tasks
+
 }
 
 uint64_t * getRegisters(){
-    next();
+   // next();
     return reg[activePID];
 }
 
@@ -59,7 +74,7 @@ void next(){
 }
 
 void setRegisters(uint64_t * registers){
-    for(int i = 0 ; i < 18 ; i++){
+    for(int i = 0 ; i < 19 ; i++){
         reg[activePID][i]=registers[i];
     }
 }

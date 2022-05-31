@@ -27,12 +27,15 @@ int run(char * buffer){
 }
 
 void initShell(){
-    sys_scheduler("shell",&shell);
+    sys_scheduler("shell", &shell);
+    
 }
 
 void shell(){
-    print("~$ ",GREEN, BLACK);
+    while(1){
+        print("~$ ",GREEN, BLACK);
 		char readBuffer[BUFFER_LENGTH]={0};
 		scanf(KEYBOARD_FD, readBuffer, BUFFER_LENGTH);
 		run(readBuffer);
+    }
 }

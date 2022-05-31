@@ -23,6 +23,8 @@ EXTERN exceptionDispatcher
 EXTERN setRegisters
 EXTERN getRegisters
 
+EXTERN tick_check
+
 SECTION .text
 
 %macro pushState 0
@@ -174,16 +176,21 @@ _timerHandler:
     mov rdi, 0 ; pasaje de parametro
     call irqDispatcher
 
-    ; signal pic EOI (End of Interrupt)
-    mov al, 20h
-    out 20h, al
-
     popState
 
-	;rip
+
 	push rbx
-	mov rbx, [rsp+8]
-    mov [regdata], rbx
+
+	;1 por el push
+	mov rbx, [rsp+1*8]
+    mov [regdata], rbx ;rip
+
+	mov rbx, [rsp+4*8]
+    mov [regdata+8*8],rbx ;rsp
+
+	mov rbx,[rsp+3*8]
+	mov [regdata+17*8],rbx ;flags
+
 	pop rbx
 
     mov [regdata+1*8], rax
@@ -193,13 +200,6 @@ _timerHandler:
     mov [regdata+5*8], rsi
     mov [regdata+6*8], rdi
     mov [regdata+7*8], rbp
-
-	;rsp
-	push rbx
-	mov rbx, [rsp+32]
-    mov [regdata+8*8],rbx
-	pop rbx
-
     mov [regdata+9*8], r8
     mov [regdata+10*8], r9
     mov [regdata+11*8], r10
@@ -209,17 +209,21 @@ _timerHandler:
     mov [regdata+15*8], r14
     mov [regdata+16*8], r15
 
-	;rflags
-	push rbx
-	mov rbx,[rsp+24]
-	mov [regdata+17*8],rbx
-	pop rbx
-
-
-    mov rax, regdata
+	; cargo regdata en rdi para pasar parametro
+    mov rdi, regdata
     call setRegisters
 
+	; llamo para recibir en rax vector con registros
     call getRegisters
+
+	mov rbx, [rax]
+    mov [rsp], rbx ;pongo el rip
+
+	mov rbx, [rax+8*8]
+    mov [rsp+3*8], rbx ;pongo el rsp
+
+	mov rbx, [rax+17*8]
+    mov [rsp+2*8], rbx  ;pongo los flags
 
     mov rbx, [rax+2*8]
     mov rcx, [rax+3*8]
@@ -227,7 +231,7 @@ _timerHandler:
     mov  rsi,[rax+5*8]
     mov  rdi,[rax+6*8]
     mov  rbp,[rax+7*8]
-    mov  rsp,[rax+8*8]
+	
     mov   r8,[rax+9*8]
     mov   r9,[rax+10*8]
     mov  r10,[rax+11*8]
@@ -236,26 +240,16 @@ _timerHandler:
     mov  r13,[rax+14*8]
     mov  r14,[rax+15*8]
     mov  r15,[rax+16*8]
-	;flags?
 
+	mov rax, [rax+8] ;restauro el rax
 
+	push rax
 
-    ;mov rax, [rax]
+	; signal pic EOI (End of Interrupt)
+    mov al, 20h
+    out 20h, al
 
-	;piso iretq
-	push rbx
-	mov rbx, [rax]
-    mov [rsp+8], rbx ;pongo el rip
-
-	mov rbx, [rax+8*8]
-    mov [rsp+4*8], rbx ;pongo el rsp
-
-	mov rbx, [rax+17*8]
-    mov [rsp+3*8], rbx  ;pongo los flags
-
-	pop rbx
-
-    mov rax, [rax+8] ;restauro el rax
+	pop rax
 
     iretq
 
@@ -294,7 +288,7 @@ haltcpu:
 
 
 SECTION .bss
-    regdata    resq 20 ;registros
+    regdata    resq 19 ;registros y flag
     regdump resq 17    ;menos porque no imprime rip ni rflags
     aux resq 1
 
