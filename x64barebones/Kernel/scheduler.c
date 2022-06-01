@@ -25,7 +25,7 @@ static char stack[3][STACK_SIZE] = {0};
 static uint64_t reg[3][REGISTERS] ={0};
 static int processes=0;
 
-void add_task(char *name, void * task){
+void add_task(char *name, void * task, uint64_t flags){
     //comente estas lineas para probar solo con scheduler
     //int i =0;
     // while(i<MAX_TASKS){
@@ -53,9 +53,9 @@ void add_task(char *name, void * task){
             tasks[0].pID = 0;
             reg[0][0]= tasks[0].func;
             reg[0][8]= (stack[0]+799);
+            reg[0][17]=flags;
             processes++;
             // puede que este aca
-            ncPrint("llegue aca");
             return;
 
 }
@@ -79,9 +79,11 @@ int getProcesses(){
     return processes;
 }
 
-void setRegisters(uint64_t * registers){
-    for(int i = 0 ; i < 19 ; i++){
-        reg[activePID][i]=registers[i];
+void setRegisters(uint64_t * registers, uint8_t load){
+    if (load){
+        for(int i = 0 ; i < 19 ; i++){
+            reg[activePID][i] = registers[i];
+        }
     }
 }
 

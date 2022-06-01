@@ -10,8 +10,7 @@
 
 int main() {
 	clear();
-	print("Que modulo desea correr? \n", GREEN, BLACK);
-	my_printf("hola %dcomo te va \n",7);
+	print("Bienvenido a la marc0S \n", GREEN, BLACK);
 
 	//while(1){
 	initShell();

@@ -31,7 +31,6 @@ void initShell(){
 }
 
 void shell(){
-    my_printf("LLEGUE");
     while(1){
         print("~$ ",GREEN, BLACK);
 		char readBuffer[BUFFER_LENGTH]={0};

@@ -18,6 +18,7 @@ GLOBAL _exception0Handler
 
 EXTERN irqDispatcher
 EXTERN syscallDispatcher
+EXTERN schedulerDispatcher
 EXTERN exceptionDispatcher
 
 EXTERN setRegisters
@@ -122,6 +123,7 @@ SECTION .text
 
 	popState
 	iretq
+
 %endmacro
 
 
@@ -182,6 +184,9 @@ _timerHandler:
 	cmp rax,0
 	jz fin
 
+	cmp BYTE [firstTime],0
+	jz get
+
 	push rbx
 	;1 por el push
 	mov rbx, [rsp+1*8]
@@ -194,7 +199,6 @@ _timerHandler:
 	mov [regdata+17*8],rbx ;flags
 
 	pop rbx
-
 
     mov [regdata+1*8], rax
     mov [regdata+2*8], rbx
@@ -214,9 +218,12 @@ _timerHandler:
 
 	; ; cargo regdata en rdi para pasar parametro
     mov rdi, regdata
+	mov rsi, 1
     call setRegisters
 
+	get:
 	; llamo para recibir en rax vector con registros
+	mov BYTE [firstTime],1
     call getRegisters
 
 	mov rbx, [rax]
@@ -227,6 +234,7 @@ _timerHandler:
 
 	mov rbx, [rax+17*8]
     mov [rsp+2*8], rbx  ;pongo los flags
+
 
     mov rbx, [rax+2*8]
     mov rcx, [rax+3*8]
@@ -245,7 +253,6 @@ _timerHandler:
     mov  r15,[rax+16*8]
 
 	mov rax, [rax+8] ;restauro el rax
-
 
 
 	fin:
@@ -277,7 +284,14 @@ _writeDecimalHandler:
     syscallHandlerMaster 4
 
 _schedulerHandler:
-    syscallHandlerMaster 5
+    pushState
+
+	;este movimiento es porque los parametros no estan en orden
+	mov rdx, [rsp+17*8]
+	call schedulerDispatcher
+
+	popState
+	iretq
 
 
 ;Zero Division Exception
@@ -295,4 +309,7 @@ SECTION .bss
     regdata    resq 19 ;registros y flag
     regdump resq 17    ;menos porque no imprime rip ni rflags
     aux resq 1
+
+SECTION .data
+	firstTime db 0
 
