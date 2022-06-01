@@ -1,6 +1,6 @@
-target remote 172.27.4.145:1234
+target remote 192.168.64.2:1234
 add-symbol-file ~/Kernel/kernel.elf 0x100000
-add-symbol-file ~/Userland/0000-sampelCodeModule.elf 0x400000
+add-symbol-file ~/Userland/0000-sampleCodeModule.elf 0x400000
 
 define src-prof
     dashboard -layout source expressions stack variables
