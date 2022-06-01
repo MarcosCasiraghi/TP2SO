@@ -5,8 +5,35 @@ static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 static char buffer[64] = { '0' };
 static uint8_t * const video = (uint8_t*)0xB8000;
 static uint8_t * currentVideo = (uint8_t*)0xB8000;
+static uint8_t rightX=40, leftX=0, rightY=0, leftY=0;
 static const uint32_t width = 80;
 static const uint32_t height = 25 ;
+
+
+
+
+void printCharRight(char character){
+	if(rightX >=80){
+		rightY++;
+		rightX=0;
+	}
+	uint8_t * const position=getPosition(rightX,rightY);
+	*position=character;
+	rightX++;
+
+	
+}
+void printCharLeft(char character){
+	if(leftX >=40){
+		leftY++;
+		leftX=0;
+	}
+	uint8_t * const position=getPosition(leftX,leftY);
+	*position=character;
+	leftX++;
+
+	
+}
 
 void ncPrint(const char * string)
 {
@@ -14,8 +41,8 @@ void ncPrint(const char * string)
 
 	for (i = 0; string[i] != 0; i++)
 		ncPrintChar(string[i]);
-}
 
+}
 void ncPrintChar(char character)
 {
 	*currentVideo = character;
