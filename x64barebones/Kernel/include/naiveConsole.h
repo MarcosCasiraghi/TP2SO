@@ -23,4 +23,6 @@ void scrollUp();
 void restoreDefault();
 void printCharRight(char character);
 void printCharLeft(char character);
+void scrollUpRight();
+void scrollUpLeft();
 #endif
