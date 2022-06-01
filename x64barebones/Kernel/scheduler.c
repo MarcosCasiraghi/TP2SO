@@ -26,48 +26,36 @@ static uint64_t reg[3][REGISTERS] ={0};
 static int processes=0;
 
 void add_task(char *name, void * task, uint64_t flags){
-    //comente estas lineas para probar solo con scheduler
-    //int i =0;
-    // while(i<MAX_TASKS){
-    //     if(tasks[i].present!=1){
-    //         tasks[i].func=task;
-    //         tasks[i].name=name;
-    //         tasks[i].present = 1;
-    //         tasks[i].status = READY;
-    //         tasks[i].pID = i;
-
-    //         //esto esta bien?
-    //         reg[i][0]= tasks[i].func;
-    //         reg[i][8]=stack[i];
-    //         return;
-    //     }
-    //     i++;
-    // }
+    int i =0;
+    while(i<MAX_TASKS+1){
+        if(tasks[i].present!=1){
+            tasks[i].func=task;
+            tasks[i].name=name;
+            tasks[i].present = 1;
+            tasks[i].status = READY;
+            tasks[i].pID = 0;
+            reg[i][0]= tasks[i].func;
+            reg[i][8]= (stack[i]+799);
+            reg[i][17]=flags;
+            processes++;
+            return;
+        }
+        i++;
+    }
         //si llega aca ya tengo dos tasks
 
-
-            tasks[0].func=task;
-            tasks[0].name=name;
-            tasks[0].present = 1;
-            tasks[0].status = READY;
-            tasks[0].pID = 0;
-            reg[0][0]= tasks[0].func;
-            reg[0][8]= (stack[0]+799);
-            reg[0][17]=flags;
-            processes++;
-            // puede que este aca
-            return;
+    return;
 
 }
 
 uint64_t * getRegisters(){
-   // next();
-    return reg[0];
+    next();
+    return reg[activePID];
 }
 
 void next(){
-    if (tasks[1].status==READY){
-        if (tasks[2].status==READY)
+    if (tasks[1].present==1 && tasks[1].status == READY){
+        if (tasks[2].present==1 && tasks[2].status == READY)
         {
             activePID= (activePID%2) + 1;
         }else

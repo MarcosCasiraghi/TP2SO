@@ -5,7 +5,7 @@ void fibonacci(){
     int first=1;
     int second=1;
     my_printf("1\n1\n");
-    while(j < 10){
+    while(1){
         for (int i = 0; i < 100000000; i++)
         {}
 
