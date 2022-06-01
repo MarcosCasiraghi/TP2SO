@@ -52,7 +52,7 @@ void my_printf(uint8_t fd, const char * frmt, ...){
         va_end(arg);
         return;
       }
-      put_char(STDOUT, *aux);
+      put_char(fd, *aux);
       aux++;
     }
     aux++;
