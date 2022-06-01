@@ -20,11 +20,11 @@ int strcmp(char * str1, char * str2){
 }
 
 void put_char(uint8_t fd, char c){
-  sys_write(&c, LGREY,BLACK, 1);
+  sys_write(&c, LGREY,BLACK, 1,fd);
 }
 
 void sprint(uint8_t fd, char * str){
-  sys_write(str, LGREY, BLACK, strlen(str));
+  sys_write(str, LGREY, BLACK, strlen(str),fd);
 }
 
 int strlen(char * string){
@@ -35,7 +35,7 @@ int strlen(char * string){
 }
 
 // https://stackoverflow.com/questions/1735236/how-to-write-my-own-printf-in-c
-void my_printf(const char * frmt, ...){
+void my_printf(uint8_t fd, const char * frmt, ...){
   // Module 1: Initializing Myprintf's arguments using stdarg.h
   va_list arg;   // declares a variable which we use to manipulating the argument list contaning variable arugments
   va_start(arg, frmt);   //initialize arg with function's last fixed argument, i.e. format
@@ -52,7 +52,7 @@ void my_printf(const char * frmt, ...){
         va_end(arg);
         return;
       }
-      put_char(STDOUT, *aux);
+      put_char(fd, *aux);
       aux++;
     }
     aux++;
@@ -62,30 +62,30 @@ void my_printf(const char * frmt, ...){
     // ONLY accept char*, unsigned int, int or double
     switch(*aux){
       case 'c' :  i = va_arg(arg, int);  // Fetch char argument
-                  put_char(STDOUT, i);
+                  put_char(fd, i);
                   break;
       case 'd' :  i = va_arg(arg, int);   // Fetch Decimal/Integer argument
                   if(i < 0){
                     i = -i;
-                    put_char(STDOUT, '-');
+                    put_char(fd, '-');
                   }
-                  sprint(1, convert(i,10));
+                  sprint(fd, convert(i,10));
                   //uintToBase(i,buffer,10);
                   //sprint(1, buffer);
                   break;
       case 'o':   i = va_arg(arg, unsigned int);   // Fetch Octal representation
-                  sprint(1, convert(i,8));
+                  sprint(fd, convert(i,8));
                   break;
       case 's':   s = va_arg(arg, char *);   // Fetch string
-                  sprint(1, s);
+                  sprint(fd, s);
                   break;
       case 'u':   u = va_arg(arg, unsigned int);   // Fetch Unsigned decimal integer
-                  sprint(1, convert(u,10));
+                  sprint(fd, convert(u,10));
                   break;
       case 'x':   u = va_arg(arg, unsigned int);   // Fetch Hexadecimal representation
-                  sprint(1, convert(u,16));
+                  sprint(fd, convert(u,16));
                   break;
-      case '%':   put_char(STDOUT, '%');
+      case '%':   put_char(fd, '%');
                   break;
     }
   }

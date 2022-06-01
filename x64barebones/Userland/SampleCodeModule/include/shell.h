@@ -8,8 +8,8 @@
 #include <color.h>
 #include <help.h>
 #include <primos.h>
+#include <primoFibo.h>
 
 int run(char * buffer);
-void initShell();
 void shell();
 #endif

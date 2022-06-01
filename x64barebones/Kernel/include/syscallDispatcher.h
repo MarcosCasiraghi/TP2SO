@@ -8,10 +8,9 @@
 #include <scheduler.h>
 
 void syscallDispatcher();
-void int_80(char * buffer, uint8_t fontColor, uint8_t backColor, int length);
+void int_80(char * buffer, uint8_t fontColor, uint8_t backColor, int length, int fd);
 void int_81(int fd, char * buffer);
 void int_82();
 void int_83(int number);
-void int_84(char * name, void * func);
 
 #endif
