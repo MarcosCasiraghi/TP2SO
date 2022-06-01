@@ -10,7 +10,7 @@
 
 int main() {
 	clear();
-	print("Bienvenido a la marc0S \n", GREEN, BLACK);
+	print("Bienvenido a la marc0S \n", GREEN, BLACK,0);
 
 	//while(1){
 	initShell();

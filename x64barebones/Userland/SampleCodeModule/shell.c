@@ -20,8 +20,8 @@ int run(char * buffer){
     }
     if (*buffer!=0)
     {
-        print(buffer, RED, BLACK);
-        print(" is not a valid command \n", WHITE, BLACK);
+        print(buffer, RED, BLACK,0);
+        print(" is not a valid command \n", WHITE, BLACK,0);
     }
     return 1;
 }
@@ -32,7 +32,7 @@ void initShell(){
 
 void shell(){
     while(1){
-        print("~$ ",GREEN, BLACK);
+        print("~$ ",GREEN, BLACK,0);
 		char readBuffer[BUFFER_LENGTH]={0};
 		scanf(KEYBOARD_FD, readBuffer, BUFFER_LENGTH);
 		run(readBuffer);

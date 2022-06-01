@@ -60,6 +60,8 @@ void next(){
             activePID= (activePID%2) + 1;
         }else
             activePID=1;
+    }else{
+        activePID=0;
     }
 }
 
