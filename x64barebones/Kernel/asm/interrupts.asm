@@ -5,23 +5,17 @@ GLOBAL picSlaveMask
 GLOBAL haltcpu
 GLOBAL _hlt
 
-GLOBAL _timerHandler
 GLOBAL _keyboardHandler
 GLOBAL _readHandler
 GLOBAL _writeHandler
 GLOBAL _clearHandler
 GLOBAL _writeDecimalHandler
-
-GLOBAL _schedulerHandler
-
+GLOBAL _timerHandler
 GLOBAL _exception0Handler
 
 EXTERN irqDispatcher
 EXTERN syscallDispatcher
 EXTERN exceptionDispatcher
-
-EXTERN setRegisters
-EXTERN getRegisters
 
 EXTERN tick_check
 
@@ -116,7 +110,7 @@ SECTION .text
 	pushState
 
 	;este movimiento es porque los parametros no estan en orden
-	mov r8, %1
+	mov r9, %1
 	call syscallDispatcher
 
 	popState
@@ -171,87 +165,7 @@ picSlaveMask:
 
 ;hardcodeado para poder usar el scheduler
 _timerHandler:
-    pushState
-
-    mov rdi, 0 ; pasaje de parametro
-    call irqDispatcher
-
-    popState
-
-
-	push rbx
-
-	;1 por el push
-	mov rbx, [rsp+1*8]
-    mov [regdata], rbx ;rip
-
-	mov rbx, [rsp+4*8]
-    mov [regdata+8*8],rbx ;rsp
-
-	mov rbx,[rsp+3*8]
-	mov [regdata+17*8],rbx ;flags
-
-	pop rbx
-
-    mov [regdata+1*8], rax
-    mov [regdata+2*8], rbx
-    mov [regdata+3*8], rcx
-    mov [regdata+4*8], rdx
-    mov [regdata+5*8], rsi
-    mov [regdata+6*8], rdi
-    mov [regdata+7*8], rbp
-    mov [regdata+9*8], r8
-    mov [regdata+10*8], r9
-    mov [regdata+11*8], r10
-    mov [regdata+12*8], r11
-    mov [regdata+13*8], r12
-    mov [regdata+14*8], r13
-    mov [regdata+15*8], r14
-    mov [regdata+16*8], r15
-
-	; cargo regdata en rdi para pasar parametro
-    mov rdi, regdata
-    call setRegisters
-
-	; llamo para recibir en rax vector con registros
-    call getRegisters
-
-	mov rbx, [rax]
-    mov [rsp], rbx ;pongo el rip
-
-	mov rbx, [rax+8*8]
-    mov [rsp+3*8], rbx ;pongo el rsp
-
-	mov rbx, [rax+17*8]
-    mov [rsp+2*8], rbx  ;pongo los flags
-
-    mov rbx, [rax+2*8]
-    mov rcx, [rax+3*8]
-    mov  rdx,[rax+4*8]
-    mov  rsi,[rax+5*8]
-    mov  rdi,[rax+6*8]
-    mov  rbp,[rax+7*8]
-	
-    mov   r8,[rax+9*8]
-    mov   r9,[rax+10*8]
-    mov  r10,[rax+11*8]
-    mov  r11,[rax+12*8]
-    mov  r12,[rax+13*8]
-    mov  r13,[rax+14*8]
-    mov  r14,[rax+15*8]
-    mov  r15,[rax+16*8]
-
-	mov rax, [rax+8] ;restauro el rax
-
-	push rax
-
-	; signal pic EOI (End of Interrupt)
-    mov al, 20h
-    out 20h, al
-
-	pop rax
-
-    iretq
+    interruptHandlerMaster 0
 
 ;Keyboard
 _keyboardHandler:
@@ -271,9 +185,6 @@ _clearHandler:
 
 _writeDecimalHandler:
     syscallHandlerMaster 4
-
-_schedulerHandler:
-    syscallHandlerMaster 5
 
 
 ;Zero Division Exception

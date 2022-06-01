@@ -15,8 +15,11 @@ static const uint32_t height = 25 ;
 void printCharRight(char character){
 	if(rightX >=80){
 		rightY++;
-		rightX=0;
+		rightX=40;
 	}
+    if (character == '\n'){
+        newLineRight();
+    }
 	uint8_t * const position=getPosition(rightX,rightY);
 	*position=character;
 	rightX++;
@@ -28,11 +31,26 @@ void printCharLeft(char character){
 		leftY++;
 		leftX=0;
 	}
+    if (character == '\n'){
+        newLineLeft();
+    }
 	uint8_t * const position=getPosition(leftX,leftY);
 	*position=character;
 	leftX++;
 
 	
+}
+
+void newLineRight(){
+    rightY++;
+    rightX = 0;
+    //scrollupRight();
+}
+
+void newLineLeft(){
+    leftY++;
+    leftX = 40;
+    //scrollupLeft();
 }
 
 void ncPrint(const char * string)
@@ -110,6 +128,8 @@ void ncNewline()
 		ncPrintChar(' ');
 	}
 	while((uint64_t)(currentVideo - video) % (width * 2) != 0);
+    rightY++;
+    leftY++;
 	scrollUp();
 	//ncPrintWithAtt("~$ ", 0x02, 0x00);
 

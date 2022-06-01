@@ -2,6 +2,10 @@
 #include <stdint.h>
 #include <standardlib.h>
 
+#define FULL_SCREEN 0
+#define LEFT 1
+#define RIGHT 2
+
 
 void clear(){
     sys_clear();
@@ -11,9 +15,10 @@ void printDec(int number){
     sys_write_decimal(number);
 }
 
-void print(char * string,uint8_t fontColor, uint8_t backColor){
-    sys_write(string, fontColor, backColor, strlen(string));
+void print(char * string,uint8_t fontColor, uint8_t backColor, int fd){
+    sys_write(string, fontColor, backColor, strlen(string), fd);
 }
+
 
 char getChar(){
     char c = 0;
@@ -35,9 +40,9 @@ void scanf(int fd, char * buffer, int maxlength){
                 buffer[size]=c;
                 size++;
             }
-            put_char(1, c);
+            put_char(0, c);
         }
     } while (size<maxlength-1 && c != '\n');
-    put_char(1,'\n');
+    put_char(0,'\n');
     buffer[size] = 0;
 }

@@ -36,8 +36,6 @@ void load_idt() {
   //write decimal
   setup_IDT_entry(0x83, (uint64_t)&_writeDecimalHandler);
 
-  //handle schedule
-  setup_IDT_entry(0x84, (uint64_t)&_schedulerHandler);
   //divide by 0 exception
   setup_IDT_entry (0x00, (uint64_t)&_exception0Handler);
 
