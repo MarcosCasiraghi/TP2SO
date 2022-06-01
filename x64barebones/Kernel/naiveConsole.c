@@ -13,7 +13,7 @@ static const uint32_t height = 25 ;
 
 
 void printCharRight(char character){
-	if(rightX >=80){
+	if(rightX >=width){
 		rightY++;
 		rightX=40;
 	}
@@ -23,11 +23,12 @@ void printCharRight(char character){
 	uint8_t * const position=getPosition(rightX,rightY);
 	*position=character;
 	rightX++;
+	scrollUpRight();
 
 	
 }
 void printCharLeft(char character){
-	if(leftX >=40){
+	if(leftX >=width/2){
 		leftY++;
 		leftX=0;
 	}
@@ -37,6 +38,7 @@ void printCharLeft(char character){
 	uint8_t * const position=getPosition(leftX,leftY);
 	*position=character;
 	leftX++;
+	scrollUpLeft();
 
 	
 }
@@ -46,6 +48,8 @@ void newLineRight(){
     rightX = 0;
     //scrollupRight();
 }
+
+
 
 void newLineLeft(){
     leftY++;
@@ -160,6 +164,31 @@ void scrollUp(){
 		}
 		currentVideo = currentVideo - 2*width;
 	}
+}
+
+void scrollUpRight(){
+	if( rightX>=80 && rightY >= 25){
+		for( int i = 0 ; i <= (height-1) ; i++){
+			for( int j = 40 ; j <= width; j++){
+				video[2*(i*width+j)] = video[2*((i+1)*width + j)];
+				video[2*(i*width+j)+1] = video[2*((i+1)*width + j)+1];
+			}
+		}
+		rightY--;
+	}
+}
+
+void scrollUpLeft(){
+if( leftX>=39 && leftY >= 25){
+		for( int i = 0 ; i <= (height-1) ; i++){
+			for( int j = 40 ; j <= width; j++){
+				video[2*(i*width+j)] = video[2*((i+1)*width + j)];
+				video[2*(i*width+j)+1] = video[2*((i+1)*width + j)+1];
+			}
+		}
+		currentVideo = currentVideo - 2*width;
+	}
+	leftY--;
 }
 
 void restoreDefault(){
