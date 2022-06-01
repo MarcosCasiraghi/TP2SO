@@ -56,8 +56,6 @@ void printCharinPos(char character,uint16_t x, uint16_t y){
 	currentVideo=getPosition(x,y);
 	*currentVideo=character;
 	currentVideo+=2;
-
-	//scrollUp();
 }
 void printStrinPos(const char * string,uint16_t x,uint16_t y)
 {

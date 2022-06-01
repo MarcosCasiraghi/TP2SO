@@ -22,6 +22,7 @@ EXTERN exceptionDispatcher
 
 EXTERN setRegisters
 EXTERN getRegisters
+EXTERN getProcesses
 
 EXTERN tick_check
 
@@ -171,16 +172,17 @@ picSlaveMask:
 
 ;hardcodeado para poder usar el scheduler
 _timerHandler:
-    pushState
 
+    pushState
     mov rdi, 0 ; pasaje de parametro
     call irqDispatcher
-
     popState
 
+	call getProcesses
+	cmp rax,0
+	jz fin
 
 	push rbx
-
 	;1 por el push
 	mov rbx, [rsp+1*8]
     mov [regdata], rbx ;rip
@@ -192,6 +194,7 @@ _timerHandler:
 	mov [regdata+17*8],rbx ;flags
 
 	pop rbx
+
 
     mov [regdata+1*8], rax
     mov [regdata+2*8], rbx
@@ -209,7 +212,7 @@ _timerHandler:
     mov [regdata+15*8], r14
     mov [regdata+16*8], r15
 
-	; cargo regdata en rdi para pasar parametro
+	; ; cargo regdata en rdi para pasar parametro
     mov rdi, regdata
     call setRegisters
 
@@ -231,7 +234,7 @@ _timerHandler:
     mov  rsi,[rax+5*8]
     mov  rdi,[rax+6*8]
     mov  rbp,[rax+7*8]
-	
+
     mov   r8,[rax+9*8]
     mov   r9,[rax+10*8]
     mov  r10,[rax+11*8]
@@ -243,12 +246,13 @@ _timerHandler:
 
 	mov rax, [rax+8] ;restauro el rax
 
-	push rax
 
+
+	fin:
 	; signal pic EOI (End of Interrupt)
+	push rax
     mov al, 20h
     out 20h, al
-
 	pop rax
 
     iretq

@@ -15,7 +15,7 @@ int main() {
 
 	//while(1){
 	initShell();
-	while(1){}
+	while(1){};
 		//cuando limpiar buffer, esta lleno?
 	//}
 	return 0;

@@ -1,7 +1,7 @@
 #include <scheduler.h>
 
 #define STACK_SIZE 800
-#define REGISTERS 60
+#define REGISTERS 20
 #define MAX_TASKS 2
 #define READY 0
 #define HALTED 1
@@ -21,8 +21,9 @@ static int hasTasks =0;
 static int activePID = 0;
 static FunctionType tasks[MAX_TASKS];
 
-static char stack[MAX_TASKS +1][STACK_SIZE] = {0};
-static uint64_t reg[MAX_TASKS +1][REGISTERS] = {0};
+static char stack[3][STACK_SIZE] = {0};
+static uint64_t reg[3][REGISTERS] ={0};
+static int processes=0;
 
 void add_task(char *name, void * task){
     //comente estas lineas para probar solo con scheduler
@@ -51,8 +52,9 @@ void add_task(char *name, void * task){
             tasks[0].status = READY;
             tasks[0].pID = 0;
             reg[0][0]= tasks[0].func;
-            reg[0][8]= stack[0]+799;
-
+            reg[0][8]= (stack[0]+799);
+            processes++;
+            // puede que este aca
             ncPrint("llegue aca");
             return;
 
@@ -60,7 +62,7 @@ void add_task(char *name, void * task){
 
 uint64_t * getRegisters(){
    // next();
-    return reg[activePID];
+    return reg[0];
 }
 
 void next(){
@@ -71,6 +73,10 @@ void next(){
         }else
             activePID=1;
     }
+}
+
+int getProcesses(){
+    return processes;
 }
 
 void setRegisters(uint64_t * registers){

@@ -28,10 +28,10 @@ int run(char * buffer){
 
 void initShell(){
     sys_scheduler("shell", &shell);
-    
 }
 
 void shell(){
+    my_printf("LLEGUE");
     while(1){
         print("~$ ",GREEN, BLACK);
 		char readBuffer[BUFFER_LENGTH]={0};
