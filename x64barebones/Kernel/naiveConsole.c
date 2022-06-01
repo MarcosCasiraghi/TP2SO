@@ -46,7 +46,7 @@ void printCharLeft(char character){
 void newLineRight(){
     rightY++;
     rightX = 40;
-    scrollupRight();
+    scrollUpRight();
 }
 
 
@@ -54,7 +54,7 @@ void newLineRight(){
 void newLineLeft(){
     leftY++;
     leftX = 0;
-    scrollupLeft();
+    scrollUpLeft();
 }
 
 void ncPrint(const char * string)
