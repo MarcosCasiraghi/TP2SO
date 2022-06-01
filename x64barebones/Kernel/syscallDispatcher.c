@@ -26,7 +26,19 @@ void int_80(char * buffer, uint8_t fontColor, uint8_t backColor, int length,int 
         for (int i = 0; i < length; i++) {
             restoreDefault();
             if (buffer[i] == '\n') {
-                ncNewline();
+                switch(fd){
+                    case 0:
+                        ncNewline();
+                        break;
+                    case 1:
+                        newLineLeft();
+                        break;
+                    case 2:
+                        newLineRight();
+                        break;
+                    
+                }
+        
             } else if (buffer[i] == '\b') {
                 backspace();
             } else if (fd == 0)

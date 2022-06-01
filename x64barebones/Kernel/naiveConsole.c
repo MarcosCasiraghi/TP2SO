@@ -45,7 +45,7 @@ void printCharLeft(char character){
 
 void newLineRight(){
     rightY++;
-    rightX = 0;
+    rightX = 40;
     //scrollupRight();
 }
 
@@ -53,7 +53,7 @@ void newLineRight(){
 
 void newLineLeft(){
     leftY++;
-    leftX = 40;
+    leftX = 0;
     //scrollupLeft();
 }
 
@@ -167,7 +167,7 @@ void scrollUp(){
 }
 
 void scrollUpRight(){
-	if( rightX>=80 && rightY >= 25){
+	if( (rightX>=80 && rightY == 25)||rightY>25){
 		for( int i = 0 ; i <= (height-1) ; i++){
 			for( int j = 40 ; j <= width; j++){
 				video[2*(i*width+j)] = video[2*((i+1)*width + j)];
@@ -179,16 +179,16 @@ void scrollUpRight(){
 }
 
 void scrollUpLeft(){
-if( leftX>=39 && leftY >= 25){
+if( (leftX>=39 && leftY == 25)||leftY>25){
 		for( int i = 0 ; i <= (height-1) ; i++){
 			for( int j = 40 ; j <= width; j++){
 				video[2*(i*width+j)] = video[2*((i+1)*width + j)];
 				video[2*(i*width+j)+1] = video[2*((i+1)*width + j)+1];
 			}
 		}
-		currentVideo = currentVideo - 2*width;
+		leftY--;
 	}
-	leftY--;
+	
 }
 
 void restoreDefault(){
