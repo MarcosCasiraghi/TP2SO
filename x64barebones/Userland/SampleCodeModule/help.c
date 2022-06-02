@@ -3,7 +3,7 @@
 
 void help(){
     print("HELP\n",RED,YELLOW,0);
-    print("Comandos disponibles\n", BLUE, YELLOW);
+    print("Comandos disponibles\n", BLUE, YELLOW,0);
     print("- fibonacci: imprime la serie de fibonacci hasta que se corte su ejecucion\n",LGREY,BLACK,0);
     print("- primos: imprime los numeros primos hasta que se corte su ejecucion\n",LGREY,BLACK,0);
     print("- time: imprime el dia y la hora del sistema\n",LGREY,BLACK,0);

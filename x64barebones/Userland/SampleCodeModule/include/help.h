@@ -4,6 +4,7 @@
 #define TPARQUI_HELP_H
 
 #include <color.h>
+#include <utilities.h>
 
 void help();
 

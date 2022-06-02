@@ -5,8 +5,6 @@
 #define STDOUT 1
 #define STDERR 2
 
-static char buffer[64]={'0'};
-
 
 int strcmp(char * str1, char * str2){
     int i = 0 ;

@@ -12,6 +12,7 @@ void sprint(uint8_t fd, char * str);
 void my_printf(uint8_t fd, const char * frmt, ...);
 char *convert(unsigned int num, int base);
 int strcmp(char * str1, char * str2);
+int strlen(char * string);
 //uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 
 #endif
