@@ -6,10 +6,11 @@
 #include <fibonacci.h>
 #include <utilities.h>
 #include <color.h>
+#include <stdint.h>
 #include <help.h>
 #include <primos.h>
-#include <primoFibo.h>
 
 int run(char * buffer);
 void shell();
+void initShell();
 #endif
