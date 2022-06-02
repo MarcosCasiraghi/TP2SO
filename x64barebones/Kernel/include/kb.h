@@ -2,6 +2,7 @@
 #define TPARQUI_KB_H
 
 #include <stdint.h>
+#include <scheduler.h>
 
 extern uint8_t kbFlag();
 void getKey();

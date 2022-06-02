@@ -54,14 +54,37 @@ uint64_t * getRegisters(){
 }
 
 void next(){
+    if(tasks[1].present==1 && tasks[1].status == KILLED && tasks[2].present==1 && tasks[2].status == KILLED){
+        //Vuelve a shell y "elimina" funciones
+        activePID = 0;
+        tasks[1].present = 0;
+        tasks[2].present = 0;
+        return;
+    }
+
     if (tasks[1].present==1 && tasks[1].status == READY){
-        if (tasks[2].present==1 && tasks[2].status == READY)
-        {
+        if(tasks[2].present==1 && tasks[2].status == READY)
             activePID= (activePID%2) + 1;
-        }else
+        else
             activePID=1;
-    }else{
-        activePID=0;
+        return;
+    }
+    if (tasks[2].present==1 && tasks[2].status == READY && tasks[1].present==1 && tasks[1].status == KILLED ){
+        activePID = 2;
+        return;
+    }
+    activePID=0;
+    
+}
+
+void schedulerExit(int amountOfFuncs){
+    if( activePID == 0)
+        return;
+    if( amountOfFuncs == 1)
+        tasks[activePID].status = KILLED;
+    else{//amountOfFuncs == 2
+        tasks[1].status = KILLED;
+        tasks[2].status = KILLED;
     }
 }
 

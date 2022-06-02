@@ -34,7 +34,7 @@ void load_idt() {
   setup_IDT_entry(0x82, (uint64_t)&_clearHandler);
 
   //write decimal
-  setup_IDT_entry(0x83, (uint64_t)&_writeDecimalHandler);
+  setup_IDT_entry(0x83, (uint64_t)&_exitHandler);
 
   setup_IDT_entry(0x84, (uint64_t)&_schedulerHandler);
 

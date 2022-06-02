@@ -11,9 +11,6 @@ void clear(){
     sys_clear();
 }
 
-void printDec(int number){
-    sys_write_decimal(number);
-}
 
 void print(char * string,uint8_t fontColor, uint8_t backColor, int fd){
     sys_write(string, fontColor, backColor, strlen(string), fd);
@@ -45,4 +42,9 @@ void scanf(int fd, char * buffer, int maxlength){
     } while (size<maxlength-1 && c != '\n');
     put_char(0,'\n');
     buffer[size] = 0;
+}
+
+void exit(){
+    sys_exit();
+    for( int i = 0 ; i < 999999999 ; i++){}
 }

@@ -1,5 +1,5 @@
 #include <kb.h>
-#include <naiveConsole.h>
+
 #define LSHIFT 0x2A
 #define RSHIFT 0x36
 #define RELEASE 0x80
@@ -34,6 +34,10 @@ static uint8_t scancodeLToAsciiMayus[] = {
 
 void getKey(){
     uint8_t myChar= kbFlag();
+    if(scancodeLToAscii[myChar] == 27){
+        schedulerExit(2);
+        return;
+    }
     if( myChar == LSHIFT || myChar == RSHIFT)
         mayus = 1;
     if( myChar == LSHIFT+RELEASE || myChar == RSHIFT+RELEASE )

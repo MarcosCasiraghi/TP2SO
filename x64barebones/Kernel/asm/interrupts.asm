@@ -10,7 +10,7 @@ GLOBAL _keyboardHandler
 GLOBAL _readHandler
 GLOBAL _writeHandler
 GLOBAL _clearHandler
-GLOBAL _writeDecimalHandler
+GLOBAL _exitHandler
 
 GLOBAL _schedulerHandler
 
@@ -280,7 +280,7 @@ _readHandler:
 _clearHandler:
     syscallHandlerMaster 3
 
-_writeDecimalHandler:
+_exitHandler:
     syscallHandlerMaster 4
 
 _schedulerHandler:
