@@ -4,6 +4,7 @@ GLOBAL sys_write
 GLOBAL sys_clear
 GLOBAL sys_read
 GLOBAL sys_write_decimal
+GLOBAL sys_registers
 
 GLOBAL sys_scheduler
 
@@ -28,4 +29,8 @@ sys_write_decimal:
 
 sys_scheduler:
     int 84h
+    ret
+
+sys_registers:
+    int 85h
     ret

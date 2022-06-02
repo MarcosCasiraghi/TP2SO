@@ -13,6 +13,7 @@ GLOBAL _clearHandler
 GLOBAL _writeDecimalHandler
 
 GLOBAL _schedulerHandler
+GLOBAL _registersHandler
 
 GLOBAL _exception0Handler
 
@@ -287,12 +288,30 @@ _schedulerHandler:
     pushState
 
 	;este movimiento es porque los parametros no estan en orden
-	mov rdx, [rsp+17*8]
+	mov rcx, [rsp+17*8]
 	call schedulerDispatcher
 
 	popState
 	iretq
 
+_registersHandler:
+     mov [regdump], rdi
+        mov [regdump+1*8], rbx
+        mov [regdump+2*8], rcx
+        mov [regdump+3*8], rdx
+        mov [regdump+4*8], rsi
+        mov [regdump+5*8], rdi
+        mov [regdump+6*8], rbp
+        mov [regdump+7*8], r8
+        mov [regdump+8*8], r9
+        mov [regdump+9*8], r10
+        mov [regdump+10*8], r11
+        mov [regdump+11*8], r12
+        mov [regdump+12*8], r13
+        mov [regdump+13*8], r14
+        mov [regdump+14*8], r15
+        mov rsi, regdump
+    syscallHandlerMaster 6
 
 ;Zero Division Exception
 _exception0Handler:

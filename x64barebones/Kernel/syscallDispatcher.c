@@ -17,14 +17,14 @@ void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, u
         case 4:
             int_83(rdi);
             break;
-        //case 5:
-         //   int_84(rdi, rsi);
+        case 6:
+            int_85(rdi, rsi);
 
 	}
 }
 
-void schedulerDispatcher(char * name, void * func, uint64_t flags){
-    add_task(name, func, flags);
+void schedulerDispatcher(char * name, void * func, uint64_t parametro,uint64_t flags){
+    add_task(name, func, parametro, flags);
 }
 
 //a lo mejor en el futuro haya que agregar cases o mas parametros para el split screen
@@ -70,6 +70,40 @@ void int_83(int number){
     ncNewline();
 }
 
-//void int_84(char * name, void * func){
-//    add_task(name, func);
+void int_85(uint8_t fd, uint64_t * registers){
+    ncPrint("Rax:");
+    ncPrintDec(*registers);
+    registers++;
+    ncNewline();
+    ncPrint("Rbx:");
+    ncPrintDec(*registers);
+    ncNewline();
+}
+
+//void itoa(int n, char s[])
+//{
+//    int i, sign;
+//
+//    if ((sign = n) < 0)  /* record sign */
+//        n = -n;          /* make n positive */
+//    i = 0;
+//    do {       /* generate digits in reverse order */
+//        s[i++] = n % 10 + '0';   /* get next digit */
+//    } while ((n /= 10) > 0);     /* delete it */
+//    if (sign < 0)
+//        s[i++] = '-';
+//    s[i] = '\0';
+//    reverse(s);
+//}
+//
+//void reverse(char s[])
+//{
+//    int i, j;
+//    char c;
+//
+//    for (i = 0, j = strlen(s)-1; i<j; i++, j--) {
+//        c = s[i];
+//        s[i] = s[j];
+//        s[j] = c;
+//    }
 //}

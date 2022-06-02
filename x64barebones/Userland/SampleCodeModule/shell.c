@@ -7,14 +7,14 @@ typedef struct{
     functionPointer func;
 }FunctionType;
 
-static FunctionType programs[] = {{"fibonacci", &fibonacci},{"help",&help},{"primos", &primos}, {0,0}};
+static FunctionType programs[] = {{"fibonacci", &fibonacci},{"help",&help},{"primos", &primos},{"printreg",&printreg}, {0,0}};
 
 
 int run(char * buffer){
     for( int i = 0 ; programs[i].name ; i++){
         if( strcmp(buffer, programs[i].name) == 0){
             //programs[i].func();
-            sys_scheduler(programs[i].name, programs[i].func);
+            sys_scheduler(programs[i].name, programs[i].func,25);
             return 0;
         }
     }
@@ -27,7 +27,7 @@ int run(char * buffer){
 }
 
 void initShell(){
-    sys_scheduler("shell", &shell);
+    sys_scheduler("shell", &shell,0);
 }
 
 void shell(){

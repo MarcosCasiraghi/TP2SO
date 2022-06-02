@@ -7,6 +7,7 @@ void sys_write(char * buffer, uint8_t fontColor, uint8_t backColor, int length, 
 void sys_write_decimal(int number);
 void sys_clear();
 void sys_read(int fd, char * buffer);
-void sys_scheduler(char * name, void * func);
+void sys_scheduler(char * name, void * func, uint64_t parametro);
+void sys_registers(uint8_t fd);
 
 #endif

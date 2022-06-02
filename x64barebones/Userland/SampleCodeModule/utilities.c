@@ -46,3 +46,7 @@ void scanf(int fd, char * buffer, int maxlength){
     put_char(0,'\n');
     buffer[size] = 0;
 }
+
+void printreg(uint8_t fd){
+    sys_registers(fd);
+}

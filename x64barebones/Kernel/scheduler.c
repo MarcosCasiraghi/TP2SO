@@ -25,7 +25,7 @@ static char stack[3][STACK_SIZE] = {0};
 static uint64_t reg[3][REGISTERS] ={0};
 static int processes=0;
 
-void add_task(char *name, void * task, uint64_t flags){
+void add_task(char *name, void * task,uint64_t parametro, uint64_t flags){
     int i =0;
     while(i<MAX_TASKS+1){
         if(tasks[i].present!=1){
@@ -35,6 +35,7 @@ void add_task(char *name, void * task, uint64_t flags){
             tasks[i].status = READY;
             tasks[i].pID = 0;
             reg[i][0]= tasks[i].func;
+            reg[i][1]= parametro;
             reg[i][8]= (stack[i]+799);
             reg[i][17]=flags;
             processes++;
