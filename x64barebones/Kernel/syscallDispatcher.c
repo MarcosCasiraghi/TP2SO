@@ -65,9 +65,8 @@ void int_82(){
     ncClear();
 }
 
-void int_83(int number){
-    ncPrintDec(number);
-    ncNewline();
+void int_83(){
+    schedulerExit(1);
 }
 
 void int_85(uint8_t fd, uint64_t * registers){

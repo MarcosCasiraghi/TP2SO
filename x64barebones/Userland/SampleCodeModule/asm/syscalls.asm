@@ -3,7 +3,7 @@ section .text
 GLOBAL sys_write
 GLOBAL sys_clear
 GLOBAL sys_read
-GLOBAL sys_write_decimal
+GLOBAL sys_exit
 GLOBAL sys_registers
 
 GLOBAL sys_scheduler
@@ -23,7 +23,7 @@ sys_clear:
     int 82h
     ret
 
-sys_write_decimal:
+sys_exit:
     int 83h
     ret
 

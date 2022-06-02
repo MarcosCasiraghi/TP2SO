@@ -36,6 +36,6 @@ void shell(){
 		char readBuffer[BUFFER_LENGTH]={0};
 		scanf(KEYBOARD_FD, readBuffer, BUFFER_LENGTH);
 		run(readBuffer);
-        for(int i = 0 ; i < 10000000 ; i++){}
+        for(int i = 0 ; i < 50000000 ; i++){}
     }
 }
