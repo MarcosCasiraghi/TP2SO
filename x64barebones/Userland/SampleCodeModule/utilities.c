@@ -51,4 +51,5 @@ void exit(){
 
 void printreg(uint8_t fd){
     sys_registers(fd);
+    exit();
 }
