@@ -21,6 +21,7 @@ typedef struct{
 static int hasTasks =0;
 static int activePID = 0;
 static FunctionType tasks[MAX_TASKS];
+static int splitScreenMode=0;
 
 static char stack[3][STACK_SIZE] = {0};
 static uint64_t reg[3][REGISTERS] ={0};
@@ -41,13 +42,14 @@ void add_task(char *name, void * task,uint64_t parametro, uint64_t flags){
             reg[i][17]=flags;
             tasks[i].param=parametro;
             processes++;
+            if (i==2){
+                splitScreenMode=1;
+                ncClear();
+            }
             return;
         }
         i++;
     }
-        //si llega aca ya tengo dos tasks
-
-    return;
 
 }
 
@@ -62,6 +64,7 @@ int getParameter(){
 void next(){
     if(tasks[1].present==1 && tasks[1].status == KILLED && tasks[2].present==1 && tasks[2].status == KILLED){
         //Vuelve a shell y "elimina" funciones
+        setCurrentVideo();
         activePID = 0;
         tasks[1].present = 0;
         tasks[2].present = 0;
@@ -79,8 +82,14 @@ void next(){
         activePID = 2;
         return;
     }
+
+    if (!tasks[2].present && tasks[1].present && tasks[1].status==KILLED)
+    {
+        tasks[1].present=0;
+    }
+
     activePID=0;
-    
+
 }
 int getActivePId(){
     return activePID;
@@ -89,11 +98,16 @@ int getActivePId(){
 void schedulerExit(int amountOfFuncs){
     if( activePID == 0)
         return;
-    if( amountOfFuncs == 1)
+    if( amountOfFuncs == 1){
         tasks[activePID].status = KILLED;
+    }
     else{//amountOfFuncs == 2
         tasks[1].status = KILLED;
         tasks[2].status = KILLED;
+        tasks[1].present=0;
+        tasks[2].present=0;
+        splitScreenMode=0;
+        ncClear();
     }
 }
 
@@ -133,7 +147,7 @@ void * getTask(int pID){
 }
 
 int tasksRunning(){
-    if (tasks[1].present==1 && tasks[2].present==1){
+    if ((tasks[1].present==1 && tasks[2].present==1) || splitScreenMode){
         return 2;
     }
     else if (tasks[1].present==1)

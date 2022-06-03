@@ -7,7 +7,7 @@ void fibonacci(uint8_t fd){
     int second=1;
     my_printf(fd,"1\n1\n");
     while(1){
-        for (int i = 0; i < 100000000; i++)
+        for (int i = 0; i < 10000000; i++)
         {}
 
         int fibo= first+second;

@@ -10,8 +10,6 @@ static const uint32_t width = 80;
 static const uint32_t height = 25 ;
 
 
-
-
 void printCharRight(char character){
     if(rightX >=width){
         rightY++;
@@ -24,9 +22,9 @@ void printCharRight(char character){
     *position=character;
     rightX++;
     scrollUpRight();
-
-
 }
+
+
 void printCharLeft(char character){
     if(leftX >=width/2){
         leftY++;
@@ -39,9 +37,8 @@ void printCharLeft(char character){
     *position=character;
     leftX++;
     scrollUpLeft();
-
-
 }
+
 
 void newLineRight(){
     rightY++;
@@ -57,14 +54,21 @@ void newLineLeft(){
     scrollUpLeft();
 }
 
-void ncPrint(const char * string)
-{
-    int i;
+int getMaxYPos(){
+    return leftY>rightY? leftY: rightY;
+}
 
+void setCurrentVideo(){
+    currentVideo=getPosition(0,getMaxYPos()+1);
+}
+
+void ncPrint(const char * string){
+    int i;
     for (i = 0; string[i] != 0; i++)
         ncPrintChar(string[i]);
-
 }
+
+
 void ncPrintChar(char character)
 {
     *currentVideo = character;
@@ -73,6 +77,7 @@ void ncPrintChar(char character)
     scrollUp();
 }
 
+
 void ncPrintWithAtt(const char * string, uint8_t fontColor, uint8_t backColor){
     int i;
     uint8_t att = ((backColor<<4)| fontColor);
@@ -80,6 +85,7 @@ void ncPrintWithAtt(const char * string, uint8_t fontColor, uint8_t backColor){
     for (i = 0; string[i] != 0; i++)
         ncPrintCharWithAtt(string[i], att);
 }
+
 
 void ncPrintCharWithAtt(char character, uint8_t att){
     if (character=='\n'){
@@ -105,11 +111,10 @@ void printCharinPos(char character,uint16_t x, uint16_t y){
     currentVideo=getPosition(x,y);
     *currentVideo=character;
     currentVideo+=2;
-
-    //scrollUp();
 }
-void printStrinPos(const char * string,uint16_t x,uint16_t y)
-{
+
+
+void printStrinPos(const char * string,uint16_t x,uint16_t y){
     uint8_t * backup = currentVideo;
     int i;
 
@@ -125,21 +130,18 @@ void printStrinPos(const char * string,uint16_t x,uint16_t y)
     return;
 }
 
-void ncNewline()
-{
-    do
-    {
+
+void ncNewline(){
+    do{
         ncPrintChar(' ');
     }
     while((uint64_t)(currentVideo - video) % (width * 2) != 0);
     rightY++;
     leftY++;
     scrollUp();
-    //ncPrintWithAtt("~$ ", 0x02, 0x00);
-
 }
 
-//distinto de 2*3 como se arreglaria?
+
 void backspace(){
     if( currentVideo != video && (currentVideo - video) % (width*2) != 2*3){
         currentVideo-=2;
@@ -147,12 +149,14 @@ void backspace(){
     }
 }
 
+
 void blink(uint8_t backColor){
     uint8_t aux = *(currentVideo+1);
     aux &= 0x0F;
     aux |= (backColor << 4);
     *(currentVideo+1) = aux;
 }
+
 
 void scrollUp(){
     if( currentVideo - video >= 2*80*25){
@@ -166,10 +170,11 @@ void scrollUp(){
     }
 }
 
+
 void scrollUpRight(){
     if( (rightX>=80 && rightY == 25)||rightY>25){
         for( int i = 0 ; i <= (height-1) ; i++){
-            for( int j = 40 ; j <= width; j++){
+            for( int j = 40 ; j < width; j++){
                 video[2*(i*width+j)] = video[2*((i+1)*width + j)];
                 video[2*(i*width+j)+1] = video[2*((i+1)*width + j)+1];
             }
@@ -177,6 +182,7 @@ void scrollUpRight(){
         rightY--;
     }
 }
+
 
 void scrollUpLeft(){
     if( (leftX>=39 && leftY == 25)||leftY>25){
@@ -188,8 +194,8 @@ void scrollUpLeft(){
         }
         leftY--;
     }
-
 }
+
 
 void restoreDefault(){
     *(currentVideo+1) = LGREY;
@@ -224,6 +230,10 @@ void ncClear()
         video[i*2+1]=0x0F;
     }
     currentVideo = video;
+    leftX=0;
+    leftY=0;
+    rightX=width/2;
+    rightY=0;
 }
 
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)

@@ -30,37 +30,34 @@ void schedulerDispatcher(char * name, void * func, uint64_t parametro,uint64_t f
 //a lo mejor en el futuro haya que agregar cases o mas parametros para el split screen
 void int_80(char * buffer, uint8_t fontColor, uint8_t backColor, int length,int fd) {
      int param;
-     
+
     param=getActivePId();
     if(tasksRunning()==1){
         param=0;
     }
-        for (int i = 0; i < length; i++) {
-            restoreDefault();
-            if (buffer[i] == '\n') {
-        
-                switch(param){
-                    case 0:
-                        ncNewline();
-                        break;
-                    case 1:
-                        newLineLeft();
-                        break;
-                    case 2:
-                        newLineRight();
-                        break;
-
-                }
-
-            } else if (buffer[i] == '\b') {
-                backspace();
-            } else if (param==0)
-                ncPrintCharWithAtt(buffer[i], fontColor);
-            else if (param == 1)
-                printCharLeft(buffer[i]);
-            else if (param == 2)
-                printCharRight(buffer[i]);
-        }
+    for (int i = 0; i < length; i++) {
+        restoreDefault();
+        if (buffer[i] == '\n') {
+            switch(param){
+                case 0:
+                    ncNewline();
+                    break;
+                case 1:
+                    newLineLeft();
+                    break;
+                case 2:
+                    newLineRight();
+                    break;
+            }
+        } else if (buffer[i] == '\b') {
+            backspace();
+        } else if (param==0)
+            ncPrintCharWithAtt(buffer[i], fontColor);
+        else if (param == 1)
+            printCharLeft(buffer[i]);
+        else if (param == 2)
+            printCharRight(buffer[i]);
+    }
 }
 
 
@@ -85,31 +82,3 @@ void int_85(uint8_t fd, uint64_t * registers){
     ncPrintDec(*registers);
     ncNewline();
 }
-
-//void itoa(int n, char s[])
-//{
-//    int i, sign;
-//
-//    if ((sign = n) < 0)  /* record sign */
-//        n = -n;          /* make n positive */
-//    i = 0;
-//    do {       /* generate digits in reverse order */
-//        s[i++] = n % 10 + '0';   /* get next digit */
-//    } while ((n /= 10) > 0);     /* delete it */
-//    if (sign < 0)
-//        s[i++] = '-';
-//    s[i] = '\0';
-//    reverse(s);
-//}
-//
-//void reverse(char s[])
-//{
-//    int i, j;
-//    char c;
-//
-//    for (i = 0, j = strlen(s)-1; i<j; i++, j--) {
-//        c = s[i];
-//        s[i] = s[j];
-//        s[j] = c;
-//    }
-//}
