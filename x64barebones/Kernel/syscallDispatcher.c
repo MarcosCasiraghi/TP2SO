@@ -29,10 +29,14 @@ void schedulerDispatcher(char * name, void * func, uint64_t parametro,uint64_t f
 
 //a lo mejor en el futuro haya que agregar cases o mas parametros para el split screen
 void int_80(char * buffer, uint8_t fontColor, uint8_t backColor, int length,int fd) {
+     int param;
+     
+    param=getActivePId();
         for (int i = 0; i < length; i++) {
             restoreDefault();
             if (buffer[i] == '\n') {
-                switch(fd){
+        
+                switch(param){
                     case 0:
                         ncNewline();
                         break;
@@ -47,11 +51,11 @@ void int_80(char * buffer, uint8_t fontColor, uint8_t backColor, int length,int 
 
             } else if (buffer[i] == '\b') {
                 backspace();
-            } else if (fd == 0)
+            } else if (param==0)
                 ncPrintCharWithAtt(buffer[i], fontColor);
-            else if (fd == 1)
+            else if (param == 1)
                 printCharLeft(buffer[i]);
-            else if (fd == 2)
+            else if (param == 2)
                 printCharRight(buffer[i]);
         }
 }

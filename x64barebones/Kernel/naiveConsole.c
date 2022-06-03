@@ -181,7 +181,7 @@ void scrollUpRight(){
 void scrollUpLeft(){
     if( (leftX>=39 && leftY == 25)||leftY>25){
         for( int i = 0 ; i <= (height-1) ; i++){
-            for( int j = 40 ; j <= width; j++){
+            for( int j = 0 ; j < width/2; j++){
                 video[2*(i*width+j)] = video[2*((i+1)*width + j)];
                 video[2*(i*width+j)+1] = video[2*((i+1)*width + j)+1];
             }

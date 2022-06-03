@@ -15,6 +15,7 @@ typedef struct{
     int present;
     int status;
     int pID;
+    int param;
 }FunctionType;
 
 static int hasTasks =0;
@@ -38,6 +39,7 @@ void add_task(char *name, void * task,uint64_t parametro, uint64_t flags){
             reg[i][1]= parametro;
             reg[i][8]= (stack[i]+799);
             reg[i][17]=flags;
+            tasks[i].param=parametro;
             processes++;
             return;
         }
@@ -52,6 +54,9 @@ void add_task(char *name, void * task,uint64_t parametro, uint64_t flags){
 uint64_t * getRegisters(){
     next();
     return reg[activePID];
+}
+int getParameter(){
+    return tasks[activePID].param;
 }
 
 void next(){
@@ -76,6 +81,9 @@ void next(){
     }
     activePID=0;
     
+}
+int getActivePId(){
+    return activePID;
 }
 
 void schedulerExit(int amountOfFuncs){
@@ -146,11 +154,11 @@ void * scheduler(void){
 }
 
 int tasksRunning(){
-    if (tasks[0].present == 0){
-        return 0;
+    if (tasks[1].present == 0 && tasks[2].present){
+        return 2;
     }
-    else if (tasks[1].present == 0 && tasks[0].present == 1)
+    else if (tasks[1].present == 0)
         return 1;
-    return 2;
+    return 0;
 }
 
