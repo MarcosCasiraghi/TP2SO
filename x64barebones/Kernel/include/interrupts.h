@@ -19,7 +19,8 @@ void _exitHandler(void);
 void _schedulerHandler(void);
 void _registersHandler(void);
 
-void _exception0Handler(void);
+void _div0Handler(void);
+void _invalidOpcodeHandler(void);
 
 void _cli(void);
 

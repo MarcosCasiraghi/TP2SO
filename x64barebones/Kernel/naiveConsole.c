@@ -7,7 +7,7 @@ static uint8_t * const video = (uint8_t*)0xB8000;
 static uint8_t * currentVideo = (uint8_t*)0xB8000;
 static uint8_t rightX=40, leftX=0, rightY=0, leftY=0;
 static const uint32_t width = 80;
-static const uint32_t height = 25 ;
+static const uint32_t height = 25;
 
 
 void printCharRight(char character){

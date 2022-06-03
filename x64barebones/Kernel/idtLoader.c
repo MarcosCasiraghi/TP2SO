@@ -41,7 +41,11 @@ void load_idt() {
   setup_IDT_entry(0x85, (uint64_t)&_registersHandler);
 
   //divide by 0 exception
-  setup_IDT_entry (0x00, (uint64_t)&_exception0Handler);
+  setup_IDT_entry (0x00, (uint64_t)&_div0Handler);
+
+  //invalid opcode exception
+  setup_IDT_entry(0x06, (uint64_t)&_invalidOpcodeHandler);
+
 
 
 	//Solo interrupcion timer tick habilitadas

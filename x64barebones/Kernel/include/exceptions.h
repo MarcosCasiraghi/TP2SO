@@ -2,9 +2,10 @@
 #define EXCEPTIONS_H
 
 #include <naiveConsole.h>
+#include <scheduler.h>
 
 void exceptionDispatcher(int exception);
-void zero_division();
+void exceptionCall(char * message);
 
 
 #endif

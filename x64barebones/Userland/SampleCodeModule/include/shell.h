@@ -9,6 +9,7 @@
 #include <stdint.h>
 #include <help.h>
 #include <primos.h>
+#include <div0.h>
 
 int run(char * buffer);
 void shell();

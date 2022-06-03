@@ -15,7 +15,8 @@ GLOBAL _exitHandler
 GLOBAL _schedulerHandler
 GLOBAL _registersHandler
 
-GLOBAL _exception0Handler
+GLOBAL _div0Handler
+GLOBAL _invalidOpcodeHandler
 
 EXTERN irqDispatcher
 EXTERN syscallDispatcher
@@ -314,8 +315,11 @@ _registersHandler:
     syscallHandlerMaster 6
 
 ;Zero Division Exception
-_exception0Handler:
+_div0Handler:
     exceptionHandler 0
+
+_invalidOpcodeHandler:
+	exceptionHandler 1
 
 haltcpu:
     cli

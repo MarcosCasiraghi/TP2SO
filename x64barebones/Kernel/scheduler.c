@@ -65,6 +65,7 @@ void next(){
     if(tasks[1].present==1 && tasks[1].status == KILLED && tasks[2].present==1 && tasks[2].status == KILLED){
         //Vuelve a shell y "elimina" funciones
         setCurrentVideo();
+        splitScreenMode=0;
         activePID = 0;
         tasks[1].present = 0;
         tasks[2].present = 0;
@@ -89,10 +90,15 @@ void next(){
     }
 
     activePID=0;
-
 }
+
+
 int getActivePId(){
     return activePID;
+}
+
+int getSplitScreen(){
+    return splitScreenMode;
 }
 
 void schedulerExit(int amountOfFuncs){
