@@ -36,7 +36,7 @@ void add_task(char *name, void * task,uint64_t parametro, uint64_t flags){
             tasks[i].status = READY;
             tasks[i].pID = 0;
             reg[i][0]= tasks[i].func;
-            reg[i][1]= parametro;
+            reg[i][6]= parametro;
             reg[i][8]= (stack[i]+799);
             reg[i][17]=flags;
             tasks[i].param=parametro;
@@ -132,27 +132,6 @@ void * getTask(int pID){
     return;
 }
 
-void * scheduler(void){
-
-    void (*p)(void);
-    // while(1){
-    //     for(int i=0;i<MAX_TASKS;i++){
-    //         if(tasks[i].present && tasks[i].status == READY){
-    //             p=(void*)tasks[i].func;
-    //             (*p)();
-    //         }
-    //     }
-    // }
-    activePID++;
-    activePID %= 2;
-
-    p=(void*)tasks[activePID].func;
-    //(*p)();
-
-    return p;
-
-}
-
 int tasksRunning(){
     if (tasks[1].present == 0 && tasks[2].present){
         return 2;
@@ -160,5 +139,9 @@ int tasksRunning(){
     else if (tasks[1].present == 0)
         return 1;
     return 0;
+}
+
+int shellRunning(){
+    return activePID==0;
 }
 

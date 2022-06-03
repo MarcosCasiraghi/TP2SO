@@ -11,16 +11,16 @@ static FunctionType programs[] = {{"fibonacci", &fibonacci},{"help",&help},{"pri
 
 
 int run(char * buffer){
-    for( int i = 0 ; programs[i].name ; i++){
-        if( strcmp(buffer, programs[i].name) == 0){
-            //programs[i].func();
-            sys_scheduler(programs[i].name, programs[i].func,25);
-            return 0;
+    char func1[BUFFER_LENGTH];
+    char func2[BUFFER_LENGTH];
+
+    int added = addFunctions(func1, func2, buffer);
+    if (*buffer!=0 && (added == -1 || added == -2)){
+        if(added == -1){
+            print(func1, RED, BLACK,0);
+        }else{
+            print(func2, RED, BLACK,0);
         }
-    }
-    if (*buffer!=0)
-    {
-        print(buffer, RED, BLACK,0);
         print(" is not a valid command \n", WHITE, BLACK,0);
     }
     return 1;
@@ -38,4 +38,52 @@ void shell(){
 		run(readBuffer);
         for(int i = 0 ; i < 50000000 ; i++){}
     }
+}
+
+int addFunctions(char * func1, char * func2, char * buffer){
+    int i1 = 0;
+    int i2 = 0;
+    while(buffer[i1] && buffer[i1]!='|'){  //fibonacci | primos
+        if(buffer[i1] != ' ')
+            func1[i1] = buffer[i1];
+        i1++;
+    }
+    func1[i1] = '\0';
+    if(buffer[i1] == '|'){
+        i1++;
+        while(buffer[i1] ){
+            if(buffer[i1] != ' ')
+                func2[i2++] = buffer[i1];
+            i1++;
+        }
+        //No hace falta agregarle 0 al final, buffer se lo agrega
+        int func1Index = getFuncIndex(func1);
+        int func2Index = getFuncIndex(func2);
+        if( func1Index != -1 && func2Index != -1){
+            sys_scheduler(programs[func1Index].name, programs[func1Index].func, 1);
+            sys_scheduler(programs[func2Index].name, programs[func2Index].func, 2);
+            return 2;
+        }
+        if(func1Index == -1)
+            return -1;
+        //func2Index == -1
+        return -2;
+    }else{  //solamente se paso una funcion
+        int funcIndex = getFuncIndex(func1);
+        if(funcIndex != -1){
+            sys_scheduler(programs[funcIndex].name, programs[funcIndex].func, 0);
+            return 1;
+        }
+        return -1;
+    }
+
+}
+
+int getFuncIndex(char * func){
+    for( int i = 0 ; programs[i].name ; i++){
+        if( strcmp(func, programs[i].name) == 0){
+            return i;
+        }
+    }
+    return -1;
 }
