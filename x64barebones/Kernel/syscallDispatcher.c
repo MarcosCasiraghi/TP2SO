@@ -32,6 +32,9 @@ void int_80(char * buffer, uint8_t fontColor, uint8_t backColor, int length,int 
      int param;
      
     param=getActivePId();
+    if(tasksRunning()==1){
+        param=0;
+    }
         for (int i = 0; i < length; i++) {
             restoreDefault();
             if (buffer[i] == '\n') {
