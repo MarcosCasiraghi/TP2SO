@@ -13,6 +13,6 @@
 int run(char * buffer);
 void shell();
 void initShell();
-int addFunctions(char * func1, char * func2, char * buffer);
+int addFunctions(char * buffer);
 int getFuncIndex(char * func);
 #endif

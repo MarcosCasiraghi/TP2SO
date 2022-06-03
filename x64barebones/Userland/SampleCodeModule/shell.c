@@ -11,16 +11,10 @@ static FunctionType programs[] = {{"fibonacci", &fibonacci},{"help",&help},{"pri
 
 
 int run(char * buffer){
-    char func1[BUFFER_LENGTH];
-    char func2[BUFFER_LENGTH];
 
-    int added = addFunctions(func1, func2, buffer);
+    int added = addFunctions(buffer);
     if (*buffer!=0 && (added == -1 || added == -2)){
-        if(added == -1){
-            print(func1, RED, BLACK,0);
-        }else{
-            print(func2, RED, BLACK,0);
-        }
+        print(buffer,RED,BLACK, 0);
         print(" is not a valid command \n", WHITE, BLACK,0);
     }
     return 1;
@@ -40,22 +34,28 @@ void shell(){
     }
 }
 
-int addFunctions(char * func1, char * func2, char * buffer){
+int addFunctions(char * buffer){
+    char func1[BUFFER_LENGTH];
+    char func2[BUFFER_LENGTH];
     int i1 = 0;
     int i2 = 0;
-    while(buffer[i1] && buffer[i1]!='|'){  //fibonacci | primos
-        if(buffer[i1] != ' ')
-            func1[i1] = buffer[i1];
-        i1++;
+    int i3 = 0;
+    while(buffer[i3] && buffer[i3]!='|'){  //fibonacci | primos
+        func1[i1++] = buffer[i3];
+        i3++;
     }
-    func1[i1] = '\0';
-    if(buffer[i1] == '|'){
-        i1++;
-        while(buffer[i1] ){
-            if(buffer[i1] != ' ')
-                func2[i2++] = buffer[i1];
-            i1++;
+    
+    if(buffer[i3] == '|'){
+        func1[--i1] = '\0';
+        i3++;
+        if(buffer[i3] && buffer[i3] == ' '){
+            i3++;
+            while(buffer[i3] ){
+                func2[i2++] = buffer[i3];
+                i3++;
+            }
         }
+        func2[i2] = '\0';
         //No hace falta agregarle 0 al final, buffer se lo agrega
         int func1Index = getFuncIndex(func1);
         int func2Index = getFuncIndex(func2);
@@ -78,6 +78,8 @@ int addFunctions(char * func1, char * func2, char * buffer){
     }
 
 }
+
+
 
 int getFuncIndex(char * func){
     for( int i = 0 ; programs[i].name ; i++){
