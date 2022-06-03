@@ -133,10 +133,10 @@ void * getTask(int pID){
 }
 
 int tasksRunning(){
-    if (tasks[1].present == 0 && tasks[2].present){
+    if (tasks[1].present==1 && tasks[2].present==1){
         return 2;
     }
-    else if (tasks[1].present == 0)
+    else if (tasks[1].present==1)
         return 1;
     return 0;
 }
