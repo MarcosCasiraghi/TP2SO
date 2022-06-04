@@ -19,6 +19,10 @@ void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, u
             break;
         case 6:
             int_85(rdi, rsi);
+            break;
+        case 7:
+            int_86();
+            break;
 
 	}
 }
@@ -81,4 +85,8 @@ void int_85(uint8_t fd, uint64_t * registers){
     ncPrint("Rbx:");
     ncPrintDec(*registers);
     ncNewline();
+}
+
+void int_86(){
+    printCurrentTime();
 }

@@ -16,5 +16,6 @@ char getChar();
 void scanf(int fd, char * buffer, int maxlength);
 void printreg(uint8_t fd);
 void exit();
+void time();
 
 #endif

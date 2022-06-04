@@ -1,6 +1,6 @@
 #include <naiveConsole.h>
 
-static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
+//static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 
 static char buffer[64] = { '0' };
 static uint8_t * const video = (uint8_t*)0xB8000;
@@ -9,6 +9,18 @@ static uint8_t rightX=40, leftX=0, rightY=0, leftY=0;
 static const uint32_t width = 80;
 static const uint32_t height = 25;
 
+
+void printLeft(const char * string){
+    int i;
+    for (i = 0; string[i] != 0; i++)
+        printCharLeft(string[i]);
+}
+
+void printRight(const char * string){
+    int i;
+    for (i = 0; string[i] != 0; i++)
+        printCharRight(string[i]);
+}
 
 void printCharRight(char character){
     if(rightX >=width){
@@ -236,7 +248,7 @@ void ncClear()
     rightY=0;
 }
 
-static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)
+uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)
 {
     char *p = buffer;
     char *p1, *p2;

@@ -6,7 +6,6 @@
 #define LEFT 1
 #define RIGHT 2
 
-
 void clear(){
     sys_clear();
 }
@@ -51,5 +50,10 @@ void exit(){
 
 void printreg(uint8_t fd){
     sys_registers(fd);
+    exit();
+}
+
+void time(){
+    sys_time();
     exit();
 }

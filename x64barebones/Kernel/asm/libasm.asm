@@ -1,9 +1,6 @@
 GLOBAL cpuVendor
 GLOBAL kbFlag
-GLOBAL pushRegisters1
-GLOBAL popRegisters2
-GLOBAL pushRegisters2
-GLOBAL popRegisters1
+GLOBAL getRTC
 section .text
 	
 cpuVendor:
@@ -48,23 +45,14 @@ _loop:
     mov rsp, rbp
     pop rbp
     ret
+getRTC:
+    push rbp
+	mov rbp, rsp
 
-pushRegisters1:
-    enter 0,0
-    leave
-    ret
+	mov al, dil     ;pasando parametro
+	out 70h, al
+	in al, 71h
 
-pushRegisters2:
-    enter 0,0
-    leave
-    ret
-
-popRegisters2:
-    enter 0,0
-    leave
-    ret
-
-popRegisters1:
-    enter 0,0
-    leave
-    ret
+	mov rsp, rbp
+	pop rbp
+	ret

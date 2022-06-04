@@ -15,6 +15,8 @@ GLOBAL _exitHandler
 GLOBAL _schedulerHandler
 GLOBAL _registersHandler
 
+GLOBAL _getRTCHandler
+
 GLOBAL _div0Handler
 GLOBAL _invalidOpcodeHandler
 
@@ -313,6 +315,9 @@ _registersHandler:
         mov [regdump+14*8], r15
         mov rsi, regdump
     syscallHandlerMaster 6
+
+_getRTCHandler:
+	syscallHandlerMaster 7
 
 ;Zero Division Exception
 _div0Handler:

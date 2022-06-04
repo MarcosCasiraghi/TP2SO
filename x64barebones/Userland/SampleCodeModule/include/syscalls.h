@@ -9,5 +9,6 @@ void sys_clear();
 void sys_read(int fd, char * buffer);
 void sys_scheduler(char * name, void * func, uint64_t parametro);
 void sys_registers(uint8_t fd);
+void sys_time();
 
 #endif

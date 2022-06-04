@@ -5,8 +5,8 @@ GLOBAL sys_clear
 GLOBAL sys_read
 GLOBAL sys_exit
 GLOBAL sys_registers
-
 GLOBAL sys_scheduler
+GLOBAL sys_time
 
 ;----------------------------------------
 ; rdi=string, rsi=fontColor, rdx=backColor
@@ -33,4 +33,8 @@ sys_scheduler:
 
 sys_registers:
     int 85h
+    ret
+
+sys_time:
+    int 86h
     ret
