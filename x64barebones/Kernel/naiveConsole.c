@@ -13,16 +13,16 @@ static const uint32_t height = 25;
 void printLeft(const char * string){
     int i;
     for (i = 0; string[i] != 0; i++)
-        printCharLeft(string[i]);
+        printCharLeft(string[i], WHITE);
 }
 
 void printRight(const char * string){
     int i;
     for (i = 0; string[i] != 0; i++)
-        printCharRight(string[i]);
+        printCharRight(string[i], WHITE);
 }
 
-void printCharRight(char character){
+void printCharRight(char character, uint8_t att){
     if(rightX >=width){
         rightY++;
         rightX=40;
@@ -32,12 +32,13 @@ void printCharRight(char character){
     }
     uint8_t * const position=getPosition(rightX,rightY);
     *position=character;
+    *(position+1)= att;
     rightX++;
     scrollUpRight();
 }
 
 
-void printCharLeft(char character){
+void printCharLeft(char character, uint8_t att){
     if(leftX >=width/2){
         leftY++;
         leftX=0;
@@ -47,6 +48,7 @@ void printCharLeft(char character){
     }
     uint8_t * const position=getPosition(leftX,leftY);
     *position=character;
+    *(position+1)=att;
     leftX++;
     scrollUpLeft();
 }
@@ -172,7 +174,7 @@ void blink(uint8_t backColor){
 
 void scrollUp(){
     if( currentVideo - video >= 2*80*25){
-        for( int i = 0 ; i <= (height-1) ; i++){
+        for( int i = 0 ; i <= (height) ; i++){
             for( int j = 0 ; j <= width; j++){
                 video[2*(i*width+j)] = video[2*((i+1)*width + j)];
                 video[2*(i*width+j)+1] = video[2*((i+1)*width + j)+1];
@@ -185,7 +187,7 @@ void scrollUp(){
 
 void scrollUpRight(){
     if( (rightX>=80 && rightY == 25)||rightY>25){
-        for( int i = 0 ; i <= (height-1) ; i++){
+        for( int i = 0 ; i <= (height) ; i++){
             for( int j = 40 ; j < width; j++){
                 video[2*(i*width+j)] = video[2*((i+1)*width + j)];
                 video[2*(i*width+j)+1] = video[2*((i+1)*width + j)+1];
@@ -210,7 +212,7 @@ void scrollUpLeft(){
 
 
 void restoreDefault(){
-    *(currentVideo+1) = LGREY;
+    *(currentVideo+1) = WHITE;
 }
 
 void ncPrintDec(uint64_t value){

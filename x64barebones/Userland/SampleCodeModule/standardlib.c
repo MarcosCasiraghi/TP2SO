@@ -18,11 +18,11 @@ int strcmp(char * str1, char * str2){
 }
 
 void put_char(uint8_t fd, char c){
-  sys_write(&c, LGREY,BLACK, 1,fd);
+  sys_write(&c, WHITE,BLACK, 1,fd);
 }
 
 void sprint(uint8_t fd, char * str){
-  sys_write(str, LGREY, BLACK, strlen(str),fd);
+  sys_write(str, WHITE, BLACK, strlen(str),fd);
 }
 
 int strlen(char * string){

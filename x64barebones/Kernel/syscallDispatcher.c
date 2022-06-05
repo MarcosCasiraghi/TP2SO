@@ -58,9 +58,9 @@ void int_80(char * buffer, uint8_t fontColor, uint8_t backColor, int length,int 
         } else if (param==0)
             ncPrintCharWithAtt(buffer[i], fontColor);
         else if (param == 1)
-            printCharLeft(buffer[i]);
+            printCharLeft(buffer[i],fontColor);
         else if (param == 2)
-            printCharRight(buffer[i]);
+            printCharRight(buffer[i],fontColor);
     }
 }
 
