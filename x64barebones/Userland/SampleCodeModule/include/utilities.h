@@ -14,7 +14,7 @@ void clear();
 void print(char * string,uint8_t fontColor, uint8_t backColor, int fd);
 char getChar();
 void scanf(int fd, char * buffer, int maxlength);
-void printreg(uint8_t fd);
+void inforeg();
 void exit();
 void time();
 

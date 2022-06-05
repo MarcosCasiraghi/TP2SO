@@ -8,4 +8,8 @@ void * memcpy(void * destination, const void * source, uint64_t length);
 
 char *cpuVendor(char *result);
 
+void loadRegisters();
+
+//void getRegisters(int * reg);
+
 #endif

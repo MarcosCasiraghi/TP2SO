@@ -3,6 +3,9 @@
 #define KEYBOARD_FD 1
 #define SCREEN_FD 0
 
+extern uint8_t hasRegDump;
+extern uint64_t regdump[17];
+
 void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9){
 	switch(r9){
 		case 1:
@@ -18,7 +21,7 @@ void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, u
             int_83(rdi);
             break;
         case 6:
-            int_85(rdi, rsi);
+            int_85(rdi);
             break;
         case 7:
             int_86();
@@ -77,14 +80,15 @@ void int_83(){
     schedulerExit(1);
 }
 
-void int_85(uint8_t fd, uint64_t * registers){
-    ncPrint("Rax:");
-    ncPrintDec(*registers);
-    registers++;
-    ncNewline();
-    ncPrint("Rbx:");
-    ncPrintDec(*registers);
-    ncNewline();
+int int_85(uint64_t * registers){
+    for (int i = 0; i < 17; i++){
+        if(hasRegDump){
+            for(uint8_t i=0; i<17; i++){
+                registers[i] = regdump[i];
+            }
+        }
+    }
+    return hasRegDump;
 }
 
 void int_86(){

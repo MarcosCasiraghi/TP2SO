@@ -8,7 +8,7 @@ void sys_exit();
 void sys_clear();
 void sys_read(int fd, char * buffer);
 void sys_scheduler(char * name, void * func, uint64_t parametro);
-void sys_registers(uint8_t fd);
+int sys_registers(uint64_t * reg);
 void sys_time();
 
 #endif

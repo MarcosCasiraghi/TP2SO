@@ -28,6 +28,7 @@ EXTERN exceptionDispatcher
 EXTERN setRegisters
 EXTERN getRegisters
 EXTERN getProcesses
+EXTERN getReg
 
 EXTERN tick_check
 
@@ -270,7 +271,8 @@ _timerHandler:
 
 ;Keyboard
 _keyboardHandler:
-    interruptHandlerMaster 1
+
+        interruptHandlerMaster 1
 
 
 _writeHandler:
@@ -298,23 +300,7 @@ _schedulerHandler:
 	iretq
 
 _registersHandler:
-     mov [regdump], rdi
-        mov [regdump+1*8], rbx
-        mov [regdump+2*8], rcx
-        mov [regdump+3*8], rdx
-        mov [regdump+4*8], rsi
-        mov [regdump+5*8], rdi
-        mov [regdump+6*8], rbp
-        mov [regdump+7*8], r8
-        mov [regdump+8*8], r9
-        mov [regdump+9*8], r10
-        mov [regdump+10*8], r11
-        mov [regdump+11*8], r12
-        mov [regdump+12*8], r13
-        mov [regdump+13*8], r14
-        mov [regdump+14*8], r15
-        mov rsi, regdump
-    syscallHandlerMaster 6
+        syscallHandlerMaster 6
 
 _getRTCHandler:
 	syscallHandlerMaster 7
@@ -335,7 +321,6 @@ haltcpu:
 
 SECTION .bss
     regdata    resq 19 ;registros y flag
-    regdump resq 17    ;menos porque no imprime rip ni rflags
     aux resq 1
 
 SECTION .data

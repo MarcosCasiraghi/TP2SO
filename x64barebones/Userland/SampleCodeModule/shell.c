@@ -8,7 +8,7 @@ typedef struct{
 }FunctionType;
 
 static FunctionType programs[] = {{"fibonacci", &fibonacci},{"help",&help},{"primos", &primos},
-                                  {"printreg",&printreg},{"div0", &div0},{"time",&time}, {0,0}};
+                                  {"inforeg",&inforeg},{"div0", &div0},{"time",&time}, {0,0}};
 
 
 int run(char * buffer){
