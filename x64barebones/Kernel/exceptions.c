@@ -21,7 +21,7 @@ void exceptionCall(char * message) {
 	if (activePid==1 && getSplitScreen()==1){
 		while (message[i]!=0){
 			restoreDefault();
-			printCharLeft(message[i]);
+			printCharLeft(message[i],WHITE);
 			i++;
 		}
 		newLineLeft();
@@ -31,7 +31,7 @@ void exceptionCall(char * message) {
 			ncNewline();
 	}else{
 		while (message[i]!=0){
-			printCharRight(message[i]);
+			printCharRight(message[i],WHITE);
 			i++;
 		}
 		newLineRight();
