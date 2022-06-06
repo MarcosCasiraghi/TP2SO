@@ -2,6 +2,8 @@
 
 typedef void (*functionPointer)(void);
 
+static char readBuffer[BUFFER_LENGTH]={0};
+
 typedef struct{
     char * name;
     functionPointer func;
@@ -28,11 +30,21 @@ void initShell(){
 void shell(){
     while(1){
         print("~$ ",GREEN, BLACK,0);
-		char readBuffer[BUFFER_LENGTH]={0};
 		scanf(KEYBOARD_FD, readBuffer, BUFFER_LENGTH);
 		run(readBuffer);
         for(int i = 0 ; i < 50000000 ; i++){}
+        clearBuffer();
     }
+}
+
+void clearBuffer(){
+    int i=0;
+    while (readBuffer[i]!=0 && i<BUFFER_LENGTH){
+        readBuffer[i]=0;
+        i++;
+    }
+
+
 }
 
 int addFunctions(char * buffer){
