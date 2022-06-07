@@ -48,19 +48,7 @@ void exit(){
     for( int i = 0 ; i < 999999999 ; i++){}
 }
 
-void inforeg(){
-    uint64_t reg[17]={0};
 
-
-    if (sys_registers(reg)){
-        for (int i = 0;i < 17; i++){
-            my_printf(0,"%d",reg[i]);
-            print("\n",BLACK,BLACK, 0);
-        }
-    }
-
-    exit();
-}
 
 void time(){
     sys_time();
