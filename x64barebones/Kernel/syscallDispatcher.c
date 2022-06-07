@@ -6,13 +6,13 @@
 extern uint8_t hasRegDump;
 extern uint64_t regdump[17];
 
-void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9){
-	switch(r9){
+void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8){
+	switch(r8){
 		case 1:
-			int_80(rdi,rsi,rdx,rcx, r8);
+			int_80(rdi,rsi,rdx,rcx);
             break;
         case 2:
-            int_81(rdi,rsi);
+            int_81(rdi);
             break;
         case 3:
             int_82();
@@ -35,7 +35,7 @@ void schedulerDispatcher(char * name, void * func, uint64_t parametro,uint64_t f
 }
 
 //a lo mejor en el futuro haya que agregar cases o mas parametros para el split screen
-void int_80(char * buffer, uint8_t fontColor, uint8_t backColor, int length,int fd) {
+void int_80(char * buffer, uint8_t fontColor, uint8_t backColor, int length) {
      int param;
 
     param=getActivePId();
@@ -68,7 +68,7 @@ void int_80(char * buffer, uint8_t fontColor, uint8_t backColor, int length,int 
 }
 
 
-void int_81(int fd, char * buffer){
+void int_81(char * buffer){
     buffer[0]=getKbBuffer();
 }
 

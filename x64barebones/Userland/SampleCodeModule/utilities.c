@@ -11,21 +11,21 @@ void clear(){
 }
 
 
-void print(char * string,uint8_t fontColor, uint8_t backColor, int fd){
-    sys_write(string, fontColor, backColor, strlen(string), fd);
+void print(char * string,uint8_t fontColor, uint8_t backColor){
+    sys_write(string, fontColor, backColor, strlen(string));
 }
 
 
 char getChar(){
     char c = 0;
     while( c == 0 ){
-        sys_read(KEYBOARD_FD, &c);
+        sys_read(&c);
     }
     return c;
 }
 
 // ver si se puede sacar el fd del scanf
-void scanf(int fd, char * buffer, int maxlength){
+void scanf(char * buffer, int maxlength){
     int size=0;
     char c;
     do {
@@ -36,10 +36,10 @@ void scanf(int fd, char * buffer, int maxlength){
                 buffer[size]=c;
                 size++;
             }
-            put_char(0, c);
+            put_char(c);
         }
     } while (size<maxlength-1 && c != '\n');
-    put_char(0,'\n');
+    put_char('\n');
     buffer[size] = 0;
 }
 

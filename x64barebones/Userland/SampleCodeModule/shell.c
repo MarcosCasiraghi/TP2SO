@@ -3,12 +3,15 @@
 typedef void (*functionPointer)(void);
 
 static char readBuffer[BUFFER_LENGTH]={0};
+
 typedef struct{
     char * name;
     functionPointer func;
 }FunctionType;
+
 static char param1[20]= {0};
 static char param2[20] = {0};
+
 static FunctionType programs[] = {{"fibonacci", &fibonacci},{"help",&help},{"primos", &primos},
                                   {"inforeg",&inforeg},{"div0", &div0},{"time",&time}, {"printmem", &printMem}, {0,0}};
 
@@ -17,8 +20,8 @@ int run(char * buffer){
 
     int added = addFunctions(buffer);
     if (*buffer!=0 && (added == -1 || added == -2)){
-        print(buffer,RED,BLACK, 0);
-        print(" is not a valid command \n", WHITE, BLACK,0);
+        print(buffer,RED,BLACK);
+        print(" is not a valid command \n", WHITE, BLACK);
     }
     return 1;
 }
@@ -29,8 +32,8 @@ void initShell(){
 
 void shell(){
     while(1){
-        print("~$ ",GREEN, BLACK,0);
-		scanf(KEYBOARD_FD, readBuffer, BUFFER_LENGTH);
+        print("~$ ",GREEN, BLACK);
+		scanf(readBuffer, BUFFER_LENGTH);
 		run(readBuffer);
         for(int i = 0 ; i < 50000000 ; i++){}
         clearBuffer();
@@ -54,8 +57,7 @@ int addFunctions(char * buffer){
     int i2 = 0;
     int i3 = 0;
     int printmem;
-    // char param1[10]= {0};
-    // char param2[10] = {0};
+
     while(buffer[i3] && buffer[i3]!='|'){  //fibonacci | primos
         func1[i1++] = buffer[i3];
         i3++;
@@ -76,16 +78,6 @@ int addFunctions(char * buffer){
         checkPrintMem(func2, param2);
         int func1Index = getFuncIndex(func1);
         int func2Index = getFuncIndex(func2);
-        // if(printmem==1){
-        //     func1Index=6;
-        // }
-        // if(printmem==2){
-        //     func2Index=6;
-        // }
-        // if(printmem==3){
-        //     func2Index=6;
-        //     func1Index=6;
-        // }
         if( func1Index != -1 && func2Index != -1){
             sys_scheduler(programs[func1Index].name, programs[func1Index].func, param1);
             sys_scheduler(programs[func2Index].name, programs[func2Index].func, param2);
@@ -98,11 +90,7 @@ int addFunctions(char * buffer){
     }else{  //solamente se paso una funcion
         checkPrintMem(func1,param1);
         int funcIndex = getFuncIndex(func1);
-        // if(printmem==1){
-        //     funcIndex=6;
-        // }
         if(funcIndex != -1){
-            //my_printf(0,param1);
             sys_scheduler(programs[funcIndex].name, programs[funcIndex].func, param1);
             return 1;
         }
@@ -138,8 +126,6 @@ void checkPrintMem(char* func1,char * parameter1){
     }
     
 }
-
-
 
 int getFuncIndex(char * func){
     for( int i = 0 ; programs[i].name ; i++){

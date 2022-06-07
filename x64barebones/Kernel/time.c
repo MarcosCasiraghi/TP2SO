@@ -24,7 +24,7 @@ void printCurrentTime(){
     int activePid=getActivePId();
 	int i=0;
 
-    char * message = {"La Hora actual del sistema es:"};
+    char * message = {"La Fecha y Hora actual del sistema es:"};
 	if (activePid==1 && getSplitScreen()==1){
 		restoreDefault();
         printLeft(message);

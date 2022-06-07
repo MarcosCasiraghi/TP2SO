@@ -18,7 +18,6 @@ int readAddress(char* s, uint8_t** result) {
 		else
 			return 0;
 	}
-	my_printf(0, "%d\n", dir);
 	if(dir > MAX_ADDRESS_DECIMAL)
 		return 0;
 	
@@ -28,13 +27,13 @@ int readAddress(char* s, uint8_t** result) {
 
 void printMem(char param[20]) {
 	if(param[0]==0){
-		my_printf(0, "Esta funcion requiere un parametro\n");
+		my_printf("Esta funcion requiere un parametro\n");
 		exit();
 	}
 
 	uint8_t* p;
 	if (!readAddress(param, &p)) {
-		my_printf(0,"El parametro ingresado no es valido\n");
+		my_printf("El parametro ingresado no es valido\n");
 		exit();
 	}
 	
@@ -43,9 +42,9 @@ void printMem(char param[20]) {
 		mem[2] = hexaChar(p[i] >> 4);
 		mem[3] = hexaChar(p[i] & 0x0F);
 		mem[5]=0;
-		print(mem,WHITE, BLACK, 0);
+		print(mem,WHITE, BLACK);
 	}
-	my_printf(0, "\n");
+	my_printf("\n");
 
 	exit();
 }
@@ -58,9 +57,9 @@ void inforeg(){
 
     if (sys_registers(reg)){
         for (int i = 0;i < 17; i++){
-			my_printf(0,nameReg[i]);
-            my_printf(0,"%d",reg[i]);
-            print("\n",BLACK,BLACK, 0);
+			my_printf(nameReg[i]);
+            my_printf("%d",reg[i]);
+            print("\n",BLACK,BLACK);
         }
     }
 
