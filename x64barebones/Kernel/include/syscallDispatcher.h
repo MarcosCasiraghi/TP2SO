@@ -17,6 +17,6 @@ void int_82();
 void int_83();
 int int_85(uint64_t * registers);
 void schedulerDispatcher(char * name, void * func, uint64_t parametro,uint64_t flags);
-void int_86();
+void int_86(char * buffer);
 
 #endif

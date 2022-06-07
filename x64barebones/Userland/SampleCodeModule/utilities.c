@@ -51,6 +51,11 @@ void exit(){
 
 
 void time(){
-    sys_time();
+    char time[25] = {0};
+
+    sys_time(time);
+    my_printf("La Fecha y Hora actual del sistema es:\n");
+    my_printf(time);
+    my_printf("\n");
     exit();
 }

@@ -10,6 +10,6 @@ char *cpuVendor(char *result);
 
 void loadRegisters();
 
-//void getRegisters(int * reg);
+uint8_t getRTC(int n);
 
 #endif

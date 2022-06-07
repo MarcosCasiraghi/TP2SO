@@ -24,7 +24,7 @@ void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, u
             int_85(rdi);
             break;
         case 7:
-            int_86();
+            int_86(rdi);
             break;
 
 	}
@@ -91,6 +91,70 @@ int int_85(uint64_t * registers){
     return hasRegDump;
 }
 
-void int_86(){
-    printCurrentTime();
+void int_86(char * buffer){
+    int currentBuffPos = 0;
+
+    char bufferD1[3] = {0};
+    char bufferD2[3] = {0};
+    //char bufferD3[3] = {0};
+    char bufferH[3] = {0};
+	char bufferM[3] = {0};
+	char bufferS[3] = {0};
+
+    uintToBase(getRTC(7), bufferD1, 16);
+    if (bufferD1[1] == 0) {
+        buffer[currentBuffPos++] = '0';
+        buffer[currentBuffPos++] = bufferD1[0];
+    }else{
+        buffer[currentBuffPos++] = bufferD1[0];
+        buffer[currentBuffPos++] = bufferD1[1];
+    }
+
+    buffer[currentBuffPos++] = '/';
+
+    uintToBase(getRTC(8), bufferD2, 16);
+    if (bufferD2[1] == 0) {
+        buffer[currentBuffPos++] = '0';
+        buffer[currentBuffPos++] = bufferD2[0];
+    }else{
+        buffer[currentBuffPos++] = bufferD2[0];
+        buffer[currentBuffPos++] = bufferD2[1];
+    }
+
+    buffer[currentBuffPos++] = '/';
+
+    uintToBase(getRTC(9), buffer+currentBuffPos, 16);
+    currentBuffPos += 2;
+    buffer[currentBuffPos++] = '\n';
+
+    uintToBase(getRTC(4), bufferH, 16);
+    if (bufferH[1] == 0){
+        buffer[currentBuffPos++] = '0';
+        buffer[currentBuffPos++] = bufferH[0];
+    }else{
+        buffer[currentBuffPos++] = bufferH[0];
+        buffer[currentBuffPos++] = bufferH[1];
+    }
+    buffer[currentBuffPos++] = ':';
+
+    uintToBase(getRTC(2), bufferM, 16);
+    if (bufferM[1] == 0){
+        buffer[currentBuffPos++] = '0';
+        buffer[currentBuffPos++] = bufferM[0];
+    }else{
+        buffer[currentBuffPos++] = bufferM[0];
+        buffer[currentBuffPos++] = bufferM[1];
+    }
+    buffer[currentBuffPos++] = ':';
+
+    uintToBase(getRTC(0), bufferS, 16);
+    if (bufferS[1] == 0){
+        buffer[currentBuffPos++] = '0';
+        buffer[currentBuffPos++] = bufferS[0];
+    }else{
+        buffer[currentBuffPos++] = bufferS[0];
+        buffer[currentBuffPos++] = bufferS[1];
+    }
+
+
 }
