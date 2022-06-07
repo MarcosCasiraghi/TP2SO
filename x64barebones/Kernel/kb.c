@@ -38,9 +38,17 @@ void getKey(){
         schedulerExit(2);
         return;
     }
+    if(scancodeLToAscii[myChar] == '[')
+        schedulerExit(3);
+    if(scancodeLToAscii[myChar] == ']')
+        schedulerExit(4);
     if (scancodeLToAscii[myChar] == '='){
         loadRegisters();
     }
+    if(scancodeLToAscii[myChar] == 'f')
+        freeze(1);
+    if(scancodeLToAscii[myChar] == 'g')
+        freeze(2);
     if( myChar == LSHIFT || myChar == RSHIFT)
         mayus = 1;
     if( myChar == LSHIFT+RELEASE || myChar == RSHIFT+RELEASE )

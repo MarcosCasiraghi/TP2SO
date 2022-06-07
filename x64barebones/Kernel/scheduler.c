@@ -4,7 +4,7 @@
 #define REGISTERS 20
 #define MAX_TASKS 2
 #define READY 0
-#define HALTED 1
+#define FREEZED 1
 #define KILLED 2
 
 typedef void (*functionPointer)(void);
@@ -18,7 +18,6 @@ typedef struct{
     int param;
 }FunctionType;
 
-static int hasTasks =0;
 static int activePID = 0;
 static FunctionType tasks[MAX_TASKS];
 static int splitScreenMode=0;
@@ -88,6 +87,14 @@ void next(){
     {
         tasks[1].present=0;
     }
+    if(tasks[1].present && tasks[1].status == FREEZED && tasks[2].present && tasks[2].status == READY){
+        activePID = 2;
+        return;
+    }
+    if(tasks[2].present && tasks[2].status == FREEZED && tasks[1].present && tasks[1].status == READY){
+        activePID = 1;
+        return;
+    }
 
     activePID=0;
 }
@@ -107,13 +114,43 @@ void schedulerExit(int amountOfFuncs){
     if( amountOfFuncs == 1){
         tasks[activePID].status = KILLED;
     }
-    else{//amountOfFuncs == 2
-        tasks[1].status = KILLED;
-        tasks[2].status = KILLED;
+    else if( amountOfFuncs == 2){
+        //tasks[1].status = KILLED;
+        //tasks[2].status = KILLED;
         tasks[1].present=0;
         tasks[2].present=0;
         splitScreenMode=0;
         ncClear();
+    }
+    else if( amountOfFuncs == 3){   //KILL left side
+        if((tasks[1].present && tasks[2].present && tasks[2].status == READY) || tasks[2].status == KILLED){
+            tasks[1].status = KILLED;
+            //tasks[1].present = 0;
+        }
+    }
+    else{   //KILL right side
+        if((tasks[2].present && tasks[1].present && tasks[1].status == READY) || tasks[1].status == KILLED){
+            tasks[2].status = KILLED;
+            //tasks[2].present = 0;
+        }
+    }
+}
+
+//1 si se quiere freezear programa de pantalla entera o left
+//2 si se quiere freezear programa right
+void freeze(int func){  
+    if(func == 1){
+        if(tasks[1].present == 1 && tasks[1].status==READY && tasks[2].present && tasks[2].status == READY){
+            tasks[1].status = FREEZED;
+        }else if(tasks[1].status == FREEZED){
+            tasks[1].status = READY;
+        }
+    }else{
+        if(tasks[2].present == 1 && tasks[2].status==READY && tasks[1].present && tasks[1].status == READY){
+            tasks[2].status = FREEZED;
+        }else if(tasks[2].status == FREEZED){
+            tasks[2].status = READY;
+        }
     }
 }
 
@@ -127,29 +164,6 @@ void setRegisters(uint64_t * registers, uint8_t load){
             reg[activePID][i] = registers[i];
         }
     }
-}
-
-int haltProcess(int pID){
-    if (tasks[pID].present) {
-        tasks[pID].status = HALTED;
-        return 1;
-    }
-    return -1;
-}
-
-int killProcess(int pID){
-    if (tasks[pID].present) {
-        tasks[pID].status = KILLED;
-        return 1;
-    }
-    return -1;
-}
-
-void * getTask(int pID){
-    if( pID >= 0 && pID < 2){
-        return tasks[pID].func;
-    }
-    return;
 }
 
 int tasksRunning(){
