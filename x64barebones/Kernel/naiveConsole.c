@@ -232,7 +232,7 @@ void ncPrintBin(uint64_t value)
 void ncPrintBase(uint64_t value, uint32_t base){
     restoreDefault();
     uintToBase(value, buffer, base);
-    ncPrintWithAtt(buffer,LGREY,BLACK);
+    ncPrintWithAtt(buffer,WHITE,BLACK);
 }
 
 void ncClear()

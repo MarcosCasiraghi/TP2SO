@@ -17,7 +17,7 @@ void primos(uint8_t fd){
 
        if(c==2)
         {
-            my_printf(fd,"%d \n",i);
+            my_printf("%d \n",i);
         }
         i++;
         for (int i = 0; i < 10000000; i++)

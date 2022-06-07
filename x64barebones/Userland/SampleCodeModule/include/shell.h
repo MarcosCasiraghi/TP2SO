@@ -17,4 +17,5 @@ void shell();
 void initShell();
 int addFunctions(char * buffer);
 int getFuncIndex(char * func);
+void clearBuffer();
 #endif

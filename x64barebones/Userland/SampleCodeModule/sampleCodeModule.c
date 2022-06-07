@@ -10,16 +10,19 @@
 
 int main() {
 	clear();
-	print("Bienvenido a la egipci0S \n", GREEN, BLACK,0);
-	my_printf(0,"_  O        _  O         _  O        _  O\n");
- 	my_printf(0," \\-|-\\_      \\-|-\\_       \\-|-\\_      \\-|-\\_\n");
-	my_printf(0,"  /^\\         /^\\          /^\\         /^\\\n");
- 	my_printf(0," ^^ ^^       ^^ ^^        ^^ ^^       ^^ ^^\n");
+	print("Bienvenido a \n", GREEN, BLACK);
+	my_printf("                            ____   _____ \n");
+ 	my_printf("                           / __ \\ / ____|\n");
+	my_printf("  _ __ ___   __ _ _ __ ___| |  | | (___  \n");
+ 	my_printf(" | '_ ` _ \\ / _` | '__/ __| |  | |\\___ \\ \n");
+	my_printf(" | | | | | | (_| | | | (__| |__| |____) |\n");
+	my_printf(" |_| |_| |_|\\__,_|_|  \\___|\\____/|_____/ \n");
+	my_printf("\n");
+	for(int i=0; i<555555550 ; i++){}
+	clear();
+	print("Que comando desea correr?\n", GREEN, BLACK);
 
-	//while(1){
 	initShell();
 	while(1){};
-		//cuando limpiar buffer, esta lleno?
-	//}
 	return 0;
 }

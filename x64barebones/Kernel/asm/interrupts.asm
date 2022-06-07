@@ -123,7 +123,7 @@ SECTION .text
 	pushState
 
 	;este movimiento es porque los parametros no estan en orden
-	mov r9, %1
+	mov r8, %1
 	call syscallDispatcher
 
 	popState
