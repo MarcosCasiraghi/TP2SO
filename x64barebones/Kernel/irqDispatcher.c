@@ -17,10 +17,12 @@ void irqDispatcher(uint64_t irq) {
 
 void int_20() {
 	timer_handler();
-    if( seconds_elapsed()%2 == 0)
-        blink(0x0F);
-    else
-        blink(0x00);
+    if(shellRunning()){
+        if( seconds_elapsed()%2 == 0)
+            blink(0x0F);
+        else
+            blink(0x00);
+    }
 
 }
 

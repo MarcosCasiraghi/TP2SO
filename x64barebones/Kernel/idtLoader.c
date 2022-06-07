@@ -32,10 +32,22 @@ void load_idt() {
   setup_IDT_entry (0x81, (uint64_t)&_readHandler);
   //clear screen
   setup_IDT_entry(0x82, (uint64_t)&_clearHandler);
+
   //write decimal
-  setup_IDT_entry(0x83, (uint64_t)&_writeDecimalHandler);
+  setup_IDT_entry(0x83, (uint64_t)&_exitHandler);
+
+  setup_IDT_entry(0x84, (uint64_t)&_schedulerHandler);
+
+  setup_IDT_entry(0x85, (uint64_t)&_registersHandler);
+
+  setup_IDT_entry(0x86, (uint64_t)&_getRTCHandler);
+
   //divide by 0 exception
-  setup_IDT_entry (0x00, (uint64_t)&_exception0Handler);
+  setup_IDT_entry (0x00, (uint64_t)&_div0Handler);
+
+  //invalid opcode exception
+  setup_IDT_entry(0x06, (uint64_t)&_invalidOpcodeHandler);
+
 
 
 	//Solo interrupcion timer tick habilitadas

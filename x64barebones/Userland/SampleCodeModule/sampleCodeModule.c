@@ -3,21 +3,23 @@
 #include <color.h>
 #include <fibonacci.h>
 #include <shell.h>
+#include <standardlib.h>
 
-#define BUFFER_LENGTH 50
 #define KEYBOARD_FD 1
 #define SCREEN_FD 0
 
 int main() {
 	clear();
-	print("Que modulo desea correr? ", GREEN, BLACK);
+	print("Bienvenido a la egipci0S \n", GREEN, BLACK,0);
+	my_printf(0,"_  O        _  O         _  O        _  O\n");
+ 	my_printf(0," \\-|-\\_      \\-|-\\_       \\-|-\\_      \\-|-\\_\n");
+	my_printf(0,"  /^\\         /^\\          /^\\         /^\\\n");
+ 	my_printf(0," ^^ ^^       ^^ ^^        ^^ ^^       ^^ ^^\n");
 
-	while(1){
-		char readBuffer[BUFFER_LENGTH]={0};
-		scanf(KEYBOARD_FD, readBuffer, BUFFER_LENGTH);
-		run(readBuffer);
-		//fibonacci();
+	//while(1){
+	initShell();
+	while(1){};
 		//cuando limpiar buffer, esta lleno?
-	}
+	//}
 	return 0;
 }

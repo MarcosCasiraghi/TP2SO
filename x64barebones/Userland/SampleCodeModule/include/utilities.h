@@ -3,6 +3,7 @@
 
 #include <syscalls.h>
 #include <color.h>
+#include <standardlib.h>
 #define KEYBOARD_FD 1
 #define SCREEN_FD 0
 
@@ -10,9 +11,10 @@
 //armar getchar
 //armar scanf
 void clear();
-void print(char * string,uint8_t fontColor, uint8_t backColor);
-void printDec(int number);
+void print(char * string,uint8_t fontColor, uint8_t backColor, int fd);
 char getChar();
 void scanf(int fd, char * buffer, int maxlength);
+void exit();
+void time();
 
 #endif

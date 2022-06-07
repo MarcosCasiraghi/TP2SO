@@ -15,9 +15,13 @@ void _keyboardHandler(void);
 void _writeHandler(void);
 void _readHandler(void);
 void _clearHandler(void);
-void _writeDecimalHandler(void);
+void _exitHandler(void);
+void _schedulerHandler(void);
+void _registersHandler(void);
+void _getRTCHandler(void);
 
-void _exception0Handler(void);
+void _div0Handler(void);
+void _invalidOpcodeHandler(void);
 
 void _cli(void);
 
