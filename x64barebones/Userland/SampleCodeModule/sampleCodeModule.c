@@ -10,7 +10,11 @@
 
 int main() {
 	clear();
-	print("Bienvenido a la marc0S \n", GREEN, BLACK,0);
+	print("Bienvenido a la egipci0S \n", GREEN, BLACK,0);
+	my_printf(0,"_  O        _  O         _  O        _  O\n");
+ 	my_printf(0," \\-|-\\_      \\-|-\\_       \\-|-\\_      \\-|-\\_\n");
+	my_printf(0,"  /^\\         /^\\          /^\\         /^\\\n");
+ 	my_printf(0," ^^ ^^       ^^ ^^        ^^ ^^       ^^ ^^\n");
 
 	//while(1){
 	initShell();

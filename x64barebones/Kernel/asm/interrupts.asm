@@ -134,12 +134,37 @@ SECTION .text
 
 
 %macro exceptionHandler 1
-	pushState
+	;pushState
+	mov [regdata], rax
+	mov [regdata+8], rbx
+	mov [regdata+16], rcx
+	mov [regdata+24], rdx
+	mov [regdata+32], rsi
+	mov [regdata+40], rdi
+	mov [regdata+48], rbp
+	mov [regdata+64], r8
+	mov [regdata+72], r9
+	mov [regdata+80], r10
+	mov [regdata+88], r11
+	mov [regdata+96], r12
+	mov [regdata+104], r13
+	mov [regdata+112], r14
+	mov [regdata+120], r15
 
+	mov rax, [rsp+16] ;flags
+	mov [regdata+136], rax
+
+	mov rax, [rsp + 24] ; rsp
+	mov [regdata+56],rax
+
+	mov rax, [rsp] ;rip
+	mov [regdata+128], rax
+
+	mov rsi, regdata
 	mov rdi, %1 ; pasaje de parametro
 	call exceptionDispatcher
 
-	popState
+	;popState
 	iretq
 %endmacro
 
@@ -272,7 +297,7 @@ _timerHandler:
 ;Keyboard
 _keyboardHandler:
 
-        interruptHandlerMaster 1
+    interruptHandlerMaster 1
 
 
 _writeHandler:
