@@ -12,7 +12,7 @@ typedef struct{
 static char param1[20]= {0};
 static char param2[20] = {0};
 
-static FunctionType programs[] = {{"fibonacci", &fibonacci},{"help",&help},{"primos", &primos},
+static FunctionType programs[] = {{"fibonacci", &fibonacci},{"help",&help},{"primos", &primos}, {"invalidopcode",&invalidOpCode},
                                   {"inforeg",&inforeg},{"div0", &div0},{"time",&time}, {"printmem", &printMem}, {0,0}};
 
 

@@ -134,37 +134,33 @@ SECTION .text
 
 
 %macro exceptionHandler 1
-	;pushState
-	mov [regdata], rax
-	mov [regdata+8], rbx
-	mov [regdata+16], rcx
-	mov [regdata+24], rdx
-	mov [regdata+32], rsi
-	mov [regdata+40], rdi
-	mov [regdata+48], rbp
-	mov [regdata+64], r8
-	mov [regdata+72], r9
-	mov [regdata+80], r10
-	mov [regdata+88], r11
-	mov [regdata+96], r12
-	mov [regdata+104], r13
-	mov [regdata+112], r14
-	mov [regdata+120], r15
 
-	mov rax, [rsp+16] ;flags
-	mov [regdata+136], rax
+	mov [regdata+8], rax
+	mov [regdata+16], rbx
+	mov [regdata+24], rcx
+	mov [regdata+32], rdx
+	mov [regdata+40], rsi
+	mov [regdata+48], rdi
+	mov [regdata+56], rbp
+	mov [regdata+72], r8
+	mov [regdata+80], r9
+	mov [regdata+88], r10
+	mov [regdata+96], r11
+	mov [regdata+104], r12
+	mov [regdata+112], r13
+	mov [regdata+120], r14
+	mov [regdata+128], r15
 
 	mov rax, [rsp + 24] ; rsp
-	mov [regdata+56],rax
+	mov [regdata+64],rax
 
 	mov rax, [rsp] ;rip
-	mov [regdata+128], rax
+	mov [regdata], rax
 
 	mov rsi, regdata
 	mov rdi, %1 ; pasaje de parametro
 	call exceptionDispatcher
 
-	;popState
 	iretq
 %endmacro
 

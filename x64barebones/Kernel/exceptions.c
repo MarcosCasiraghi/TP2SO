@@ -3,7 +3,7 @@
 #define INVALID_OPCODE_EXCEPTION_ID 1
 
 static const char* tags[18] = {
-     "RAX", "RBX", "RCX", "RDX", "RSI", "RDI", "RBP", "RSP", "R8 ", "R9 ", "R10", "R11", "R12", "R13", "R14", "R15","RIP", "FLAGS"
+     "RIP","RAX", "RBX", "RCX", "RDX", "RSI", "RDI", "RBP", "RSP", "R8 ", "R9 ", "R10", "R11", "R12", "R13", "R14", "R15"
 };
 
 
@@ -28,7 +28,7 @@ void exceptionCall(char * message, uint64_t * registers) {
 		restoreDefault();
 		printLeft(message);
 		newLineLeft();
-		for (int i = 0; i < 18; i++){
+		for (int i = 0; i < 17; i++){
 			printLeft(tags[i]);
 			printLeft(" ");
 			uintToBase(registers[i],buffer,16);
@@ -39,7 +39,7 @@ void exceptionCall(char * message, uint64_t * registers) {
 		restoreDefault();
 		ncPrint(message);
 		ncNewline();
-		for (int i = 0; i < 18; i++){
+		for (int i = 0; i < 17; i++){
 			ncPrint(tags[i]);
 			ncPrint(" ");
 			ncPrintHex(registers[i]);
@@ -49,7 +49,7 @@ void exceptionCall(char * message, uint64_t * registers) {
 		restoreDefault();
 		printRight(message);
 		newLineRight();
-		for (int i = 0; i < 18; i++){
+		for (int i = 0; i < 17; i++){
 			printRight(tags[i]);
 			printRight(" ");
 			uintToBase(registers[i],buffer,16);

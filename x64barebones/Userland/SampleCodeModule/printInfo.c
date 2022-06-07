@@ -20,7 +20,7 @@ int readAddress(char* s, uint8_t** result) {
 	}
 	if(dir > MAX_ADDRESS_DECIMAL)
 		return 0;
-	
+
 	*result = (uint8_t*)dir;
 	return 1;
 }
@@ -36,7 +36,7 @@ void printMem(char param[20]) {
 		my_printf("El parametro ingresado no es valido\n");
 		exit();
 	}
-	
+
 	for(int i=0; i<32; i++) {
 		char mem[6] = "0x00 ";
 		mem[2] = hexaChar(p[i] >> 4);
@@ -54,14 +54,16 @@ void inforeg(){
 					"RDI:","RBP:","RSP","R8:","R9:","R10:","R11:",
 					"R12:","R13:","R14:","R15:"};
 
-
-    if (sys_registers(reg)){
+	sys_registers(reg);
+    if (reg[17]){
         for (int i = 0;i < 17; i++){
 			my_printf(nameReg[i]);
             my_printf("%d",reg[i]);
             print("\n",BLACK,BLACK);
         }
-    }
+    }else{
+		my_printf("press \"=\" to snapshot\n");
+	}
 
     exit();
 }
