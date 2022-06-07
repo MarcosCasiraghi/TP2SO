@@ -15,7 +15,7 @@ typedef struct{
     int present;
     int status;
     int pID;
-    int param;
+    uint64_t param;
 }FunctionType;
 
 static int hasTasks =0;
@@ -46,12 +46,14 @@ void add_task(char *name, void * task,uint64_t parametro, uint64_t flags){
                 splitScreenMode=1;
                 ncClear();
             }
+
             return;
         }
         i++;
     }
 
 }
+
 
 uint64_t * getRegisters(){
     next();
