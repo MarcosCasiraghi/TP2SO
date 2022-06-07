@@ -18,6 +18,7 @@ int main() {
 	my_printf(" | | | | | | (_| | | | (__| |__| |____) |\n");
 	my_printf(" |_| |_| |_|\\__,_|_|  \\___|\\____/|_____/ \n");
 	my_printf("\n");
+	my_printf("Wait for it...");
 	for(int i=0; i<555555550 ; i++){}
 	clear();
 	print("Que comando desea correr?\n", GREEN, BLACK);

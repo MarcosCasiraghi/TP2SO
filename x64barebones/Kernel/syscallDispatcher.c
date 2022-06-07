@@ -87,6 +87,7 @@ int int_85(uint64_t * registers){
                 registers[i] = regdump[i];
             }
         }
+        registers[17]=hasRegDump;
     }
     return hasRegDump;
 }
