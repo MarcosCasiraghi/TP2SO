@@ -10,7 +10,8 @@
 #include <help.h>
 #include <primos.h>
 #include <div0.h>
-
+#include <printInfo.h>
+void checkPrintMem(char* func1,char * parameter1);
 int run(char * buffer);
 void shell();
 void initShell();

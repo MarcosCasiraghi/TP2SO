@@ -4,8 +4,8 @@
 #include <naiveConsole.h>
 #include <scheduler.h>
 
-void exceptionDispatcher(int exception);
-void exceptionCall(char * message);
+void exceptionDispatcher(int exception,uint64_t * registers);
+void exceptionCall(char * message, uint64_t * registers);
 
 
 #endif

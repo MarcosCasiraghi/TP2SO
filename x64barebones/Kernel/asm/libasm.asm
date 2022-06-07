@@ -102,33 +102,45 @@ loadRegisters:
 
     pushState
 
-            mov [regdump+2*8], rbx
-            mov [regdump+3*8], rcx
-            mov [regdump+4*8], rdx
-            mov [regdump+5*8], rsi
-            mov [regdump+6*8], rdi
-            mov [regdump+7*8], rbp
-            mov [regdump+9*8], r8
-            mov [regdump+10*8], r9
-            mov [regdump+11*8], r10
-            mov [regdump+12*8], r11
-            mov [regdump+13*8], r12
-            mov [regdump+14*8], r13
-            mov [regdump+15*8], r14
-            mov [regdump+16*8], r15
+            ; mov [regdump+2*8], rbx
+            ; mov [regdump+3*8], rcx
+            ; mov [regdump+4*8], rdx
+            ; mov [regdump+5*8], rsi
+            ; mov [regdump+6*8], rdi
+            ; mov [regdump+7*8], rbp
+            ; mov [regdump+9*8], r8
+            ; mov [regdump+10*8], r9
+            ; mov [regdump+11*8], r10
+            ; mov [regdump+12*8], r11
+            ; mov [regdump+13*8], r12
+            ; mov [regdump+14*8], r13
+            ; mov [regdump+15*8], r14
+            ; mov [regdump+16*8], r15
 
-            mov rax, rsp
-            add rax, 160
-            mov [regdump+8*8], rax ;RSP
+	mov [regdump], rax
+	mov [regdump+8], rbx
+	mov [regdump+16], rcx
+	mov [regdump+24], rdx
+	mov [regdump+32], rsi
+	mov [regdump+40], rdi
+	mov [regdump+48], rbp
+	mov [regdump+64], r8
+	mov [regdump+72], r9
+	mov [regdump+80], r10
+	mov [regdump+88], r11
+	mov [regdump+96], r12
+	mov [regdump+104], r13
+	mov [regdump+112], r14
+	mov [regdump+120], r15
 
-            mov rax, [rsp+15*8]
-            mov [regdump], rax ;RIP
+    mov rax, rsp
+    add rax, 160
+    mov [regdump+56], rax ;RSP
 
-            mov rax, [rsp+14*8]
-            mov [regdump+1*8], rax ;RAX
+    mov rax, [rsp+15*8]
+    mov [regdump+128], rax ;RIP
 
-            mov BYTE [hasRegDump], 1
-
+    mov BYTE [hasRegDump], 1
 
     popState
 

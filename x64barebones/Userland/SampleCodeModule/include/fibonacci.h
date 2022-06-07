@@ -2,6 +2,6 @@
 #define FIBONACCI_H_
 #include <stdint.h>
 
-    void fibonacci(uint8_t fd);
+    void fibonacci();
 
 #endif
