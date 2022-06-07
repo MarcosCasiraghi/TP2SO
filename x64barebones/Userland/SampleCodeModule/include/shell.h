@@ -11,6 +11,8 @@
 #include <primos.h>
 #include <div0.h>
 #include <printInfo.h>
+#include <invalidOpCode.h>
+
 void checkPrintMem(char* func1,char * parameter1);
 int run(char * buffer);
 void shell();

@@ -9,9 +9,7 @@ void help(){
     print("- time: imprime el dia y la hora del sistema\n",WHITE,BLACK);
     print("- inforeg: imprime el valor de todos los registros si la tecla especial fue presionada\n",WHITE,BLACK);
     print("- printmem: realiza un volcado de memoria de 32 bytes a partir de la direccion recibida como argumento\n",WHITE,BLACK);
-    print("Teclas Especiales:\nESC: Mata la ejecucion de los programas activos\n",WHITE, BLACK);
-    print("'=': Guarda estado actual de los registros para inforeg\n", WHITE, BLACK);
-    print("'[' y ']': Mata la ejecucion del programa izquierdo y derecho\n", WHITE, BLACK);
-    print("'f' y 'g': Freezea la ejecucion del programa izquierdo y derecho\n",WHITE,BLACK);
+    print("div0: programa para verificar excepcion de division por 0\n",WHITE,BLACK);
+    print("invalidopcode: programa para verificar funcionameiento de excepcion de invalid opcode\n",WHITE,BLACK);
     exit();
 }
