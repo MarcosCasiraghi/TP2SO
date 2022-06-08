@@ -22,12 +22,13 @@ int run(char * buffer){
     if (*buffer!=0 && (added == -1 || added == -2)){
         print(buffer,RED,BLACK);
         print(" is not a valid command \n", WHITE, BLACK);
+        print("Use 'help' to know the available commands\n", WHITE, BLACK);
     }
     return 1;
 }
 
 void initShell(){
-    sys_scheduler("shell", &shell,"shell");
+    sys_scheduler("shell", &shell,(uint64_t)"shell");
 }
 
 void shell(){
@@ -56,7 +57,6 @@ int addFunctions(char * buffer){
     int i1 = 0;
     int i2 = 0;
     int i3 = 0;
-    int printmem;
 
     while(buffer[i3] && buffer[i3]!='|'){  //fibonacci | primos
         func1[i1++] = buffer[i3];
@@ -79,8 +79,8 @@ int addFunctions(char * buffer){
         int func1Index = getFuncIndex(func1);
         int func2Index = getFuncIndex(func2);
         if( func1Index != -1 && func2Index != -1){
-            sys_scheduler(programs[func1Index].name, programs[func1Index].func, param1);
-            sys_scheduler(programs[func2Index].name, programs[func2Index].func, param2);
+            sys_scheduler(programs[func1Index].name, programs[func1Index].func, (uint64_t) param1);
+            sys_scheduler(programs[func2Index].name, programs[func2Index].func, (uint64_t) param2);
             return 2;
         }
         if(func1Index == -1)
@@ -91,7 +91,7 @@ int addFunctions(char * buffer){
         checkPrintMem(func1,param1);
         int funcIndex = getFuncIndex(func1);
         if(funcIndex != -1){
-            sys_scheduler(programs[funcIndex].name, programs[funcIndex].func, param1);
+            sys_scheduler(programs[funcIndex].name, programs[funcIndex].func, (uint64_t) param1);
             return 1;
         }
         return -1;
@@ -112,6 +112,7 @@ void checkPrintMem(char* func1,char * parameter1){
     
     if(i<strlen(prntmem) || func1[strlen(prntmem)]!=' '){
         flag1=0;
+        parameter1[0] = '\0';
     }
 
     if(flag1){
