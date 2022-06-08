@@ -68,8 +68,6 @@ void my_printf(const char * frmt, ...){
                     put_char('-');
                   }
                   sprint(convert(i,10));
-                  //uintToBase(i,buffer,10);
-                  //sprint(1, buffer);
                   break;
       case 'o':   i = va_arg(arg, unsigned int);   // Fetch Octal representation
                   sprint(convert(i,8));
