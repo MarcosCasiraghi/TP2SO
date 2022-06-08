@@ -49,6 +49,13 @@ void getKey(){
         freeze(1);
     if(scancodeLToAscii[myChar] == 'g')//freeze right
         freeze(2);
+    if (kbBufferPos == 255)
+        {
+        kbBufferConsume = 0;
+        kbBufferPos = 0;
+        }
+    if (kbBufferPos == 255)
+        kbBufferPos = 0;
     if( myChar == LSHIFT || myChar == RSHIFT)
         mayus = 1;
     if( myChar == LSHIFT+RELEASE || myChar == RSHIFT+RELEASE )
