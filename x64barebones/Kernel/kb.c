@@ -34,7 +34,7 @@ static uint8_t scancodeLToAsciiMayus[] = {
 
 void getKey(){
     uint8_t myChar= kbFlag();
-    if(scancodeLToAscii[myChar] == 27){
+    if(scancodeLToAscii[myChar] == 27){//kill all with esc
         schedulerExit(2);
         return;
     }

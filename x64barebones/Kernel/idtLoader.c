@@ -33,7 +33,7 @@ void load_idt() {
   //clear screen
   setup_IDT_entry(0x82, (uint64_t)&_clearHandler);
 
-  //write decimal
+  //exit for programs
   setup_IDT_entry(0x83, (uint64_t)&_exitHandler);
   //add task to scheduler
   setup_IDT_entry(0x84, (uint64_t)&_schedulerHandler);
@@ -50,7 +50,7 @@ void load_idt() {
 
 
 
-	//Solo interrupcion timer tick habilitadas
+	//Solo interrupcion timer tick y teclado habilitadas
 	picMasterMask(0xFC);
 	picSlaveMask(0xFF);
 

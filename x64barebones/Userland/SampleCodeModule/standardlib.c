@@ -32,6 +32,33 @@ int strlen(char * string){
   return length;
 }
 
+char getChar(){
+    char c = 0;
+    while( c == 0 ){
+        sys_read(&c);
+    }
+    return c;
+}
+
+void scanf(char * buffer, int maxlength){
+    int size=0;
+    char c;
+    do {
+        if ((c=getChar())!='\n'){
+            if (c=='\b' && size>0){
+                size--;
+            }else if(c!='\b'){
+                buffer[size]=c;
+                size++;
+            }
+            put_char(c);
+        }
+    } while (size<maxlength-1 && c != '\n');
+    put_char('\n');
+    buffer[size] = 0;
+}
+
+//Esta funcion la adaptados del siguiente link
 // https://stackoverflow.com/questions/1735236/how-to-write-my-own-printf-in-c
 void my_printf(const char * frmt, ...){
   // Module 1: Initializing Myprintf's arguments using stdarg.h

@@ -2,7 +2,6 @@ GLOBAL cpuVendor
 GLOBAL kbFlag
 GLOBAL getRTC
 GLOBAL loadRegisters
-;GLOBAL getReg
 GLOBAL hasRegDump
 GLOBAL regdump
 section .text
@@ -67,6 +66,7 @@ cpuVendor:
 	pop rbp
 	ret
 
+;utilizado para apretado de tecla
 kbFlag:
     push rbp
     mov rbp, rsp

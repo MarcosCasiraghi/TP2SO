@@ -9,4 +9,4 @@ extern uint8_t kbFlag();
 void getKey();
 char getKbBuffer();
 
-#endif //TPARQUI_KB_H
+#endif

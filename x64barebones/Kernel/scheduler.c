@@ -22,8 +22,8 @@ static int activePID = 0;
 static FunctionType tasks[MAX_TASKS];
 static int splitScreenMode=0;
 
-static char stack[3][STACK_SIZE] = {0};
-static uint64_t reg[3][REGISTERS] ={0};
+static char stack[MAX_TASKS+1][STACK_SIZE] = {0};
+static uint64_t reg[MAX_TASKS+1][REGISTERS] ={0};
 static int processes=0;
 
 void add_task(char *name, void * task,uint64_t parametro, uint64_t flags){
@@ -74,7 +74,7 @@ void next(){
     }
 
     if (tasks[1].present==1 && tasks[1].status == READY){
-        if(tasks[2].present==1 && tasks[2].status == READY)
+        if(tasks[2].present==1 && tasks[2].status == READY) //Si los 2 estan listos, cambia entre los 2
             activePID= (activePID%2) + 1;
         else
             activePID=1;
@@ -88,6 +88,8 @@ void next(){
     if (!tasks[2].present && tasks[1].present && tasks[1].status==KILLED)
     {
         tasks[1].present=0;
+        activePID = 0;
+        return;
     }
     if(tasks[1].present && tasks[1].status == FREEZED && tasks[2].present && tasks[2].status == READY){
         activePID = 2;
@@ -117,8 +119,6 @@ void schedulerExit(int amountOfFuncs){
         tasks[activePID].status = KILLED;
     }
     else if( amountOfFuncs == 2){
-        //tasks[1].status = KILLED;
-        //tasks[2].status = KILLED;
         tasks[1].present=0;
         tasks[2].present=0;
         splitScreenMode=0;
@@ -127,18 +127,16 @@ void schedulerExit(int amountOfFuncs){
     else if( amountOfFuncs == 3){   //KILL left side
         if((tasks[1].present && tasks[2].present && tasks[2].status == READY) || tasks[2].status == KILLED){
             tasks[1].status = KILLED;
-            //tasks[1].present = 0;
         }
     }
     else{   //KILL right side
         if((tasks[2].present && tasks[1].present && tasks[1].status == READY) || tasks[1].status == KILLED){
             tasks[2].status = KILLED;
-            //tasks[2].present = 0;
         }
     }
 }
 
-//1 si se quiere freezear programa de pantalla entera o left
+//1 si se quiere freezear programa left
 //2 si se quiere freezear programa right
 void freeze(int func){  
     if(func == 1){

@@ -17,7 +17,7 @@ void irqDispatcher(uint64_t irq) {
 
 void int_20() {
 	timer_handler();
-    if(shellRunning()){
+    if(shellRunning()){     //Blink para simular representacion de posicion actual del cursor
         if( seconds_elapsed()%2 == 0)
             blink(0x0F);
         else

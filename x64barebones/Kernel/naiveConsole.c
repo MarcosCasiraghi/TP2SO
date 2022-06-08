@@ -25,7 +25,7 @@ void printRight(const char * string){
 void printCharRight(char character, uint8_t att){
     if(rightX >=width){
         rightY++;
-        rightX=40;
+        rightX=width/2;
     }
     if (character == '\n'){
         newLineRight();
@@ -56,7 +56,7 @@ void printCharLeft(char character, uint8_t att){
 
 void newLineRight(){
     rightY++;
-    rightX = 40;
+    rightX = width/2;
     scrollUpRight();
 }
 
@@ -72,6 +72,8 @@ int getMaxYPos(){
     return leftY>rightY? leftY: rightY;
 }
 
+//utilizado para cuando dejar de correr 2 programas 
+//que terminan
 void setCurrentVideo(){
     currentVideo=getPosition(0,getMaxYPos()+1);
 }
@@ -138,7 +140,6 @@ void backspace(){
     }
 }
 
-
 void blink(uint8_t backColor){
     uint8_t aux = *(currentVideo+1);
     aux &= 0x0F;
@@ -148,7 +149,7 @@ void blink(uint8_t backColor){
 
 
 void scrollUp(){
-    if( currentVideo - video >= 2*80*25){
+    if( currentVideo - video >= 2*width*height){
         for( int i = 0 ; i <= (height) ; i++){
             for( int j = 0 ; j <= width; j++){
                 video[2*(i*width+j)] = video[2*((i+1)*width + j)];
@@ -161,9 +162,9 @@ void scrollUp(){
 
 
 void scrollUpRight(){
-    if( (rightX>=80 && rightY == 25)||rightY>25){
+    if( (rightX>=width && rightY == height)||rightY>height){
         for( int i = 0 ; i <= (height) ; i++){
-            for( int j = 40 ; j < width; j++){
+            for( int j = width/2 ; j < width; j++){
                 video[2*(i*width+j)] = video[2*((i+1)*width + j)];
                 video[2*(i*width+j)+1] = video[2*((i+1)*width + j)+1];
             }
@@ -174,7 +175,7 @@ void scrollUpRight(){
 
 
 void scrollUpLeft(){
-    if( (leftX>=39 && leftY == 25)||leftY>25){
+    if( (leftX>=width/2 -1 && leftY == height)||leftY>height){
         for( int i = 0 ; i <= (height-1) ; i++){
             for( int j = 0 ; j < width/2; j++){
                 video[2*(i*width+j)] = video[2*((i+1)*width + j)];

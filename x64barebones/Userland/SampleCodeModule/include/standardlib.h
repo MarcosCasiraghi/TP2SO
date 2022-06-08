@@ -13,5 +13,7 @@ void my_printf(const char * frmt, ...);
 char *convert(unsigned int num, int base);
 int strcmp(char * str1, char * str2);
 int strlen(char * string);
+void scanf(char * buffer, int maxlength);
+char getChar();
 
 #endif

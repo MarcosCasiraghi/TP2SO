@@ -7,8 +7,8 @@
 
 void clear();
 void print(char * string,uint8_t fontColor, uint8_t backColor);
-char getChar();
-void scanf(char * buffer, int maxlength);
+
+
 void exit();
 void time();
 

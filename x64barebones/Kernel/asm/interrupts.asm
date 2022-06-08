@@ -122,7 +122,6 @@ SECTION .text
 %macro syscallHandlerMaster 1
 	pushState
 
-	;este movimiento es porque los parametros no estan en orden
 	mov r8, %1
 	call syscallDispatcher
 
@@ -135,6 +134,7 @@ SECTION .text
 
 %macro exceptionHandler 1
 
+	;copiamos parametros a regdata
 	mov [regdata+8], rax
 	mov [regdata+16], rbx
 	mov [regdata+24], rcx
@@ -157,6 +157,7 @@ SECTION .text
 	mov rax, [rsp] ;rip
 	mov [regdata], rax
 
+	;pasamos regdata y el codigo de excepcion
 	mov rsi, regdata
 	mov rdi, %1 ; pasaje de parametro
 	call exceptionDispatcher
@@ -196,9 +197,7 @@ picSlaveMask:
     retn
 
 
-;8254 Timer (Timer Tick)
 
-;hardcodeado para poder usar el scheduler
 _timerHandler:
 
     pushState
@@ -206,6 +205,7 @@ _timerHandler:
     call irqDispatcher
     popState
 
+	;si no hay procesos no quiero que haya context switching
 	call getProcesses
 	cmp rax,0
 	jz fin
@@ -213,8 +213,11 @@ _timerHandler:
 	cmp BYTE [firstTime],0
 	jz get
 
+	; context switching:
+
+	;guardo registros en regdata
 	push rbx
-	;1 por el push
+	;sumo 8 por el push
 	mov rbx, [rsp+1*8]
     mov [regdata], rbx ;rip
 
@@ -242,13 +245,16 @@ _timerHandler:
     mov [regdata+15*8], r14
     mov [regdata+16*8], r15
 
-	; ; cargo regdata en rdi para pasar parametro
+	; cargo regdata en rdi para pasar parametro
     mov rdi, regdata
 	mov rsi, 1
+	;guardo contexto de programas
     call setRegisters
 
+	; llamo para recibir contexto del programa a correr
 	get:
-	; llamo para recibir en rax vector con registros
+
+	;setteo este byte para marcar que ya hubo al menos un switch
 	mov BYTE [firstTime],1
     call getRegisters
 
@@ -261,7 +267,7 @@ _timerHandler:
 	mov rbx, [rax+17*8]
     mov [rsp+2*8], rbx  ;pongo los flags
 
-
+	;setteo el resto de los registros
     mov rbx, [rax+2*8]
     mov rcx, [rax+3*8]
     mov  rdx,[rax+4*8]
@@ -313,7 +319,6 @@ _exitHandler:
 _schedulerHandler:
     pushState
 
-	;este movimiento es porque los parametros no estan en orden
 	mov rcx, [rsp+17*8]
 	call schedulerDispatcher
 

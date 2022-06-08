@@ -28,4 +28,8 @@ void scrollUpRight();
 void scrollUpLeft();
 void printLeft(const char * string);
 void printRight(const char * string);
+void newLineLeft();
+void newLineRight();
+void setCurrentVideo();
+
 #endif
