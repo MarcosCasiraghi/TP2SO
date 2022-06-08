@@ -38,16 +38,16 @@ void getKey(){
         schedulerExit(2);
         return;
     }
-    if(scancodeLToAscii[myChar] == '[')
+    if(scancodeLToAscii[myChar] == '[')//kill left
         schedulerExit(3);
-    if(scancodeLToAscii[myChar] == ']')
+    if(scancodeLToAscii[myChar] == ']')//kill right
         schedulerExit(4);
-    if (scancodeLToAscii[myChar] == '='){
+    if (scancodeLToAscii[myChar] == '='){//load registers for inforeg
         loadRegisters();
     }
-    if(scancodeLToAscii[myChar] == 'f')
+    if(scancodeLToAscii[myChar] == 'f')//freeze left
         freeze(1);
-    if(scancodeLToAscii[myChar] == 'g')
+    if(scancodeLToAscii[myChar] == 'g')//freeze right
         freeze(2);
     if( myChar == LSHIFT || myChar == RSHIFT)
         mayus = 1;

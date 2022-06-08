@@ -35,11 +35,11 @@ void load_idt() {
 
   //write decimal
   setup_IDT_entry(0x83, (uint64_t)&_exitHandler);
-
+  //add task to scheduler
   setup_IDT_entry(0x84, (uint64_t)&_schedulerHandler);
-
+  //fill recieved buffers with registers
   setup_IDT_entry(0x85, (uint64_t)&_registersHandler);
-
+  //fill recieved buffer with present time and date
   setup_IDT_entry(0x86, (uint64_t)&_getRTCHandler);
 
   //divide by 0 exception
