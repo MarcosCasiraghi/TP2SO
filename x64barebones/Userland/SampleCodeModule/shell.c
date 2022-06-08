@@ -17,7 +17,6 @@ static FunctionType programs[] = {{"fibonacci", &fibonacci},{"help",&help},{"pri
 
 
 int run(char * buffer){
-
     int added = addFunctions(buffer);
     if (*buffer!=0 && (added == -1 || added == -2)){
         print(buffer,RED,BLACK);
