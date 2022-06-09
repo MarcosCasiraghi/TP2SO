@@ -15,7 +15,8 @@ static uint8_t scancodeLToAscii[] = {
         '\b', '\t', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',  '[', ']',
         '\n',    0, 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', '`',
         0, '\\', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/',    0, '*',
-        0,  ' ',   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,    0,   0,
+        0,  ' ',   0,   1/*f1*/,   2/*f2*/,   3/*f3*/,   4/*f4*/,   0,   
+        0,   0,   0,   0,    0,   0,
         0,    0,   0,   0, '-',   0,   0,   0, '+',   0,   0,   0,    0,   0,
         0,    0,   0,   0,   0,   0
 };
@@ -38,17 +39,25 @@ void getKey(){
         schedulerExit(2);
         return;
     }
-    if(scancodeLToAscii[myChar] == '[')//kill left
+    if(scancodeLToAscii[myChar] == 3){//kill left
         schedulerExit(3);
-    if(scancodeLToAscii[myChar] == ']')//kill right
+        return;
+    }
+    if(scancodeLToAscii[myChar] == 4){//kill right
         schedulerExit(4);
+        return;
+    }
     if (scancodeLToAscii[myChar] == '='){//load registers for inforeg
         loadRegisters();
     }
-    if(scancodeLToAscii[myChar] == 'f')//freeze left
+    if(scancodeLToAscii[myChar] == 1){//freeze left
         freeze(1);
-    if(scancodeLToAscii[myChar] == 'g')//freeze right
+        return;
+    }
+    if(scancodeLToAscii[myChar] == 2){//freeze right
         freeze(2);
+        return;
+    }
     if (kbBufferPos == 255)
         {
         kbBufferConsume = 0;
