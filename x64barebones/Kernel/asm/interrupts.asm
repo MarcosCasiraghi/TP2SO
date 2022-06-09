@@ -17,6 +17,7 @@ GLOBAL _registersHandler
 
 GLOBAL _getRTCHandler
 
+GLOBAL _getMemHandler
 GLOBAL _div0Handler
 GLOBAL _invalidOpcodeHandler
 
@@ -330,6 +331,9 @@ _registersHandler:
 
 _getRTCHandler:
 	syscallHandlerMaster 7
+
+_getMemHandler:
+	syscallHandlerMaster 8
 
 ;Zero Division Exception
 _div0Handler:

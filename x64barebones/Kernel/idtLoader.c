@@ -41,6 +41,8 @@ void load_idt() {
   setup_IDT_entry(0x85, (uint64_t)&_registersHandler);
   //fill recieved buffer with present time and date
   setup_IDT_entry(0x86, (uint64_t)&_getRTCHandler);
+  //fill recieved buffer with memory dump
+  setup_IDT_entry(0x87, (uint64_t)&_getMemHandler);
 
   //divide by 0 exception
   setup_IDT_entry (0x00, (uint64_t)&_div0Handler);

@@ -10,5 +10,6 @@ void sys_read(char * buffer);
 void sys_scheduler(char * name, void * func, uint64_t parametro);
 int sys_registers(uint64_t * reg);
 void sys_time(char * buffer);
+void sys_getMem(uint8_t * address, char * buffer);
 
 #endif

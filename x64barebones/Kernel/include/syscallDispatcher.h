@@ -27,4 +27,6 @@ void schedulerDispatcher(char * name, void * func, uint64_t parametro,uint64_t f
 //time
 void int_86(char * buffer);
 
+void int_87(uint8_t * address, char * buffer);
+
 #endif

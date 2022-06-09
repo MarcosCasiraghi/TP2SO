@@ -7,6 +7,7 @@ GLOBAL sys_exit
 GLOBAL sys_registers
 GLOBAL sys_scheduler
 GLOBAL sys_time
+GLOBAL sys_getMem
 
 ;----------------------------------------
 ; rdi=string, rsi=fontColor, rdx=backColor
@@ -37,4 +38,8 @@ sys_registers:
 
 sys_time:
     int 86h
+    ret
+
+sys_getMem:
+    int 87h
     ret

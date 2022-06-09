@@ -15,8 +15,6 @@ void inforeg();
 int readAddress(char* s, uint8_t** result);
 void printMem();
 
-//convierte una hexa a un char
-char hexaChar(uint8_t value);
 
 
 #endif

@@ -26,6 +26,9 @@ void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, u
         case 7:
             int_86(rdi);
             break;
+        case 8:
+            int_87(rdi, rsi);
+            break;
 
 	}
 }
@@ -158,4 +161,15 @@ void int_86(char * buffer){
     }
 
 
+}
+
+void int_87(uint8_t * address, char * buffer){
+    int j = 0;
+    for(int i=0; i<32; i++) {
+        buffer[j++] = '0';
+        buffer[j++] = 'x';
+		buffer[j++] = hexaChar(address[i] >> 4);
+		buffer[j++] = hexaChar(address[i] & 0x0F);
+        buffer[j++] = ' ';
+	}
 }

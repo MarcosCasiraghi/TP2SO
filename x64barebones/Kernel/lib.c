@@ -49,3 +49,7 @@ void * memcpy(void * destination, const void * source, uint64_t length)
 	return destination;
 }
 
+char hexaChar(uint8_t value) {
+	     return value >= 10 ? (value - 10 + 'A') : (value + '0');
+}
+

@@ -29,20 +29,19 @@ void printMem(char param[20]) {
 		exit();
 	}
 
+
 	uint8_t* p;
 	if (!readAddress(param, &p)) {
 		my_printf("El parametro ingresado no es valido\n");
 		exit();
 	}
 
-	for(int i=0; i<32; i++) {
-		char mem[6] = "0x00 ";
-		mem[2] = hexaChar(p[i] >> 4);
-		mem[3] = hexaChar(p[i] & 0x0F);
-		mem[5]=0;
-		print(mem,WHITE, BLACK);
-	}
-	my_printf("\n");
+	char buffer[170] = {0};
+
+	sys_getMem(p, buffer);
+
+	print(buffer, WHITE, BLACK);
+	print("\n",WHITE,BLACK);
 
 	exit();
 }
@@ -66,6 +65,4 @@ void inforeg(){
     exit();
 }
 
-char hexaChar(uint8_t value) {
-	     return value >= 10 ? (value - 10 + 'A') : (value + '0');
-}
+
