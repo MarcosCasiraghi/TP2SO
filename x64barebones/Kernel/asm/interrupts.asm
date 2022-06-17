@@ -91,6 +91,7 @@ SECTION .text
 %endmacro
 
 %macro findRegs 1
+	mov  rax,[%1+8]
 	mov rbx, [%1+2*8]
     mov rcx, [%1+3*8]
     mov  rdx,[%1+4*8]
@@ -105,11 +106,13 @@ SECTION .text
     mov  r13,[%1+14*8]
     mov  r14,[%1+15*8]
     mov  r15,[%1+16*8]
-	mov  rax,[%1+8]
 %endmacro
 
 %macro _timerHandlerMacro 0
 	saveRegs regdata
+	mov rdi, 0 ; pasaje de parametro
+    call irqDispatcher
+	;findRegs regdata
 
 	;si no hay procesos no quiero que haya context switching
 	call getProcesses
@@ -159,14 +162,18 @@ SECTION .text
     mov  r13,[rax+14*8]
     mov  r14,[rax+15*8]
     mov  r15,[rax+16*8]
-
 	mov rax, [rax+8] ;restauro el rax
+	jmp .endtimer
+
 
 	.fin:
+	findRegs regdata
 	; signal pic EOI (End of Interrupt)
+	.endtimer:
+	push rax
     mov al, 20h
     out 20h, al
-	findRegs regdata
+	pop rax
     iretq
 %endmacro
 
@@ -256,10 +263,10 @@ picSlaveMask:
 
 
 _timerHandler:
-	pushState
-    mov rdi, 0 ; pasaje de parametro
-    call irqDispatcher
-	popState
+	; pushState
+    ; mov rdi, 0 ; pasaje de parametro
+    ; call irqDispatcher
+	; popState
 	_timerHandlerMacro
 
 
