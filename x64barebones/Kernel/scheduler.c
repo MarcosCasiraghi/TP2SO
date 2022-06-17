@@ -138,7 +138,7 @@ void schedulerExit(int amountOfFuncs){
 
 //1 si se quiere freezear programa left
 //2 si se quiere freezear programa right
-void freeze(int func){  
+void freeze(int func){
     if(func == 1){
         if(tasks[1].present == 1 && tasks[1].status==READY && tasks[2].present && tasks[2].status == READY){
             tasks[1].status = FREEZED;
@@ -158,12 +158,13 @@ int getProcesses(){
     return processes;
 }
 
-void setRegisters(uint64_t * registers, uint8_t load){
+uint64_t * registerManager(uint64_t * registers, uint8_t load){
     if (load){
         for(int i = 0 ; i < 19 ; i++){
             reg[activePID][i] = registers[i];
         }
     }
+    return getRegisters();
 }
 
 int tasksRunning(){

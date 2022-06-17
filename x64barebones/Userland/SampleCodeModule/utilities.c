@@ -12,7 +12,6 @@ void print(char * string,uint8_t fontColor, uint8_t backColor){
 
 void exit(){
     sys_exit();
-    for( int i = 0 ; i < 999999999 ; i++){}
 }
 
 void time(){

@@ -1,4 +1,5 @@
 #include <kb.h>
+#include <interrupts.h>
 
 #define LSHIFT 0x2A
 #define RSHIFT 0x36
@@ -15,7 +16,7 @@ static uint8_t scancodeLToAscii[] = {
         '\b', '\t', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',  '[', ']',
         '\n',    0, 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', '`',
         0, '\\', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/',    0, '*',
-        0,  ' ',   0,   1/*f1*/,   2/*f2*/,   3/*f3*/,   4/*f4*/,   0,   
+        0,  ' ',   0,   1/*f1*/,   2/*f2*/,   3/*f3*/,   4/*f4*/,   0,
         0,   0,   0,   0,    0,   0,
         0,    0,   0,   0, '-',   0,   0,   0, '+',   0,   0,   0,    0,   0,
         0,    0,   0,   0,   0,   0
@@ -33,22 +34,24 @@ static uint8_t scancodeLToAsciiMayus[] = {
 
 };
 
-void getKey(){
+//int getKey(uint64_t * registers){
+int getKey(){
     uint8_t myChar= kbFlag();
     if(scancodeLToAscii[myChar] == 27){//kill all with esc
         schedulerExit(2);
-        return;
+        return 1;
     }
     if(scancodeLToAscii[myChar] == 3){//kill left
         schedulerExit(3);
-        return;
+        return 1;
     }
     if(scancodeLToAscii[myChar] == 4){//kill right
         schedulerExit(4);
-        return;
+        return 1;
     }
     if (scancodeLToAscii[myChar] == '='){//load registers for inforeg
-        loadRegisters();
+        //registersForInforeg(registers);
+        return 2;
     }
     if(scancodeLToAscii[myChar] == 1){//freeze left
         freeze(1);
@@ -75,6 +78,7 @@ void getKey(){
         else
             kbBuffer[kbBufferPos++] = scancodeLToAscii[myChar];
     }
+    return 0;
 
 }
 

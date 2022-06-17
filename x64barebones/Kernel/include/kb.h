@@ -6,7 +6,7 @@
 #include <lib.h>
 
 extern uint8_t kbFlag();
-void getKey();
+int getKey();
 char getKbBuffer();
 
 #endif

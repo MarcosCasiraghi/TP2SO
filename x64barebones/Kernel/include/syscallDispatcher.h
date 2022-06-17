@@ -8,6 +8,7 @@
 #include <scheduler.h>
 #include <time.h>
 #include <lib.h>
+#include <interrupts.h>
 
 
 void syscallDispatcher();
@@ -20,6 +21,9 @@ void int_81(char * buffer);
 void int_82();
 //scheduler exit
 void int_83();
+
+void registersForInforeg(uint64_t * registers);
+
 //registers
 int int_85(uint64_t * registers);
 //add task para scheduler

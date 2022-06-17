@@ -46,8 +46,6 @@ void clearBuffer(){
         readBuffer[i]=0;
         i++;
     }
-
-
 }
 
 int addFunctions(char * buffer){
@@ -108,7 +106,7 @@ void checkPrintMem(char* func1,char * parameter1){
             flag1=0;
         }
     }
-    
+
     if(i<strlen(prntmem) || func1[strlen(prntmem)]!=' '){
         flag1=0;
         parameter1[0] = '\0';
@@ -122,9 +120,9 @@ void checkPrintMem(char* func1,char * parameter1){
             a++;
         }
         parameter1[a] = '\0';
-    
+
     }
-    
+
 }
 
 int getFuncIndex(char * func){

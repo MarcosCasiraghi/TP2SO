@@ -3,8 +3,8 @@
 #define KEYBOARD_FD 1
 #define SCREEN_FD 0
 
-extern uint8_t hasRegDump;
-extern uint64_t regdump[17];
+static uint8_t hasRegDump=0;
+static uint64_t regdump[17]={0};
 
 void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8){
 	switch(r8){
@@ -79,8 +79,17 @@ void int_82(){
     ncClear();
 }
 
+//sys exit
 void int_83(){
     schedulerExit(1);
+}
+
+void registersForInforeg(uint64_t * registers){
+    for (int i = 0; i < 17; i++){
+        regdump[i]=registers[i];
+    }
+    
+    hasRegDump=1;
 }
 
 int int_85(uint64_t * registers){

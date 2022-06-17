@@ -13,7 +13,7 @@ void schedulerExit(int amountOfFuncs);
 int getParameter();
 int getActivePId();
 int shellRunning();
-void setRegisters(uint64_t * registers, uint8_t load);
+uint64_t * registerManager(uint64_t * registers, uint8_t load);
 int getProcesses();
 int getSplitScreen();
 

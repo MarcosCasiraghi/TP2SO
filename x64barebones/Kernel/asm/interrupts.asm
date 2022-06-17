@@ -25,13 +25,14 @@ EXTERN irqDispatcher
 EXTERN syscallDispatcher
 EXTERN schedulerDispatcher
 EXTERN exceptionDispatcher
+EXTERN getKey
+EXTERN schedulerExit
 
-EXTERN setRegisters
-EXTERN getRegisters
+EXTERN registerManager
 EXTERN getProcesses
-EXTERN getReg
 
-EXTERN tick_check
+EXTERN registersForInforeg
+
 
 SECTION .text
 
@@ -71,39 +72,104 @@ SECTION .text
 	pop rax
 %endmacro
 
-%macro pushState2 0
-	push rbx
-	push rcx
-	push rdx
-	push rbp
-	push rdi
-	push rsi
-	push r8
-	push r9
-	push r10
-	push r11
-	push r12
-	push r13
-	push r14
-	push r15
+%macro saveRegs 1
+	mov [%1+1*8], rax
+    mov [%1+2*8], rbx
+    mov [%1+3*8], rcx
+    mov [%1+4*8], rdx
+    mov [%1+5*8], rsi
+    mov [%1+6*8], rdi
+    mov [%1+7*8], rbp
+    mov [%1+9*8], r8
+    mov [%1+10*8], r9
+    mov [%1+11*8], r10
+    mov [%1+12*8], r11
+    mov [%1+13*8], r12
+    mov [%1+14*8], r13
+    mov [%1+15*8], r14
+    mov [%1+16*8], r15
 %endmacro
 
-%macro popState2 0
-	pop r15
-	pop r14
-	pop r13
-	pop r12
-	pop r11
-	pop r10
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
-	pop rbp
-	pop rdx
-	pop rcx
-	pop rbx
+%macro findRegs 1
+	mov rbx, [%1+2*8]
+    mov rcx, [%1+3*8]
+    mov  rdx,[%1+4*8]
+    mov  rsi,[%1+5*8]
+    mov  rdi,[%1+6*8]
+    mov  rbp,[%1+7*8]
+    mov   r8,[%1+9*8]
+    mov   r9,[%1+10*8]
+    mov  r10,[%1+11*8]
+    mov  r11,[%1+12*8]
+    mov  r12,[%1+13*8]
+    mov  r13,[%1+14*8]
+    mov  r14,[%1+15*8]
+    mov  r15,[%1+16*8]
+	mov  rax,[%1+8]
 %endmacro
+
+%macro _timerHandlerMacro 0
+	saveRegs regdata
+
+	;si no hay procesos no quiero que haya context switching
+	call getProcesses
+	cmp rax,0
+	jz .fin
+
+	;guardo registros en regdata
+	mov rbx, [rsp]
+    mov [regdata], rbx ;rip
+
+	mov rbx, [rsp+3*8]
+    mov [regdata+8*8],rbx ;rsp
+
+	mov rbx,[rsp+2*8]
+	mov [regdata+17*8],rbx ;flags
+
+	; cargo regdata en rdi para pasar parametro
+	;guardo contexto de programas, recibo contexto del siguiente programa a correr
+    mov rdi, regdata
+	mov rsi, [firstTime]
+    call registerManager
+
+	;la primera vez no debo settear el contexto, por eso el flag "firstTime"
+	mov BYTE [firstTime],1
+
+	mov rbx, [rax]
+    mov [rsp], rbx ;pongo el rip
+
+	mov rbx, [rax+8*8]
+    mov [rsp+3*8], rbx ;pongo el rsp
+
+	mov rbx, [rax+17*8]
+    mov [rsp+2*8], rbx  ;pongo los flags
+
+	;setteo el resto de los registros
+    mov rbx, [rax+2*8]
+    mov rcx, [rax+3*8]
+    mov  rdx,[rax+4*8]
+    mov  rsi,[rax+5*8]
+    mov  rdi,[rax+6*8]
+    mov  rbp,[rax+7*8]
+    mov   r8,[rax+9*8]
+    mov   r9,[rax+10*8]
+    mov  r10,[rax+11*8]
+    mov  r11,[rax+12*8]
+    mov  r12,[rax+13*8]
+    mov  r13,[rax+14*8]
+    mov  r14,[rax+15*8]
+    mov  r15,[rax+16*8]
+
+	mov rax, [rax+8] ;restauro el rax
+
+	.fin:
+	; signal pic EOI (End of Interrupt)
+    mov al, 20h
+    out 20h, al
+	findRegs regdata
+    iretq
+%endmacro
+
 
 %macro interruptHandlerMaster 1
 	pushState
@@ -136,21 +202,7 @@ SECTION .text
 %macro exceptionHandler 1
 
 	;copiamos parametros a regdata
-	mov [regdata+8], rax
-	mov [regdata+16], rbx
-	mov [regdata+24], rcx
-	mov [regdata+32], rdx
-	mov [regdata+40], rsi
-	mov [regdata+48], rdi
-	mov [regdata+56], rbp
-	mov [regdata+72], r8
-	mov [regdata+80], r9
-	mov [regdata+88], r10
-	mov [regdata+96], r11
-	mov [regdata+104], r12
-	mov [regdata+112], r13
-	mov [regdata+120], r14
-	mov [regdata+128], r15
+	saveRegs regdata
 
 	mov rax, [rsp + 24] ; rsp
 	mov [regdata+64],rax
@@ -163,6 +215,11 @@ SECTION .text
 	mov rdi, %1 ; pasaje de parametro
 	call exceptionDispatcher
 
+	;VER ESTE COMENTARIO !!!!
+	;creo que aca habria que resetear rip y rsp o algo asi
+	;o hacer que retorne a la shell
+	findRegs regdata
+	_timerHandlerMacro
 	iretq
 %endmacro
 
@@ -198,109 +255,48 @@ picSlaveMask:
     retn
 
 
-
 _timerHandler:
-
-    pushState
+	pushState
     mov rdi, 0 ; pasaje de parametro
     call irqDispatcher
-    popState
+	popState
+	_timerHandlerMacro
 
-	;si no hay procesos no quiero que haya context switching
-	call getProcesses
-	cmp rax,0
-	jz fin
-
-	cmp BYTE [firstTime],0
-	jz get
-
-	; context switching:
-
-	;guardo registros en regdata
-	push rbx
-	;sumo 8 por el push
-	mov rbx, [rsp+1*8]
-    mov [regdata], rbx ;rip
-
-	mov rbx, [rsp+4*8]
-    mov [regdata+8*8],rbx ;rsp
-
-	mov rbx,[rsp+3*8]
-	mov [regdata+17*8],rbx ;flags
-
-	pop rbx
-
-    mov [regdata+1*8], rax
-    mov [regdata+2*8], rbx
-    mov [regdata+3*8], rcx
-    mov [regdata+4*8], rdx
-    mov [regdata+5*8], rsi
-    mov [regdata+6*8], rdi
-    mov [regdata+7*8], rbp
-    mov [regdata+9*8], r8
-    mov [regdata+10*8], r9
-    mov [regdata+11*8], r10
-    mov [regdata+12*8], r11
-    mov [regdata+13*8], r12
-    mov [regdata+14*8], r13
-    mov [regdata+15*8], r14
-    mov [regdata+16*8], r15
-
-	; cargo regdata en rdi para pasar parametro
-    mov rdi, regdata
-	mov rsi, 1
-	;guardo contexto de programas
-    call setRegisters
-
-	; llamo para recibir contexto del programa a correr
-	get:
-
-	;setteo este byte para marcar que ya hubo al menos un switch
-	mov BYTE [firstTime],1
-    call getRegisters
-
-	mov rbx, [rax]
-    mov [rsp], rbx ;pongo el rip
-
-	mov rbx, [rax+8*8]
-    mov [rsp+3*8], rbx ;pongo el rsp
-
-	mov rbx, [rax+17*8]
-    mov [rsp+2*8], rbx  ;pongo los flags
-
-	;setteo el resto de los registros
-    mov rbx, [rax+2*8]
-    mov rcx, [rax+3*8]
-    mov  rdx,[rax+4*8]
-    mov  rsi,[rax+5*8]
-    mov  rdi,[rax+6*8]
-    mov  rbp,[rax+7*8]
-
-    mov   r8,[rax+9*8]
-    mov   r9,[rax+10*8]
-    mov  r10,[rax+11*8]
-    mov  r11,[rax+12*8]
-    mov  r12,[rax+13*8]
-    mov  r13,[rax+14*8]
-    mov  r14,[rax+15*8]
-    mov  r15,[rax+16*8]
-
-	mov rax, [rax+8] ;restauro el rax
-
-
-	fin:
-	; signal pic EOI (End of Interrupt)
-	push rax
-    mov al, 20h
-    out 20h, al
-	pop rax
-
-    iretq
 
 ;Keyboard
 _keyboardHandler:
+	saveRegs regsave
 
-    interruptHandlerMaster 1
+	mov rbx, [rsp]
+    mov [regsave], rbx ;rip
+
+	mov rbx, [rsp+3*8]
+    mov [regsave+8*8],rbx ;rsp
+
+	mov rbx,[rsp+2*8]
+	mov [regsave+17*8],rbx ;flags
+
+	call getKey
+	cmp rax, 0
+	je printcase
+
+	cmp rax, 2
+	je inforegcase
+
+	;else, la funcion retorno 1, debe hacer switching
+	findRegs regsave
+	_timerHandlerMacro
+
+	inforegcase:
+	mov rdi, regsave
+	call registersForInforeg
+
+	printcase:
+	mov al, 20h
+	out 20h, al
+
+	findRegs regsave
+	iretq
 
 
 _writeHandler:
@@ -315,7 +311,13 @@ _clearHandler:
     syscallHandlerMaster 3
 
 _exitHandler:
-    syscallHandlerMaster 4
+	pushState
+
+	mov rdi, 1
+	call schedulerExit
+
+	popState
+	_timerHandlerMacro
 
 _schedulerHandler:
     pushState
@@ -351,6 +353,7 @@ haltcpu:
 
 SECTION .bss
     regdata    resq 19 ;registros y flag
+	regsave resq 19
     aux resq 1
 
 SECTION .data

@@ -58,7 +58,7 @@ void exceptionCall(char * message, uint64_t * registers) {
 		}
 	}
 	schedulerExit(1);
-	for (int i = 0; i < 50000000; i++){
+	// for (int i = 0; i < 50000000; i++){
 
-	}
+	// }
 }
