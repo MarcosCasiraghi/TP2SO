@@ -59,7 +59,7 @@ void inforeg(){
             print("\n",BLACK,BLACK);
         }
     }else{
-		my_printf("press \"=\" to snapshot\n");
+		my_printf("press \"f5\" to snapshot\n");
 	}
 
     exit();

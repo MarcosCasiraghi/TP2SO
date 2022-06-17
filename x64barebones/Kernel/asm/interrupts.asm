@@ -278,7 +278,7 @@ _keyboardHandler:
 
 	call getKey
 	cmp rax, 0
-	je printcase
+	je endcase
 
 	cmp rax, 2
 	je inforegcase
@@ -291,7 +291,7 @@ _keyboardHandler:
 	mov rdi, regsave
 	call registersForInforeg
 
-	printcase:
+	endcase:
 	mov al, 20h
 	out 20h, al
 

@@ -16,7 +16,7 @@ static uint8_t scancodeLToAscii[] = {
         '\b', '\t', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',  '[', ']',
         '\n',    0, 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', '`',
         0, '\\', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/',    0, '*',
-        0,  ' ',   0,   1/*f1*/,   2/*f2*/,   3/*f3*/,   4/*f4*/,   0,
+        0,  ' ',   0,   1/*f1*/,   2/*f2*/,   3/*f3*/,   4/*f4*/,   5/*f5*/,
         0,   0,   0,   0,    0,   0,
         0,    0,   0,   0, '-',   0,   0,   0, '+',   0,   0,   0,    0,   0,
         0,    0,   0,   0,   0,   0
@@ -49,17 +49,17 @@ int getKey(){
         schedulerExit(4);
         return 1;
     }
-    if (scancodeLToAscii[myChar] == '='){//load registers for inforeg
+    if (scancodeLToAscii[myChar] == 5){//load registers for inforeg
         //registersForInforeg(registers);
         return 2;
     }
     if(scancodeLToAscii[myChar] == 1){//freeze left
         freeze(1);
-        return;
+        return 0;
     }
     if(scancodeLToAscii[myChar] == 2){//freeze right
         freeze(2);
-        return;
+        return 0;
     }
     if (kbBufferPos == 255)
         {
