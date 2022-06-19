@@ -49,7 +49,7 @@ int getKey(){
         schedulerExit(4);
         return 1;
     }
-    if (scancodeLToAscii[myChar] == 5){//load registers for inforeg
+    if (scancodeLToAscii[myChar] == '='){//load registers for inforeg
         //registersForInforeg(registers);
         return 2;
     }

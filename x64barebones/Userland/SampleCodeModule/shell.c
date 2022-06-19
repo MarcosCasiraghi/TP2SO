@@ -35,7 +35,8 @@ void shell(){
         print("~$ ",GREEN, BLACK);
 		scanf(readBuffer, BUFFER_LENGTH);
 		run(readBuffer);
-        for(int i = 0 ; i < 50000000 ; i++){}
+        sys_exec();
+        //for(int i = 0 ; i < 50000000 ; i++){}
         clearBuffer();
     }
 }

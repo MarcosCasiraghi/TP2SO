@@ -4,6 +4,7 @@ GLOBAL sys_write
 GLOBAL sys_clear
 GLOBAL sys_read
 GLOBAL sys_exit
+GLOBAL sys_exec
 GLOBAL sys_registers
 GLOBAL sys_scheduler
 GLOBAL sys_time
@@ -42,4 +43,8 @@ sys_time:
 
 sys_getMem:
     int 87h
+    ret
+
+sys_exec:
+    int 20h
     ret
