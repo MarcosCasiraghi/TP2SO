@@ -1,4 +1,4 @@
-#include <utilities.h>
+#include <primos.h>
 
 void primos(uint8_t fd){
     fd = 0;
@@ -20,8 +20,6 @@ void primos(uint8_t fd){
             my_printf("%d \n",i);
         }
         i++;
-        //for (int i = 0; i < 10000000; i++)
-        //{}
     }
 
 }

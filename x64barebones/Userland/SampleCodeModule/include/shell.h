@@ -14,7 +14,7 @@
 #include <invalidOpCode.h>
 
 void checkPrintMem(char* func1,char * parameter1);
-int run(char * buffer);
+void run(char * buffer);
 void shell();
 void initShell();
 int addFunctions(char * buffer);

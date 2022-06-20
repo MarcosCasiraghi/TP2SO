@@ -3,7 +3,6 @@
 
 #include <stdarg.h>
 #include <stdint.h>
-//#include <stdio.h>
 #include <syscalls.h>
 #include <color.h>
 

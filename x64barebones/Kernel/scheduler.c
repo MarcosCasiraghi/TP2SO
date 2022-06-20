@@ -1,10 +1,10 @@
 #include <scheduler.h>
 
-#define STACK_SIZE 800
+#define STACK_SIZE 1600
 #define REGISTERS 20
 #define MAX_TASKS 2
 #define READY 0
-#define FREEZED 1
+#define FROZEN 1
 #define KILLED 2
 
 typedef void (*functionPointer)(void);
@@ -91,11 +91,11 @@ void next(){
         activePID = 0;
         return;
     }
-    if(tasks[1].present && tasks[1].status == FREEZED && tasks[2].present && tasks[2].status == READY){
+    if(tasks[1].present && tasks[1].status == FROZEN && tasks[2].present && tasks[2].status == READY){
         activePID = 2;
         return;
     }
-    if(tasks[2].present && tasks[2].status == FREEZED && tasks[1].present && tasks[1].status == READY){
+    if(tasks[2].present && tasks[2].status == FROZEN && tasks[1].present && tasks[1].status == READY){
         activePID = 1;
         return;
     }
@@ -141,14 +141,14 @@ void schedulerExit(int amountOfFuncs){
 void freeze(int func){
     if(func == 1){
         if(tasks[1].present == 1 && tasks[1].status==READY && tasks[2].present && tasks[2].status == READY){
-            tasks[1].status = FREEZED;
-        }else if(tasks[1].status == FREEZED){
+            tasks[1].status = FROZEN;
+        }else if(tasks[1].status == FROZEN){
             tasks[1].status = READY;
         }
     }else{
         if(tasks[2].present == 1 && tasks[2].status==READY && tasks[1].present && tasks[1].status == READY){
-            tasks[2].status = FREEZED;
-        }else if(tasks[2].status == FREEZED){
+            tasks[2].status = FROZEN;
+        }else if(tasks[2].status == FROZEN){
             tasks[2].status = READY;
         }
     }

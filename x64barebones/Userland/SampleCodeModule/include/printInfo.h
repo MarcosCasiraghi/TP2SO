@@ -5,6 +5,7 @@
 #include <color.h>
 #include <standardlib.h>
 #include <utilities.h>
+#include <stdint.h>
 
 
 void inforeg();

@@ -112,7 +112,6 @@ SECTION .text
 	saveRegs regdata
 	mov rdi, 0 ; pasaje de parametro
     call irqDispatcher
-	;findRegs regdata
 
 	;si no hay procesos no quiero que haya context switching
 	call getProcesses
@@ -222,9 +221,6 @@ SECTION .text
 	mov rdi, %1 ; pasaje de parametro
 	call exceptionDispatcher
 
-	;VER ESTE COMENTARIO !!!!
-	;creo que aca habria que resetear rip y rsp o algo asi
-	;o hacer que retorne a la shell
 	findRegs regdata
 	_timerHandlerMacro
 	iretq
@@ -263,10 +259,6 @@ picSlaveMask:
 
 
 _timerHandler:
-	; pushState
-    ; mov rdi, 0 ; pasaje de parametro
-    ; call irqDispatcher
-	; popState
 	_timerHandlerMacro
 
 
@@ -336,7 +328,7 @@ _schedulerHandler:
 	iretq
 
 _registersHandler:
-        syscallHandlerMaster 6
+    syscallHandlerMaster 6
 
 _getRTCHandler:
 	syscallHandlerMaster 7

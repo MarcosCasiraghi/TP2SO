@@ -46,10 +46,8 @@ void printMem(char param[20]) {
 	exit();
 }
 void inforeg(){
-    uint64_t reg[17]={0};
-	char* nameReg[17]={"RIP:","RAX:","RBX:","RCX:","RDX:","RSI:",
-					"RDI:","RBP:","RSP:","R8:","R9:","R10:","R11:",
-					"R12:","R13:","R14:","R15:"};
+    uint64_t reg[18]={0};
+	char* nameReg[17]={"RIP:","RAX:","RBX:","RCX:","RDX:","RSI:","RDI:","RBP:","RSP:","R8:","R9:","R10:","R11:","R12:","R13:","R14:","R15:"};
 
 	sys_registers(reg);
     if (reg[17]){
@@ -59,7 +57,7 @@ void inforeg(){
             print("\n",BLACK,BLACK);
         }
     }else{
-		my_printf("press \"f5\" to snapshot\n");
+		my_printf("Presione \"f5\" para snapshot\n");
 	}
 
     exit();

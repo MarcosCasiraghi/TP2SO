@@ -16,14 +16,13 @@ static FunctionType programs[] = {{"fibonacci", &fibonacci},{"help",&help},{"pri
                                   {"inforeg",&inforeg},{"div0", &div0},{"time",&time}, {"printmem", &printMem}, {0,0}};
 
 
-int run(char * buffer){
+void run(char * buffer){
     int added = addFunctions(buffer);
     if (*buffer!=0 && (added == -1 || added == -2)){
         print(buffer,RED,BLACK);
         print(" is not a valid command \n", WHITE, BLACK);
         print("Use 'help' to know the available commands\n", WHITE, BLACK);
     }
-    return 1;
 }
 
 void initShell(){
@@ -36,8 +35,9 @@ void shell(){
 		scanf(readBuffer, BUFFER_LENGTH);
 		run(readBuffer);
         sys_exec();
-        //for(int i = 0 ; i < 50000000 ; i++){}
+        //for(int i = 0 ; i < 0 ; i++){}
         clearBuffer();
+        
     }
 }
 
