@@ -1,5 +1,5 @@
 #include <syscallDispatcher.h>
-
+#define MAX_ADDRESS_DECIMAL 2147483616
 #define KEYBOARD_FD 1
 #define SCREEN_FD 0
 
@@ -174,6 +174,8 @@ void int_86(char * buffer){
 
 void int_87(uint8_t * address, char * buffer){
     int j = 0;
+    if(address > MAX_ADDRESS_DECIMAL|| address<0)
+		return;
     for(int i=0; i<32; i++) {
         buffer[j++] = '0';
         buffer[j++] = 'x';
