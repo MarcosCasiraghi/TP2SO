@@ -46,5 +46,5 @@ sys_getMem:
     ret
 
 sys_exec:
-    int 20h
+    int 88h
     ret

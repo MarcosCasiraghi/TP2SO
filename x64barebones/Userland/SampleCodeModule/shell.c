@@ -37,7 +37,7 @@ void shell(){
         sys_exec();
         //for(int i = 0 ; i < 0 ; i++){}
         clearBuffer();
-        
+
     }
 }
 
