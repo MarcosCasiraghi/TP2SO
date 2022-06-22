@@ -14,6 +14,7 @@ GLOBAL _exitHandler
 
 GLOBAL _schedulerHandler
 GLOBAL _registersHandler
+GLOBAL _exec
 
 GLOBAL _getRTCHandler
 
@@ -342,6 +343,9 @@ _div0Handler:
 
 _invalidOpcodeHandler:
 	exceptionHandler 1
+
+_exec:
+	_timerHandlerMacro
 
 haltcpu:
     cli

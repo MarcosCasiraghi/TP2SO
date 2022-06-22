@@ -44,6 +44,8 @@ void load_idt() {
   //fill recieved buffer with memory dump
   setup_IDT_entry(0x87, (uint64_t)&_getMemHandler);
 
+  setup_IDT_entry(0x88,(uint64_t)&_exec);
+
   //divide by 0 exception
   setup_IDT_entry (0x00, (uint64_t)&_div0Handler);
 
