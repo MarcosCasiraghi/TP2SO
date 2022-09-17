@@ -1,7 +1,6 @@
 #include <primos.h>
 
-void primos(uint8_t fd){
-    fd = 0;
+void primos(){
     int i = 2;
     while(1)
     {

@@ -20,6 +20,10 @@ typedef struct{
 
 static int activePID = 0;
 static FunctionType tasks[MAX_TASKS];
+//TODO: hacer que el array tasks sea variable
+//TODO: Hacer que los procesos tengan prioridad y hacer el next a partir de esto con round robin (carrousel) 
+
+//TODO: funcion ps es recorrer tasks y listar lo que tiene
 static int splitScreenMode=0;
 
 static char stack[MAX_TASKS+1][STACK_SIZE] = {0};
