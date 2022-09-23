@@ -1,8 +1,12 @@
-//
-// Created by Gayba on 9/22/2022.
-//
+#ifndef MEMORY_MANAGER_H
+#define MEMORY_MANAGER_H
 
-#ifndef TP2SO_MEMORYMANAGER_H
-#define TP2SO_MEMORYMANAGER_H
+#include <stdlib.h>
 
-#endif //TP2SO_MEMORYMANAGER_H
+typedef struct MemoryManagerCDT *MemoryManagerADT;
+
+MemoryManagerADT createMemoryManager(void *const restrict memoryForMemoryManager, void *const restrict managedMemory);
+
+void *allocMemory(MemoryManagerADT const restrict memoryManager, const size_t memoryToAllocate);
+
+#endif
