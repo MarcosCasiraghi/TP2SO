@@ -2,7 +2,7 @@
 
 #define STACK_SIZE 1600
 #define REGISTERS 20
-#define MAX_TASKS 16
+#define MAX_TASKS 2
 #define READY 0
 #define FROZEN 1
 #define KILLED 2
