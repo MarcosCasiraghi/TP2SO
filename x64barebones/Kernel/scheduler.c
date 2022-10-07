@@ -18,42 +18,65 @@ typedef struct{
     uint64_t param;
 }FunctionType;
 
+typedef struct FuntionTypeNode{
+    FunctionType head;
+    struct FunctionTypeNode * next;
+}FunctionTypeNode;
+
+typedef struct RegNode{
+    uint64_t current[REGISTERS];
+    struct RegNode * next;
+}RegNode;
+
+typedef struct StackNode{
+    char current[STACK_SIZE];
+    struct StackNode * next;
+}StackNode;
+
 static int activePID = 0;
-static FunctionType tasks[MAX_TASKS];
+//static FunctionType tasks[MAX_TASKS];
+static FunctionTypeNode * first = NULL;
 //TODO: hacer que el array tasks sea variable
 //TODO: Hacer que los procesos tengan prioridad y hacer el next a partir de esto con round robin (carrousel) 
 
 //TODO: funcion ps es recorrer tasks y listar lo que tiene
 static int splitScreenMode=0;
 
-static char stack[MAX_TASKS+1][STACK_SIZE] = {0};
-static uint64_t reg[MAX_TASKS+1][REGISTERS] ={0};
+//static char stack[MAX_TASKS+1][STACK_SIZE] = {0};
+//static uint64_t reg[MAX_TASKS+1][REGISTERS] ={0};
+static RegNode * rfirst = NULL;
+static StackNode * sfirst = NULL;
 static int processes=0;
 
-void add_task(char *name, void * task,uint64_t parametro, uint64_t flags){
-    int i =0;
-    while(i<MAX_TASKS+1){
-        if(tasks[i].present!=1){
-            tasks[i].func=task;
-            tasks[i].name=name;
-            tasks[i].present = 1;
-            tasks[i].status = READY;
-            tasks[i].pID = 0;
-            reg[i][0]= tasks[i].func;
-            reg[i][6]= parametro;
-            reg[i][8]= (stack[i]+799);
-            reg[i][17]=flags;
-            tasks[i].param=parametro;
-            processes++;
-            if (i==2){
-                splitScreenMode=1;
-                ncClear();
-            }
+//TODO agregar PID como parametro
+//TODO esta memoria de cada proceso del scheduler, se deberia manejar con memory manager? preguntar a Martin
+void add_task(char *name, void * task,uint64_t parametro, uint64_t flags, pid_t pid){
+    FunctionTypeNode * current = first;
+    RegNode * rcurrent = rfirst;
+    StackNode * scurrent = sfirst;
 
-            return;
-        }
-        i++;
+    while(current != NULL){
+        current = current->next;
+        rcurrent = rcurrent->next;
+        scurrent = scurrent->next;
     }
+    current = malloc(sizeof(FunctionTypeNode));
+    current->next=NULL;
+    current->head.func=task;
+    current->head.name=name;
+    current->head.param=parametro;
+    current->head.status = READY;
+    current->head.pID = 0;
+
+    scurrent = malloc(sizeof(StackNode));
+
+    rcurrent = malloc(sizeof(RegNode));
+    rcurrent->current[0] = first->head.func;
+    rcurrent->current[6] = parametro;
+    rcurrent->current[8] = sfirst->current+799;
+    rcurrent->current[17]=flags;
+
+    processes++;
 
 }
 
