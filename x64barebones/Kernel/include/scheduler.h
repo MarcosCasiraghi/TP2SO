@@ -2,11 +2,9 @@
 #define SCHEDULER_H
 
 #include <stdint.h>
-#include <stdlib.h>
 #include <naiveConsole.h>
-#include <sys/types.h>
 
-void add_task(char *name, void * task, uint64_t parametro, uint64_t flags, pid_t pid);
+void add_task(char *name, void * task, uint64_t parametro, uint64_t flags);
 int tasksRunning(void);
 
 //recive por parametro flag para saber que caso tiene que ejecutarse

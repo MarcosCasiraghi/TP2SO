@@ -33,8 +33,8 @@ void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, u
 	}
 }
 
-void schedulerDispatcher(char * name, void * func, uint64_t parametro,uint64_t flags, pid_t pid){
-    add_task(name, func, parametro, flags, pid);
+void schedulerDispatcher(char * name, void * func, uint64_t parametro,uint64_t flags){
+    add_task(name, func, parametro, flags);
 }
 
 //a lo mejor en el futuro haya que agregar cases o mas parametros para el split screen
