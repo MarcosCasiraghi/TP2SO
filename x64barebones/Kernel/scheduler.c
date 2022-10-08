@@ -31,29 +31,28 @@ static uint64_t reg[MAX_TASKS+1][REGISTERS] ={0};
 static int processes=0;
 
 void add_task(char *name, void * task,uint64_t parametro, uint64_t flags){
-    int i =0;
-    while(i<MAX_TASKS+1){
-        if(tasks[i].present!=1){
-            tasks[i].func=task;
-            tasks[i].name=name;
-            tasks[i].present = 1;
-            tasks[i].status = READY;
-            tasks[i].pID = 0;
-            reg[i][0]= tasks[i].func;
-            reg[i][6]= parametro;
-            reg[i][8]= (stack[i]+799);
-            reg[i][17]=flags;
-            tasks[i].param=parametro;
-            processes++;
-            if (i==2){
-                splitScreenMode=1;
-                ncClear();
-            }
+    int i =processes;
 
-            return;
+    if(tasks[i].present!=1){
+        tasks[i].func=task;
+        tasks[i].name=name;
+        tasks[i].present = 1;
+        tasks[i].status = READY;
+        tasks[i].pID = 0;
+        reg[i][0]= tasks[i].func;
+        reg[i][6]= parametro;
+        reg[i][8]= (stack[i]+799);
+        reg[i][17]=flags;
+        tasks[i].param=parametro;
+        processes++;
+        if (i==2){
+            splitScreenMode=1;
+            ncClear();
         }
-        i++;
+
+        return;
     }
+
 
 }
 
@@ -113,7 +112,7 @@ int getActivePId(){
 }
 
 int getSplitScreen(){
-    return splitScreenMode;
+return splitScreenMode;
 }
 
 void schedulerExit(int amountOfFuncs){
