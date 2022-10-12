@@ -6,6 +6,8 @@
 #define READY 0
 #define FROZEN 1
 #define KILLED 2
+#define BUFFERSIZE 100
+#define AUXBUFFERSIZE 10
 
 typedef void (*functionPointer)(void);
 
@@ -16,42 +18,64 @@ typedef struct{
     int status;
     int pID;
     uint64_t param;
+    int priority;
 }FunctionType;
 
 static int activePID = 0;
 static FunctionType tasks[MAX_TASKS];
-//TODO: hacer que el array tasks sea variable
-//TODO: Hacer que los procesos tengan prioridad y hacer el next a partir de esto con round robin (carrousel) 
+//TODO: Hacer que los procesos tengan prioridad y hacer el next a partir de esto con round robin (carrousel)
 
-//TODO: funcion ps es recorrer tasks y listar lo que tiene
 static int splitScreenMode=0;
 
 static char stack[MAX_TASKS+1][STACK_SIZE] = {0};
 static uint64_t reg[MAX_TASKS+1][REGISTERS] ={0};
 static int processes=0;
 
-void add_task(char *name, void * task,uint64_t parametro, uint64_t flags){
-    int i =processes;
+char* ps(){
+    char result[BUFFERSIZE] = {'\0'};
+//    int j = 0;
+//    for (int i = 0; i < tasksRunning(); i++){
+//        if (tasks[i].present == 1){
+//            strcpy(result+j,  tasks[i].name);
+//            j+= strlen(tasks[i].name);
+//            char buffer[AUXBUFFERSIZE]  = {0};
+//            itoa(tasks[i].pID, buffer, 10);
+//            strcpy(result+j, buffer);
+//            j+= strlen(buffer);
+//            itoa(tasks[i].priority, buffer, 10);
+//            strcpy(result+j, buffer);
+//            j+= strlen(buffer);
+//            //TODO
+//        }
+//    }
+    return result;
+}
 
-    if(tasks[i].present!=1){
-        tasks[i].func=task;
-        tasks[i].name=name;
-        tasks[i].present = 1;
-        tasks[i].status = READY;
-        tasks[i].pID = 0;
-        reg[i][0]= tasks[i].func;
-        reg[i][6]= parametro;
-        reg[i][8]= (stack[i]+799);
-        reg[i][17]=flags;
-        tasks[i].param=parametro;
-        processes++;
-        if (i==2){
-            splitScreenMode=1;
-            ncClear();
+void add_task(char *name, void * task,int priority,uint64_t parametro, uint64_t flags){
+
+    for (int i = 0; i < MAX_TASKS; ++i) {
+        if(tasks[i].present!=1){
+            tasks[i].func=task;
+            tasks[i].name=name;
+            tasks[i].present = 1;
+            tasks[i].status = READY;
+            tasks[i].pID = 0;
+            reg[i][0]= tasks[i].func;
+            reg[i][6]= parametro;
+            reg[i][8]= (stack[i]+799);
+            reg[i][17]=flags;
+            tasks[i].param=parametro;
+            tasks[i].priority = priority;
+            processes++;
+            if (i==2){
+                splitScreenMode=1;
+                ncClear();
+            }
+            return;
         }
-
-        return;
     }
+
+
 
 
 }
@@ -66,44 +90,42 @@ int getParameter(){
 }
 
 void next(){
-    if(tasks[1].present==1 && tasks[1].status == KILLED && tasks[2].present==1 && tasks[2].status == KILLED){
-        //Vuelve a shell y "elimina" funciones
+
+    if (tasksReady() == 0){
         setCurrentVideo();
-        splitScreenMode=0;
         activePID = 0;
-        tasks[1].present = 0;
-        tasks[2].present = 0;
+        for (int i = 0; i < MAX_TASKS; ++i) {
+            tasks[i].present = 0;
+        }
         return;
     }
 
-    if (tasks[1].present==1 && tasks[1].status == READY){
-        if(tasks[2].present==1 && tasks[2].status == READY) //Si los 2 estan listos, cambia entre los 2
-            activePID= (activePID%2) + 1;
-        else
-            activePID=1;
-        return;
-    }
-    if (tasks[2].present==1 && tasks[2].status == READY && tasks[1].present==1 && tasks[1].status == KILLED ){
-        activePID = 2;
+
+    if (tasks[activePID].status == KILLED){
+        int maxPrioIndex = -1;
+        int maxPrio = -1;
+        for (int i = 0; i < MAX_TASKS; ++i) {
+            if (maxPrioIndex == -1 || tasks[i].priority > maxPrio){
+                maxPrio = tasks[i].priority;
+                maxPrioIndex = i;
+            }
+        }
+        activePID = maxPrioIndex;
         return;
     }
 
-    if (!tasks[2].present && tasks[1].present && tasks[1].status==KILLED)
-    {
-        tasks[1].present=0;
-        activePID = 0;
-        return;
-    }
-    if(tasks[1].present && tasks[1].status == FROZEN && tasks[2].present && tasks[2].status == READY){
-        activePID = 2;
-        return;
-    }
-    if(tasks[2].present && tasks[2].status == FROZEN && tasks[1].present && tasks[1].status == READY){
-        activePID = 1;
-        return;
+
+    for (int i = 0; i < MAX_TASKS; ++i) {
+        if (tasks[i].present == 1 && tasks[i].status == READY && tasks[i].priority >= tasks[activePID].priority) {
+            if (i != activePID) {
+            activePID = i;
+            return;    //TODO no elige bien FCFS
+            }
+        }
+
     }
 
-    activePID=0;
+
 }
 
 
@@ -118,25 +140,24 @@ return splitScreenMode;
 void schedulerExit(int amountOfFuncs){
     if( activePID == 0)
         return;
-    if( amountOfFuncs == 1){
-        tasks[activePID].status = KILLED;
+
+
+    for (int i = 0; i < MAX_TASKS; ++i) {
+        tasks[i].present = 0;
     }
-    else if( amountOfFuncs == 2){
-        tasks[1].present=0;
-        tasks[2].present=0;
-        splitScreenMode=0;
-        ncClear();
-    }
-    else if( amountOfFuncs == 3){   //KILL left side
-        if((tasks[1].present && tasks[2].present && tasks[2].status == READY) || tasks[2].status == KILLED){
-            tasks[1].status = KILLED;
-        }
-    }
-    else{   //KILL right side
-        if((tasks[2].present && tasks[1].present && tasks[1].status == READY) || tasks[1].status == KILLED){
-            tasks[2].status = KILLED;
-        }
-    }
+    activePID = 0;
+
+//
+//    else if( amountOfFuncs == 3){   //KILL left side
+//        if((tasks[1].present && tasks[2].present && tasks[2].status == READY) || tasks[2].status == KILLED){
+//            tasks[1].status = KILLED;
+//        }
+//    }
+//    else{   //KILL right side
+//        if((tasks[2].present && tasks[1].present && tasks[1].status == READY) || tasks[1].status == KILLED){
+//            tasks[2].status = KILLED;
+//        }
+//    }
 }
 
 //1 si se quiere freezear programa left
@@ -171,12 +192,21 @@ uint64_t * registerManager(uint64_t * registers, uint8_t load){
 }
 
 int tasksRunning(){
-    if ((tasks[1].present==1 && tasks[2].present==1) || splitScreenMode){
-        return 2;
+    int runningCounter = 0;
+    for (int i = 0; i < MAX_TASKS; ++i) {
+        if (tasks[i].present == 1)
+            runningCounter++;
     }
-    else if (tasks[1].present==1)
-        return 1;
-    return 0;
+    return runningCounter;
+}
+
+int tasksReady(){
+    int readyCounter = 0;
+    for (int i = 0; i < MAX_TASKS; ++i) {
+        if (tasks[i].status == READY)
+            readyCounter++;
+    }
+    return readyCounter;
 }
 
 int shellRunning(){

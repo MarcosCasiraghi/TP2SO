@@ -3,6 +3,6 @@
 #include <stdint.h>
 #include <utilities.h>
 
-void primos(uint8_t fd);
+void primos();
 
 #endif
