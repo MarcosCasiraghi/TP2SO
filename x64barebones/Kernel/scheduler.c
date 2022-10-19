@@ -7,7 +7,9 @@
 #define FROZEN 1
 #define KILLED 2
 #define BUFFERSIZE 100
-#define AUXBUFFERSIZE 10
+#define HIGHEST 0
+#define MEDIUM 1
+#define LOWEST 2
 
 typedef void (*functionPointer)(void);
 
