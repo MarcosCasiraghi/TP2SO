@@ -26,7 +26,7 @@ void run(char * buffer){
 }
 
 void initShell(){
-    sys_scheduler("shell", &shell,1,(uint64_t)"shell");
+    sys_scheduler("shell", &shell,0,(uint64_t)"shell");
 }
 
 void shell(){

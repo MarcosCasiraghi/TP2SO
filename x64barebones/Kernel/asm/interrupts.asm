@@ -328,7 +328,7 @@ _exitHandler:
 _schedulerHandler:
     pushState
 
-	mov rcx, [rsp+17*8]
+	mov r8, [rsp+17*8]
 	call schedulerDispatcher
 
 	popState
