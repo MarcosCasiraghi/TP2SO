@@ -34,23 +34,23 @@ static uint64_t reg[MAX_TASKS+1][REGISTERS] ={0};
 static int processes=0;
 
 char* ps(){
-    char result[BUFFERSIZE] = {'\0'};
-   int j = 0;
-   for (int i = 0; i < tasksRunning(); i++){
-       if (tasks[i].present == 1){
-           strcpy(result+j,  tasks[i].name);
-           j+= strlen(tasks[i].name);
-           char buffer[BUFFERSIZE]  = {0};
-           itoa(tasks[i].pID, buffer, 10);
-           strcpy(result+j, buffer);
-           j+= strlen(buffer);
-           itoa(tasks[i].priority, buffer, 10);
-           strcpy(result+j, buffer);
-           j+= strlen(buffer);
-
-       }
-   }
-    return result;
+//    char result[BUFFERSIZE] = {'\0'};
+//   int j = 0;
+//   for (int i = 0; i < tasksRunning(); i++){
+//       if (tasks[i].present == 1){
+//           strcpy(result+j,  tasks[i].name);
+//           j+= strlen(tasks[i].name);
+//           char buffer[BUFFERSIZE]  = {0};
+//           itoa(tasks[i].pID, buffer, 10);
+//           strcpy(result+j, buffer);
+//           j+= strlen(buffer);
+//           itoa(tasks[i].priority, buffer, 10);
+//           strcpy(result+j, buffer);
+//           j+= strlen(buffer);
+//
+//       }
+//   }
+//    return result;
 }
 
 void add_task(char *name, void * task,int priority,uint64_t parametro, uint64_t flags){
@@ -69,10 +69,6 @@ void add_task(char *name, void * task,int priority,uint64_t parametro, uint64_t 
             tasks[i].param=parametro;
             tasks[i].priority = priority;
             processes++;
-            if (i==2){
-                splitScreenMode=1;
-                ncClear();
-            }
             return;
         }
     }
@@ -92,47 +88,47 @@ int getParameter(){
 }
 
 void next(){
-
-    if (tasksReady() == 0){
-        setCurrentVideo();
-        activePID = 0;
-        for (int i = 0; i < MAX_TASKS; ++i) {
-            tasks[i].present = 0;
-        }
-        return;
-    }
-
-
-    if (tasks[activePID].status == KILLED){
-        tasks[activePID].present =0;
-        int maxPrioIndex = -1;
-        int maxPrio = -1;
-        for (int i = 0; i < MAX_TASKS; ++i) {
-            if (maxPrioIndex == -1 || tasks[i].priority > maxPrio){
-                maxPrio = tasks[i].priority;
-                maxPrioIndex = i;
-            }
-        }
-        activePID = maxPrioIndex;
-        return;
-    }
-
-
-    for (int i = activePID +1 ; i < activePID+MAX_TASKS; i++) {
-        int j;
-        if(i>=MAX_TASKS){
-            j=i%MAX_TASKS;
-        }
-        if (tasks[j].present == 1 && tasks[j].status == READY && tasks[j].priority <= tasks[activePID].priority) {
-            if (j != activePID) {
-            activePID = j;
-            return;
-            }
-        }
-
-    }
-
-
+//
+//    if (tasksReady() == 0){
+//        setCurrentVideo();
+//        activePID = 0;
+//        for (int i = 1; i < MAX_TASKS; ++i) {
+//            tasks[i].present = 0;
+//        }
+//        return;
+//    }
+//
+//
+//    if (tasks[activePID].status == KILLED){
+//        tasks[activePID].present =0;
+//        int maxPrioIndex = -1;
+//        int maxPrio = -1;
+//        for (int i = 1; i < MAX_TASKS; ++i) {
+//            if (maxPrioIndex == -1 || tasks[i].priority > maxPrio){
+//                maxPrio = tasks[i].priority;
+//                maxPrioIndex = i;
+//            }
+//        }
+//        activePID = maxPrioIndex;
+//        return;
+//    }
+//
+//
+//    for (int i = activePID +1 ; i < activePID+MAX_TASKS; i++) {
+//        int j;
+//        if(i>=MAX_TASKS){
+//            j=i%MAX_TASKS;
+//        }
+//        if (tasks[j].present == 1 && tasks[j].status == READY && tasks[j].priority <= tasks[activePID].priority) {
+//            if (j != activePID) {
+//            activePID = j;
+//            return;
+//            }
+//        }
+//
+//    }
+    activePID = 0;
+    return;
 }
 
 
