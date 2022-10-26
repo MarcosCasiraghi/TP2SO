@@ -35,21 +35,21 @@ static int processes=0;
 
 char* ps(){
     char result[BUFFERSIZE] = {'\0'};
-//    int j = 0;
-//    for (int i = 0; i < tasksRunning(); i++){
-//        if (tasks[i].present == 1){
-//            strcpy(result+j,  tasks[i].name);
-//            j+= strlen(tasks[i].name);
-//            char buffer[AUXBUFFERSIZE]  = {0};
-//            itoa(tasks[i].pID, buffer, 10);
-//            strcpy(result+j, buffer);
-//            j+= strlen(buffer);
-//            itoa(tasks[i].priority, buffer, 10);
-//            strcpy(result+j, buffer);
-//            j+= strlen(buffer);
-//            //TODO
-//        }
-//    }
+   int j = 0;
+   for (int i = 0; i < tasksRunning(); i++){
+       if (tasks[i].present == 1){
+           strcpy(result+j,  tasks[i].name);
+           j+= strlen(tasks[i].name);
+           char buffer[BUFFERSIZE]  = {0};
+           itoa(tasks[i].pID, buffer, 10);
+           strcpy(result+j, buffer);
+           j+= strlen(buffer);
+           itoa(tasks[i].priority, buffer, 10);
+           strcpy(result+j, buffer);
+           j+= strlen(buffer);
+
+       }
+   }
     return result;
 }
 
@@ -104,6 +104,7 @@ void next(){
 
 
     if (tasks[activePID].status == KILLED){
+        tasks[activePID].present =0;
         int maxPrioIndex = -1;
         int maxPrio = -1;
         for (int i = 0; i < MAX_TASKS; ++i) {
@@ -117,11 +118,15 @@ void next(){
     }
 
 
-    for (int i = 0; i < MAX_TASKS; ++i) {
-        if (tasks[i].present == 1 && tasks[i].status == READY && tasks[i].priority >= tasks[activePID].priority) {
-            if (i != activePID) {
-            activePID = i;
-            return;    //TODO no elige bien FCFS
+    for (int i = activePID +1 ; i < activePID+MAX_TASKS; i++) {
+        int j;
+        if(i>=MAX_TASKS){
+            j=i%MAX_TASKS;
+        }
+        if (tasks[j].present == 1 && tasks[j].status == READY && tasks[j].priority <= tasks[activePID].priority) {
+            if (j != activePID) {
+            activePID = j;
+            return;
             }
         }
 
