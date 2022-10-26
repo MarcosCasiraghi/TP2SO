@@ -88,47 +88,46 @@ int getParameter(){
 }
 
 void next(){
-//
-//    if (tasksReady() == 0){
-//        setCurrentVideo();
-//        activePID = 0;
-//        for (int i = 1; i < MAX_TASKS; ++i) {
-//            tasks[i].present = 0;
-//        }
-//        return;
-//    }
-//
-//
-//    if (tasks[activePID].status == KILLED){
-//        tasks[activePID].present =0;
-//        int maxPrioIndex = -1;
-//        int maxPrio = -1;
-//        for (int i = 1; i < MAX_TASKS; ++i) {
-//            if (maxPrioIndex == -1 || tasks[i].priority > maxPrio){
-//                maxPrio = tasks[i].priority;
-//                maxPrioIndex = i;
-//            }
-//        }
-//        activePID = maxPrioIndex;
-//        return;
-//    }
-//
-//
-//    for (int i = activePID +1 ; i < activePID+MAX_TASKS; i++) {
-//        int j;
-//        if(i>=MAX_TASKS){
-//            j=i%MAX_TASKS;
-//        }
-//        if (tasks[j].present == 1 && tasks[j].status == READY && tasks[j].priority <= tasks[activePID].priority) {
-//            if (j != activePID) {
-//            activePID = j;
-//            return;
-//            }
-//        }
-//
-//    }
-    activePID = 0;
-    return;
+
+    if (tasksReady() == 0){
+        setCurrentVideo();
+        activePID = 0;
+        for (int i = 1; i < MAX_TASKS; ++i) {
+            tasks[i].present = 0;
+        }
+        return;
+    }
+
+
+    if (tasks[activePID].status == KILLED){
+        tasks[activePID].present =0;
+        int maxPrioIndex = -1;
+        int maxPrio = -1;
+        for (int i = 1; i < MAX_TASKS; ++i) {
+            if (maxPrioIndex == -1 || tasks[i].priority > maxPrio){
+                maxPrio = tasks[i].priority;
+                maxPrioIndex = i;
+            }
+        }
+        activePID = maxPrioIndex;
+        return;
+    }
+
+
+
+    for (int i = activePID +1 ; i < activePID+MAX_TASKS; i++) {
+        int j = i;
+        if(i>=MAX_TASKS){
+            j=i%MAX_TASKS;
+        }
+        if (tasks[j].present == 1 && tasks[j].status == READY && tasks[j].priority <= tasks[activePID].priority) {
+            if (j != activePID) {
+            activePID = j;
+            return;
+            }
+        }
+
+    }
 }
 
 

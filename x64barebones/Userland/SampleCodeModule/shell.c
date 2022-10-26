@@ -26,7 +26,7 @@ void run(char * buffer){
 }
 
 void initShell(){
-    sys_scheduler("shell", &shell,0,(uint64_t)"shell");
+    sys_scheduler("shell", &shell,2,(uint64_t)"shell");
 }
 
 void shell(){
@@ -77,8 +77,8 @@ int addFunctions(char * buffer){
         int func1Index = getFuncIndex(func1);
         int func2Index = getFuncIndex(func2);
         if( func1Index != -1 && func2Index != -1){
-            sys_scheduler(programs[func1Index].name, programs[func1Index].func,2, (uint64_t) param1); //TODO
-            sys_scheduler(programs[func2Index].name, programs[func2Index].func,2, (uint64_t) param2);
+            sys_scheduler(programs[func1Index].name, programs[func1Index].func,0, (uint64_t) param1); //TODO
+            sys_scheduler(programs[func2Index].name, programs[func2Index].func,0, (uint64_t) param2);
             return 2;
         }
         if(func1Index == -1)
@@ -89,7 +89,7 @@ int addFunctions(char * buffer){
         checkPrintMem(func1,param1);
         int funcIndex = getFuncIndex(func1);  //TODO
         if(funcIndex != -1){
-            sys_scheduler(programs[funcIndex].name, programs[funcIndex].func,2, (uint64_t) param1); //TODO
+            sys_scheduler(programs[funcIndex].name, programs[funcIndex].func,0, (uint64_t) param1); //TODO
             return 1;
         }
         return -1;
