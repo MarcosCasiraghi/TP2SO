@@ -7,14 +7,14 @@ static char readBuffer[BUFFER_LENGTH]={0};
 typedef struct{
     char * name;
     functionPointer func;
+    int ground;
+    int priority;
 }FunctionType;
 
 static char param1[20]= {0};
-static char param2[20] = {0};
 
-static FunctionType programs[] = {{"fibonacci", &fibonacci},{"help",&help},{"primos", &primos}, {"invalidopcode",&invalidOpCode},
-                                  {"inforeg",&inforeg},{"div0", &div0},{"time",&time}, {"printmem", &printMem}, {0,0}};
-                                    //TODO definir las prioridades aca
+static FunctionType programs[] = {{"fibonacci", &fibonacci, FOREGROUND, MEDIUM},{"help",&help, FOREGROUND, MEDIUM},{"primos", &primos, FOREGROUND, MEDIUM}, {"invalidopcode",&invalidOpCode, FOREGROUND, HIGHEST},
+                                  {"inforeg",&inforeg, FOREGROUND, MEDIUM},{"div0", &div0, FOREGROUND, HIGHEST},{"time",&time, FOREGROUND, MEDIUM}, {"printmem", &printMem, FOREGROUND, MEDIUM}, {0,0,0,0}};
 
 void run(char * buffer){
     int added = addFunctions(buffer);
@@ -26,7 +26,7 @@ void run(char * buffer){
 }
 
 void initShell(){
-    sys_scheduler("shell", &shell,2,(uint64_t)"shell");
+    sys_scheduler("shell", &shell,FOREGROUND,LOWEST,(uint64_t)"shell");
 }
 
 void shell(){
@@ -56,44 +56,19 @@ int addFunctions(char * buffer){
     int i2 = 0;
     int i3 = 0;
 
-    while(buffer[i3] && buffer[i3]!='|'){  //fibonacci | primos
+    while (buffer[i3]){
         func1[i1++] = buffer[i3];
         i3++;
     }
-    if(buffer[i3] == '|'){
-        func1[--i1] = '\0';
-        i3++;
-        if(buffer[i3] && buffer[i3] == ' '){
-            i3++;
-            while(buffer[i3] ){
-                func2[i2++] = buffer[i3];
-                i3++;
-            }
-        }
-        func2[i2] = '\0';
-        //No hace falta agregarle 0 al final, buffer se lo agrega
-        checkPrintMem(func1,param1);
-        checkPrintMem(func2, param2);
-        int func1Index = getFuncIndex(func1);
-        int func2Index = getFuncIndex(func2);
-        if( func1Index != -1 && func2Index != -1){
-            sys_scheduler(programs[func1Index].name, programs[func1Index].func,0, (uint64_t) param1); //TODO
-            sys_scheduler(programs[func2Index].name, programs[func2Index].func,0, (uint64_t) param2);
-            return 2;
-        }
-        if(func1Index == -1)
-            return -1;
-        //func2Index == -1
-        return -2;
-    }else{  //solamente se paso una funcion
+
         checkPrintMem(func1,param1);
         int funcIndex = getFuncIndex(func1);  //TODO
         if(funcIndex != -1){
-            sys_scheduler(programs[funcIndex].name, programs[funcIndex].func,0, (uint64_t) param1); //TODO
+            sys_scheduler(programs[funcIndex].name, programs[funcIndex].func,programs[funcIndex].ground,programs[funcIndex].priority, (uint64_t) param1); //TODO
             return 1;
         }
         return -1;
-    }
+
 
 }
 

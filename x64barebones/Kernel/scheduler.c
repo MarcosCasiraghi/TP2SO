@@ -21,11 +21,11 @@ typedef struct{
     int pID;
     uint64_t param;
     int priority;
+    int ground;
 }FunctionType;
 
 static int activePID = 0;
 static FunctionType tasks[MAX_TASKS];
-//TODO: Hacer que los procesos tengan prioridad y hacer el next a partir de esto con round robin (carrousel)
 
 static int splitScreenMode=0;
 
@@ -33,27 +33,27 @@ static char stack[MAX_TASKS+1][STACK_SIZE] = {0};
 static uint64_t reg[MAX_TASKS+1][REGISTERS] ={0};
 static int processes=0;
 
-char* ps(){
+//char* ps(){
 //    char result[BUFFERSIZE] = {'\0'};
-//   int j = 0;
-//   for (int i = 0; i < tasksRunning(); i++){
-//       if (tasks[i].present == 1){
-//           strcpy(result+j,  tasks[i].name);
-//           j+= strlen(tasks[i].name);
-//           char buffer[BUFFERSIZE]  = {0};
-//           itoa(tasks[i].pID, buffer, 10);
-//           strcpy(result+j, buffer);
-//           j+= strlen(buffer);
-//           itoa(tasks[i].priority, buffer, 10);
-//           strcpy(result+j, buffer);
-//           j+= strlen(buffer);
-//
-//       }
-//   }
-//    return result;
-}
+////   int j = 0;
+////   for (int i = 0; i < tasksRunning(); i++){
+////       if (tasks[i].present == 1){
+////           strcpy(result+j,  tasks[i].name);
+////           j+= strlen(tasks[i].name);
+////           char buffer[BUFFERSIZE]  = {0};
+////           itoa(tasks[i].pID, buffer, 10);
+////           strcpy(result+j, buffer);
+////           j+= strlen(buffer);
+////           itoa(tasks[i].priority, buffer, 10);
+////           strcpy(result+j, buffer);
+////           j+= strlen(buffer);
+////
+////       }
+////   }
+//   return result;
+//}
 
-void add_task(char *name, void * task,int priority,uint64_t parametro, uint64_t flags){
+void add_task(char *name, void * task,int ground,int priority,uint64_t parametro, uint64_t flags){
 
     for (int i = 0; i < MAX_TASKS; ++i) {
         if(tasks[i].present!=1){
@@ -68,14 +68,11 @@ void add_task(char *name, void * task,int priority,uint64_t parametro, uint64_t 
             reg[i][17]=flags;
             tasks[i].param=parametro;
             tasks[i].priority = priority;
+            tasks[i].ground = ground;
             processes++;
             return;
         }
     }
-
-
-
-
 }
 
 

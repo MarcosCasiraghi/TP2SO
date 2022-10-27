@@ -7,7 +7,7 @@
 #include <strings.h>
 #include <stdlib.h>
 
-void add_task(char *name, void * task, int priority,uint64_t parametro, uint64_t flags);
+void add_task(char *name, void * task,int ground,int priority,uint64_t parametro, uint64_t flags);
 int tasksRunning(void);
 
 //recive por parametro flag para saber que caso tiene que ejecutarse

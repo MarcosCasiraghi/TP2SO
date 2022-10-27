@@ -2,6 +2,11 @@
 #define SHELL_H
 
 #define BUFFER_LENGTH 50
+#define FOREGROUND 0
+#define BACKGROUND 1
+#define HIGHEST 0
+#define MEDIUM 1
+#define LOWEST 2
 
 #include <fibonacci.h>
 #include <utilities.h>
