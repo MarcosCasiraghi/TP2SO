@@ -1,12 +1,18 @@
-#ifndef MEMORY_MANAGER_H
-#define MEMORY_MANAGER_H
+#ifndef MEMORYMANAGER_H
+#define MEMORYMANAGER_H
 
+#include <stddef.h>
+#include <stdint.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <naiveConsole.h>
 
-typedef struct MemoryManagerCDT *MemoryManagerADT;
+void initializeMemoryManager( void * startAddress, size_t size);
 
-MemoryManagerADT createMemoryManager(void *const restrict memoryForMemoryManager, void *const restrict managedMemory);
+void * allocMemory( const uint64_t nbytes);
 
-void *allocMemory(MemoryManagerADT const restrict memoryManager, const size_t memoryToAllocate);
+void freeMemory( void * block);
+
+void memoryDump(char * buffer);
 
 #endif
