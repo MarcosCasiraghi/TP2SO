@@ -116,9 +116,9 @@ SECTION .text
     call irqDispatcher
 
     ;si no es multiplo de 4, queda quantum por correr
-    call quantum_check
-    cmp rax, 0
-    jz .fin
+    ; call quantum_check
+    ; cmp rax, 0
+    ; jz .fin
 
 	;si no hay procesos no quiero que haya context switching
 	call getProcesses

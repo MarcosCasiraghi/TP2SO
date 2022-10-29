@@ -85,23 +85,20 @@ int getParameter(){
 }
 
 void next(){
-
-    if (tasksReady() == 0){
-        setCurrentVideo();
-        activePID = 0;
-        for (int i = 1; i < MAX_TASKS; ++i) {
-            tasks[i].present = 0;
-        }
+    if(processes==0){
         return;
     }
 
+    
+
 
     if (tasks[activePID].status == KILLED){
+        ncPrintDec(8008135);
         tasks[activePID].present =0;
         int maxPrioIndex = -1;
         int maxPrio = -1;
         for (int i = 1; i < MAX_TASKS; ++i) {
-            if (maxPrioIndex == -1 || tasks[i].priority > maxPrio){
+            if (tasks[i].present==1 && tasks[i].status==READY && (maxPrioIndex == -1 || tasks[i].priority > maxPrio)){
                 maxPrio = tasks[i].priority;
                 maxPrioIndex = i;
             }
@@ -109,7 +106,9 @@ void next(){
         activePID = maxPrioIndex;
         return;
     }
+    
 
+      
 
 
     for (int i = activePID +1 ; i < activePID+MAX_TASKS; i++) {
@@ -137,14 +136,22 @@ return splitScreenMode;
 }
 
 void schedulerExit(int amountOfFuncs){
-    if( activePID == 0)
+    if( activePID == 0){
+        ncPrintDec(10);
         return;
-
-
-    for (int i = 0; i < MAX_TASKS; ++i) {
-        tasks[i].present = 0;
     }
-    activePID = 0;
+    
+
+    for (int i = 1; i < MAX_TASKS; ++i) {
+        
+        if(tasks[i].present==1){
+            ncPrintDec(i);
+            tasks[i].status = KILLED;
+        }
+    }
+
+    processes--;
+    setCurrentVideo();
 
 //
 //    else if( amountOfFuncs == 3){   //KILL left side
@@ -201,8 +208,8 @@ int tasksRunning(){
 
 int tasksReady(){
     int readyCounter = 0;
-    for (int i = 0; i < MAX_TASKS; ++i) {
-        if (tasks[i].status == READY)
+    for (int i = 1; i < MAX_TASKS; ++i) {
+        if (tasks[i].present == 1 && tasks[i].status == READY)
             readyCounter++;
     }
     return readyCounter;
