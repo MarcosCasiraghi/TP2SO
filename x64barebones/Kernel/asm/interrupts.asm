@@ -22,6 +22,10 @@ GLOBAL _getMemHandler
 GLOBAL _div0Handler
 GLOBAL _invalidOpcodeHandler
 
+GLOBAL _mallocHandler
+GLOBAL _freeHandler
+GLOBAL _mmStatusHandler
+
 EXTERN irqDispatcher
 EXTERN syscallDispatcher
 EXTERN schedulerDispatcher
@@ -360,6 +364,15 @@ _invalidOpcodeHandler:
 
 _exec:
 	_timerHandlerMacro
+
+_mallocHandler:
+	syscallHandlerMaster 9
+
+_freeHandler:
+	syscallHandlerMaster 10
+
+_mmStatusHandler:
+	syscallHandlerMaster 11
 
 haltcpu:
     cli

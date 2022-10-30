@@ -46,6 +46,12 @@ void load_idt() {
 
   setup_IDT_entry(0x88,(uint64_t)&_exec);
 
+  setup_IDT_entry(0x89, (uint64_t)&_mallocHandler);
+
+  setup_IDT_entry(0x90, (uint64_t)&_freeHandler);
+
+  setup_IDT_entry(0x91, (uint64_t)&_mmStatusHandler);
+
   //divide by 0 exception
   setup_IDT_entry (0x00, (uint64_t)&_div0Handler);
 

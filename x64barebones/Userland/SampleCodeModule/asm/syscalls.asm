@@ -9,6 +9,9 @@ GLOBAL sys_registers
 GLOBAL sys_scheduler
 GLOBAL sys_time
 GLOBAL sys_getMem
+GLOBAL sys_malloc
+GLOBAL sys_free
+GLOBAL sys_memStatus
 
 ;----------------------------------------
 ; rdi=string, rsi=fontColor, rdx=backColor
@@ -48,3 +51,16 @@ sys_getMem:
 sys_exec:
     int 88h
     ret
+
+sys_malloc:
+    int 89h
+    ret
+
+sys_free:
+    int 90h
+    ret
+
+sys_memStatus:
+    int 91h
+    ret
+    

@@ -9,6 +9,7 @@
 #include <time.h>
 #include <lib.h>
 #include <interrupts.h>
+#include <MemoryManager.h>
 
 
 void syscallDispatcher();
@@ -32,5 +33,11 @@ void schedulerDispatcher(char * name, void * func,int ground, int priority,uint6
 void int_86(char * buffer);
 
 void int_87(uint8_t * address, char * buffer);
+
+void int_89(uint64_t size);
+
+void int_90(void * address);
+
+void int_91(char * buffer);
 
 #endif
