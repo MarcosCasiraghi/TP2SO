@@ -30,7 +30,7 @@ void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, u
             int_87(rdi, rsi);
             break;
         case 9:
-            int_89(rdi);
+            int_89(rdi, rsi);
             break;
         case 10:
             int_90(rdi);
@@ -194,8 +194,8 @@ void int_87(uint8_t * address, char * buffer){
 	}
 }
 
-void int_89(uint64_t size){
-    allocMemory(size);
+void int_89(uint64_t size, void ** address){
+    allocMemory(size, address);
 }
 
 void int_90(void * address){

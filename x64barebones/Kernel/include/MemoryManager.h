@@ -7,9 +7,9 @@
 #include <stdbool.h>
 #include <naiveConsole.h>
 
-void initializeMemoryManager( void * startAddress, size_t size);
+void initializeMemoryManager( char * startAddress, size_t size);
 
-void * allocMemory( const uint64_t nbytes);
+void allocMemory( const uint64_t nbytes, void ** addressToRet);
 
 void freeMemory( void * block);
 

@@ -1,12 +1,12 @@
-target remote 192.168.64.2:1234
+target remote 172.27.97.40:1234
 add-symbol-file ~/Kernel/kernel.elf 0x100000
 add-symbol-file ~/Userland/0000-sampleCodeModule.elf 0x400000
-
+directory x64barebones/Kernel
+directory x64barebones/Userland/SampleCodeModule
 define src-prof
     dashboard -layout source expressions stack variables
     dashboard source -style height 20
 end
-
 define asm-prof
     dashboard -layout registers assemply memory stack
     dashboard registers -style list 'rax rbx rcx rdx rsi rdi rbp rsp r8 r9 r10 r11 r12 r13 r14 r15 rip eflags cs ss ds es fs gs fs_base gs_base k_gs_base cr0 cr2 cr3 cr4 cr8 efer'

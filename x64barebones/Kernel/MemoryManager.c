@@ -2,22 +2,21 @@
 
 typedef long Aling; //para alinear al limite mayor
 
-union header {      //ecabezado del bloque
+typedef union header {      //ecabezado del bloque
     struct {
         union header *ptr;  //puntero al siguiente bloque si esta en la lista libre
         unsigned size;
     }s;
     Aling x;    //obliga la alineacion de bloques
-};
+} Header;
 
-typedef union header Header;
 
 static Header * base;         //lista vacia para iniciar
 static Header * freeList = NULL;    //inicio de una lista libre
 
 size_t tUnits;  
 
-void initializeMemoryManager(void * startAddress, size_t size){
+void initializeMemoryManager(char * startAddress, size_t size){
     if(startAddress == NULL){
         return;
     }
@@ -27,9 +26,10 @@ void initializeMemoryManager(void * startAddress, size_t size){
     freeList->s.ptr = freeList;
 }
 
-void * allocMemory(uint64_t nbytes){
+void allocMemory(uint64_t nbytes, void ** addressToRet){
     if(nbytes == 0){
-        return NULL;
+        *addressToRet = NULL;
+        return;
     }
 
     Header *Cnode, *prevPtr;
@@ -57,13 +57,15 @@ void * allocMemory(uint64_t nbytes){
             is_allocating = false;
         }
         if( Cnode == freeList){
-            return NULL;
+            addressToRet = NULL;
+            return;
         }
 
         prevPtr = Cnode;
     }
 
-    return result;
+    *addressToRet = result;
+    // return result;
 }
 
 void freeMemory( void * block){

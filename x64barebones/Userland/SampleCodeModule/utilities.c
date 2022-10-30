@@ -7,7 +7,7 @@
 #define RIGHT 2
 
 void print(char * string,uint8_t fontColor, uint8_t backColor){
-    sys_write(string, fontColor, backColor, strlen(string));
+    sys_write(string, fontColor, backColor, my_strlen(string));
 }
 
 void exit(){
