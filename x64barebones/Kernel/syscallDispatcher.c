@@ -29,6 +29,15 @@ void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, u
         case 8:
             int_87(rdi, rsi);
             break;
+        case 9:
+            int_89(rdi);
+            break;
+        case 10:
+            int_90(rdi);
+            break;
+        case 11:
+            int_91(rdi);
+            break;
 
 	}
 }
@@ -183,4 +192,16 @@ void int_87(uint8_t * address, char * buffer){
 		buffer[j++] = hexaChar(address[i] & 0x0F);
         buffer[j++] = ' ';
 	}
+}
+
+void int_89(uint64_t size){
+    allocMemory(size);
+}
+
+void int_90(void * address){
+    freeMemory(address);
+}
+
+void int_91(char * buffer){
+    memoryDump(buffer);
 }

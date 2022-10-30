@@ -18,6 +18,10 @@ void _exec(void);
 void _div0Handler(void);
 void _invalidOpcodeHandler(void);
 
+void _mallocHandler(void);
+void _freeHandler(void);
+void _mmStatusHandler(void);
+
 void _cli(void);
 
 void _sti(void);

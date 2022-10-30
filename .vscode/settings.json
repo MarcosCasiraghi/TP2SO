@@ -4,6 +4,7 @@
         "interrupts.h": "c",
         "utilities.h": "c",
         "syscalls.h": "c",
-        "syscalldispatcher.h": "c"
+        "syscalldispatcher.h": "c",
+        "mmtest.h": "c"
     }
 }
