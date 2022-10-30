@@ -24,18 +24,6 @@ void exceptionCall(char * message, uint64_t * registers) {
 	int i=0;
 	char buffer[20]={0};
 
-	if (activePid==1 && getSplitScreen()==1){
-		restoreDefault();
-		printLeft(message);
-		newLineLeft();
-		for (int i = 0; i < 17; i++){
-			printLeft(tags[i]);
-			printLeft(" ");
-			uintToBase(registers[i],buffer,16);
-			printLeft(buffer);
-			newLineLeft();
-		}
-	}else if (activePid==1){
 		restoreDefault();
 		ncPrint(message);
 		ncNewline();
@@ -45,18 +33,7 @@ void exceptionCall(char * message, uint64_t * registers) {
 			ncPrintHex(registers[i]);
 			ncNewline();
 		}
-	}else{
-		restoreDefault();
-		printRight(message);
-		newLineRight();
-		for (int i = 0; i < 17; i++){
-			printRight(tags[i]);
-			printRight(" ");
-			uintToBase(registers[i],buffer,16);
-			printRight(buffer);
-			newLineRight();
-		}
-	}
+
 	schedulerExit(1);
 	// for (int i = 0; i < 50000000; i++){
 

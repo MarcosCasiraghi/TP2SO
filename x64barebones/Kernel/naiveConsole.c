@@ -5,77 +5,16 @@
 static char buffer[64] = { '0' };
 static uint8_t * const video = (uint8_t*)0xB8000;
 static uint8_t * currentVideo = (uint8_t*)0xB8000;
-static uint8_t rightX=40, leftX=0, rightY=0, leftY=0;
+static uint8_t X = 0, Y=0;
 static const uint32_t width = 80;
 static const uint32_t height = 25;
 
 
-void printLeft(const char * string){
-    int i;
-    for (i = 0; string[i] != 0; i++)
-        printCharLeft(string[i], WHITE);
-}
-
-void printRight(const char * string){
-    int i;
-    for (i = 0; string[i] != 0; i++)
-        printCharRight(string[i], WHITE);
-}
-
-void printCharRight(char character, uint8_t att){
-    if(rightX >=width){
-        rightY++;
-        rightX=width/2;
-    }
-    if (character == '\n'){
-        newLineRight();
-    }
-    uint8_t * const position=getPosition(rightX,rightY);
-    *position=character;
-    *(position+1)= att;
-    rightX++;
-    scrollUpRight();
-}
-
-
-void printCharLeft(char character, uint8_t att){
-    if(leftX >=width/2){
-        leftY++;
-        leftX=0;
-    }
-    if (character == '\n'){
-        newLineLeft();
-    }
-    uint8_t * const position=getPosition(leftX,leftY);
-    *position=character;
-    *(position+1)=att;
-    leftX++;
-    scrollUpLeft();
-}
-
-
-void newLineRight(){
-    rightY++;
-    rightX = width/2;
-    scrollUpRight();
-}
-
-
-
-void newLineLeft(){
-    leftY++;
-    leftX = 0;
-    scrollUpLeft();
-}
-
-int getMaxYPos(){
-    return leftY>rightY? leftY: rightY;
-}
 
 //utilizado para cuando dejar de correr 2 programas 
 //que terminan
 void setCurrentVideo(){
-    currentVideo=getPosition(0,getMaxYPos()+1);
+    currentVideo=getPosition(0,Y+1);
 }
 
 void ncPrint(const char * string){
@@ -127,8 +66,7 @@ void ncNewline(){
         ncPrintChar(' ');
     }
     while((uint64_t)(currentVideo - video) % (width * 2) != 0);
-    rightY++;
-    leftY++;
+    Y++;
     scrollUp();
 }
 
@@ -157,32 +95,6 @@ void scrollUp(){
             }
         }
         currentVideo = currentVideo - 2*width;
-    }
-}
-
-
-void scrollUpRight(){
-    if( (rightX>=width && rightY == height)||rightY>height){
-        for( int i = 0 ; i <= (height) ; i++){
-            for( int j = width/2 ; j < width; j++){
-                video[2*(i*width+j)] = video[2*((i+1)*width + j)];
-                video[2*(i*width+j)+1] = video[2*((i+1)*width + j)+1];
-            }
-        }
-        rightY--;
-    }
-}
-
-
-void scrollUpLeft(){
-    if( (leftX>=width/2 -1 && leftY == height)||leftY>height){
-        for( int i = 0 ; i <= (height-1) ; i++){
-            for( int j = 0 ; j < width/2; j++){
-                video[2*(i*width+j)] = video[2*((i+1)*width + j)];
-                video[2*(i*width+j)+1] = video[2*((i+1)*width + j)+1];
-            }
-        }
-        leftY--;
     }
 }
 
@@ -220,10 +132,8 @@ void ncClear()
         video[i*2+1]=0x0F;
     }
     currentVideo = video;
-    leftX=0;
-    leftY=0;
-    rightX=width/2;
-    rightY=0;
+    X = 0;
+    Y = 0;
 }
 
 uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)

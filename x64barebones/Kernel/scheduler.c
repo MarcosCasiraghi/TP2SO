@@ -104,7 +104,6 @@ void next(){
                 maxPrioIndex = i;
             }
         }
-        ncNewline();
         activePID = maxPrioIndex;
         return;
     }
