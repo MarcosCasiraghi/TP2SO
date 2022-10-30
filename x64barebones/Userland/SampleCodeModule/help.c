@@ -2,6 +2,7 @@
 #include <help.h>
 
 void help(){
+    clear();
     print("HELP",WHITE,BLACK);
     print("   Comandos disponibles\n", MAGENTA, BLACK);
     print("- fibonacci: imprime la serie de fibonacci hasta que se corte su ejecucion\n",WHITE,BLACK);
@@ -11,5 +12,8 @@ void help(){
     print("- printmem: realiza un vuelco de memoria de 32 bytes a partir de la direccion recibida como argumento\n",WHITE,BLACK);
     print("div0: verifica excepcion de division por 0\n",WHITE,BLACK);
     print("invalidopcode: verifica funcionameiento de excepcion de invalid opcode\n",WHITE,BLACK);
+    
     exit();
+ 
+    
 }

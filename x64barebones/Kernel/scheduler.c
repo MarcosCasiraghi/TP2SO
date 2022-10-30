@@ -85,23 +85,27 @@ int getParameter(){
 }
 
 void next(){
-    if(processes==0){
-        return;
-    }
 
-    
+//    if(tasks[1].present==1 && tasks[1].status == KILLED){
+//         //Vuelve a shell y "elimina" funciones
+//         setCurrentVideo();
+//         activePID = 0;
+//         tasks[1].present = 0;
+//         return;
+//     }
 
-
-    if (tasks[activePID].status == KILLED){
-        ncPrintDec(8008135);
+    if (tasks[activePID].present==1 && tasks[activePID].status == KILLED){
         tasks[activePID].present =0;
         int maxPrioIndex = -1;
         int maxPrio = -1;
-        for (int i = 1; i < MAX_TASKS; ++i) {
+        for (int i = 0; i < MAX_TASKS; ++i) {
             if (tasks[i].present==1 && tasks[i].status==READY && (maxPrioIndex == -1 || tasks[i].priority > maxPrio)){
                 maxPrio = tasks[i].priority;
                 maxPrioIndex = i;
             }
+        }
+        if(maxPrioIndex==0){
+            setCurrentVideo();
         }
         activePID = maxPrioIndex;
         return;
@@ -137,20 +141,18 @@ return splitScreenMode;
 
 void schedulerExit(int amountOfFuncs){
     if( activePID == 0){
-        ncPrintDec(10);
         return;
     }
     
 
     for (int i = 1; i < MAX_TASKS; ++i) {
-        
         if(tasks[i].present==1){
-            ncPrintDec(i);
             tasks[i].status = KILLED;
+            processes--;
         }
     }
 
-    processes--;
+    
     setCurrentVideo();
 
 //
