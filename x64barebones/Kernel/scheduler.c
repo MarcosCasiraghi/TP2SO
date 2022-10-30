@@ -104,9 +104,7 @@ void next(){
                 maxPrioIndex = i;
             }
         }
-        if(maxPrioIndex==0){
-            setCurrentVideo();
-        }
+        ncNewline();
         activePID = maxPrioIndex;
         return;
     }

@@ -116,14 +116,21 @@ SECTION .text
     call irqDispatcher
 
     ;si no es multiplo de 4, queda quantum por correr
-    ; call quantum_check
-    ; cmp rax, 0
-    ; jz .fin
+	cmp BYTE [exiting], 1
+	jz .roundrobinskip
 
+    call quantum_check
+    cmp rax, 0
+    jz .fin
+
+	.roundrobinskip:
+	mov BYTE [exiting], 0
 	;si no hay procesos no quiero que haya context switching
 	call getProcesses
 	cmp rax,0
 	jz .fin
+
+	
 
 	;guardo registros en regdata
 	mov rbx, [rsp]
@@ -323,6 +330,7 @@ _exitHandler:
 	call schedulerExit
 
 	popState
+	mov BYTE [exiting],1
 	_timerHandlerMacro
 
 _schedulerHandler:
@@ -367,4 +375,5 @@ SECTION .bss
 
 SECTION .data
 	firstTime db 0
+	exiting db 0
 
