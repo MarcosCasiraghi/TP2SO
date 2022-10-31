@@ -45,6 +45,8 @@ void ps(char * result){
                result[counter++] = tasks[i].name[j];
            }
 
+           result[counter++] = ' ';
+
            char auxBuffer[BUFFERSIZE] = {'\0'};
 
            uintToBase( tasks[i].pID,auxBuffer, 10);
@@ -53,11 +55,15 @@ void ps(char * result){
                result[counter++] = auxBuffer[j];
            }
 
+           result[counter++] = ' ';
+
            uintToBase(tasks[i].priority,auxBuffer, 10);
 
            for(int j = 0;auxBuffer[j] != '\0'; j++){
                result[counter++] = auxBuffer[j];
            }
+
+           result[counter++] = ' ';
 
            char * fore = "Foreground";
            char * back = "Background";
@@ -73,14 +79,18 @@ void ps(char * result){
                }
            }
 
+           result[counter++] = ' ';
 
-           uintToBase( tasks[i].ground,auxBuffer, 16); //TODO: imprime el stack base pointer
+
+           uintToBase( reg[i][7],auxBuffer, 16); //TODO: imprime el stack base pointer
 
            for(int j = 0;auxBuffer[j] != '\0'; j++){
                result[counter++] = auxBuffer[j];
            }
 
-           uintToBase( tasks[i].ground,auxBuffer,  16); //TODO: imprime el stack pointer
+           result[counter++] = ' ';
+
+           uintToBase( reg[i][8],auxBuffer,  16); //TODO: imprime el stack pointer
 
            for(int j = 0;auxBuffer[j] != '\0'; j++){
                result[counter++] = auxBuffer[j];
