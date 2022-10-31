@@ -6,7 +6,7 @@
 #define STDERR 2
 
 
-int strcmp(char * str1, char * str2){
+int my_strcmp(char * str1, char * str2){
     int i = 0 ;
     for( ; str1[i] && str2[i]; i++){
          if(str1[i] != str2[i])
@@ -22,10 +22,10 @@ void put_char(char c){
 }
 
 void sprint(char * str){
-  sys_write(str, WHITE, BLACK, strlen(str));
+  sys_write(str, WHITE, BLACK, my_strlen(str));
 }
 
-int strlen(char * string){
+int my_strlen(char * string){
   int length = 0;
   while(string[length] != '\0')
     length++;
@@ -40,7 +40,7 @@ char getChar(){
     return c;
 }
 
-void scanf(char * buffer, int maxlength){
+void my_scanf(char * buffer, int maxlength){
     int size=0;
     char c;
     do {

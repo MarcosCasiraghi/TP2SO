@@ -111,7 +111,7 @@ int main()
 
 	load_idt();
 
-	initializeMemoryManager(memoryManagerModuleAdress, HEAP_SIZE );
+	initializeMemoryManager((char *)memoryManagerModuleAdress, HEAP_SIZE );
 
 	//llamar pantalla
 	((EntryPoint)sampleCodeModuleAddress)();

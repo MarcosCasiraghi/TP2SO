@@ -13,8 +13,17 @@ typedef struct{
 
 static char param1[20]= {0};
 
-static FunctionType programs[] = {{"fibonacci", &fibonacci, FOREGROUND, MEDIUM},{"help",&help, FOREGROUND, MEDIUM},{"primos", &primos, FOREGROUND, MEDIUM}, {"invalidopcode",&invalidOpCode, FOREGROUND, HIGHEST},
-                                  {"inforeg",&inforeg, FOREGROUND, MEDIUM},{"div0", &div0, FOREGROUND, HIGHEST},{"time",&time, FOREGROUND, MEDIUM}, {"printmem", &printMem, FOREGROUND, MEDIUM}, {0,0,0,0}};
+static FunctionType programs[] = {{"fibonacci", &fibonacci, FOREGROUND, MEDIUM},
+                                  {"help",&help, FOREGROUND, MEDIUM},
+                                  {"primos", &primos, FOREGROUND, MEDIUM}, 
+                                  {"invalidopcode",&invalidOpCode, FOREGROUND, HIGHEST},
+                                  {"inforeg",&inforeg, FOREGROUND, MEDIUM},
+                                  {"div0", &div0, FOREGROUND, HIGHEST},
+                                  {"time",&time, FOREGROUND, MEDIUM}, 
+                                  {"printmem", &printMem, FOREGROUND, MEDIUM},
+                                  {"mmtest", &mmTest, FOREGROUND, MEDIUM},
+                                  {"mmtest2", &mmTest2, FOREGROUND, MEDIUM},
+                                  {0,0,0,0}};
 
 void run(char * buffer){
     int added = addFunctions(buffer);
@@ -32,7 +41,7 @@ void initShell(){
 void shell(){
     while(1){
         print("~$ ",GREEN, BLACK);
-		scanf(readBuffer, BUFFER_LENGTH);
+		my_scanf(readBuffer, BUFFER_LENGTH);
 		run(readBuffer);
         sys_exec();
         //for(int i = 0 ; i < 0 ; i++){}
@@ -77,22 +86,22 @@ void checkPrintMem(char* func1,char * parameter1){
     char* prntmem = "printmem";
     int i;
 
-    for(i=0;i<strlen(prntmem)&&i<strlen(func1) && flag1;i++){
+    for(i=0;i<my_strlen(prntmem)&&i<my_strlen(func1) && flag1;i++){
         if(prntmem[i]!=func1[i]){
             flag1=0;
         }
     }
 
-    if(i<strlen(prntmem) || func1[strlen(prntmem)]!=' '){
+    if(i<my_strlen(prntmem) || func1[my_strlen(prntmem)]!=' '){
         flag1=0;
         parameter1[0] = '\0';
     }
 
     if(flag1){
-        func1[strlen(prntmem)]='\0';
+        func1[my_strlen(prntmem)]='\0';
         int a=0;
-        while(func1[a+1+strlen(prntmem)] && a<19){
-            parameter1[a]=func1[a+1+strlen(prntmem)];
+        while(func1[a+1+my_strlen(prntmem)] && a<19){
+            parameter1[a]=func1[a+1+my_strlen(prntmem)];
             a++;
         }
         parameter1[a] = '\0';
@@ -103,7 +112,7 @@ void checkPrintMem(char* func1,char * parameter1){
 
 int getFuncIndex(char * func){
     for( int i = 0 ; programs[i].name ; i++){
-        if( strcmp(func, programs[i].name) == 0){
+        if( my_strcmp(func, programs[i].name) == 0){
             return i;
         }
     }

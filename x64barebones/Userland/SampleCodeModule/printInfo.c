@@ -3,7 +3,7 @@
 #define MAX_ADDRESS_DECIMAL 2147483616
 
 int readAddress(char* s, uint8_t** result) {
-	uint64_t len = strlen(s);
+	uint64_t len = my_strlen(s);
 	if(len<3 || len>10 || s[0]!='0' || s[1]!='x')
 		return 0;
 
