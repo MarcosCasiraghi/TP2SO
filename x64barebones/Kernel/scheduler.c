@@ -149,9 +149,6 @@ void schedulerExit(int amountOfFuncs){
         }
     }
 
-    
-    setCurrentVideo();
-
 //
 //    else if( amountOfFuncs == 3){   //KILL left side
 //        if((tasks[1].present && tasks[2].present && tasks[2].status == READY) || tasks[2].status == KILLED){
