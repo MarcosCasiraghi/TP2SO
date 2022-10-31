@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <scheduler.h>
 #include <lib.h>
+#include <MemoryManager.h>
 
 extern uint8_t kbFlag();
 int getKey();

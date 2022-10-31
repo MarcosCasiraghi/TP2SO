@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <naiveConsole.h>
-
+void freeAll();
 void initializeMemoryManager( char * startAddress, size_t size);
 
 void allocMemory( const uint64_t nbytes, void ** addressToRet);

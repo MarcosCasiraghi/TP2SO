@@ -1,5 +1,9 @@
 #include <MemoryManager.h>
 
+static size_t heapsize;
+static char * memoryManagerModuleAdress = NULL;
+
+
 typedef long Aling; //para alinear al limite mayor
 
 typedef union header {      //ecabezado del bloque
@@ -17,6 +21,8 @@ static Header * freeList = NULL;    //inicio de una lista libre
 size_t tUnits;  
 
 void initializeMemoryManager(char * startAddress, size_t size){
+    heapsize=size;
+    memoryManagerModuleAdress=startAddress;
     if(startAddress == NULL){
         return;
     }
@@ -24,6 +30,13 @@ void initializeMemoryManager(char * startAddress, size_t size){
     freeList = base = (Header *)startAddress;
     freeList->s.size = tUnits;
     freeList->s.ptr = freeList;
+}
+void freeAll(){
+    if(memoryManagerModuleAdress==NULL){
+        return;
+    }
+    initializeMemoryManager(memoryManagerModuleAdress,heapsize);
+
 }
 
 void allocMemory(uint64_t nbytes, void ** addressToRet){
