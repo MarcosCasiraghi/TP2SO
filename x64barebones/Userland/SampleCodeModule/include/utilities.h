@@ -13,5 +13,6 @@ void exit();
 void time();
 void ps();
 void clearConsole();
+void kill(char * pid);
 
 #endif

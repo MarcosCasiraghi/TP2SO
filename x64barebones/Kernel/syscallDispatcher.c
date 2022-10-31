@@ -41,6 +41,9 @@ void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, u
         case 12:
             int_92(rdi);
             break;
+        case 13:
+            int_94(rdi, rsi);
+            break;
 
 	}
 }
@@ -195,4 +198,8 @@ void int_91(char * buffer){
 
 void int_92(char * buffer){
     ps(buffer);
+}
+
+void int_94(int pid, int priority){
+    nice(pid, priority);
 }

@@ -15,6 +15,9 @@ GLOBAL _exitHandler
 GLOBAL _psHandler
 
 GLOBAL _schedulerHandler
+GLOBAL _killHandler
+GLOBAL _niceHandler
+GLOBAL _blockHandler
 GLOBAL _registersHandler
 GLOBAL _exec
 
@@ -41,6 +44,8 @@ EXTERN getProcesses
 
 EXTERN registersForInforeg
 EXTERN quantum_check
+EXTERN killProcess
+EXTERN blockProcess
 
 
 SECTION .text
@@ -369,6 +374,26 @@ _mmStatusHandler:
 
 _psHandler:
     syscallHandlerMaster 12
+
+_killHandler:
+	pushState
+
+	call killProcess
+
+	popState
+
+	_timerHandlerMacro
+_niceHandler:
+	syscallHandlerMaster 13
+
+_blockHandler:
+	pushState
+
+	call blockProcess
+
+	popState
+
+	_timerHandlerMacro
 
 
 haltcpu:

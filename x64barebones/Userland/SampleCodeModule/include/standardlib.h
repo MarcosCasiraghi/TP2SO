@@ -14,5 +14,6 @@ int my_strcmp(char * str1, char * str2);
 int my_strlen(char * string);
 void my_scanf(char * buffer, int maxlength);
 char getChar();
+int atoi(const char * S);
 
 #endif

@@ -42,24 +42,8 @@ int getKey(){
         schedulerExit(2);
         return 1;
     }
-    if(scancodeLToAscii[myChar] == 3){//kill left
-        schedulerExit(3);
-        return 1;
-    }
-    if(scancodeLToAscii[myChar] == 4){//kill right
-        schedulerExit(4);
-        return 1;
-    }
     if (scancodeLToAscii[myChar] == 5){//load registers for inforeg
         return 2;
-    }
-    if(scancodeLToAscii[myChar] == 1){//freeze left
-        freeze(1);
-        return 0;
-    }
-    if(scancodeLToAscii[myChar] == 2){//freeze right
-        freeze(2);
-        return 0;
     }
     if (kbBufferPos == 255)
         {

@@ -55,6 +55,14 @@ void load_idt() {
 
   setup_IDT_entry(0x92, (uint64_t)&_psHandler);
 
+  setup_IDT_entry(0x93, (uint64_t)&_killHandler);
+
+  setup_IDT_entry(0x94, (uint64_t)&_niceHandler);
+
+  setup_IDT_entry(0x95, (uint64_t)&_blockHandler);
+
+
+
 
 
   //divide by 0 exception

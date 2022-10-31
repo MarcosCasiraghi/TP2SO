@@ -4,7 +4,7 @@
 #define REGISTERS 20
 #define MAX_TASKS 16
 #define READY 0
-#define FROZEN 1
+#define BLOCKED 1
 #define KILLED 2
 #define BUFFERSIZE 300
 #define HIGHEST 0
@@ -110,7 +110,7 @@ void add_task(char *name, void * task,int ground,int priority,uint64_t parametro
             tasks[i].name=name;
             tasks[i].present = 1;
             tasks[i].status = READY;
-            tasks[i].pID = pIDCounter;
+            tasks[i].pID = pIDCounter++;
             reg[i][0]= tasks[i].func;
             reg[i][6]= parametro;
             reg[i][8]= (stack[i]+799);
@@ -134,15 +134,6 @@ int getParameter(){
 }
 
 void next(){
-
-//    if(tasks[1].present==1 && tasks[1].status == KILLED){
-//         //Vuelve a shell y "elimina" funciones
-//         setCurrentVideo();
-//         activePID = 0;
-//         tasks[1].present = 0;
-//         return;
-//     }
-
     if (tasks[activePID].present==1 && tasks[activePID].status == KILLED){
         tasks[activePID].present =0;
         int maxPrioIndex = -1;
@@ -157,10 +148,6 @@ void next(){
         return;
     }
     
-
-      
-
-
     for (int i = activePID +1 ; i < activePID+MAX_TASKS; i++) {
         int j = i;
         if(i>=MAX_TASKS){
@@ -193,6 +180,54 @@ void exitCurrent(){
     processes--;
 }
 
+void killProcess(int pid){
+    if( pid == 0){
+        return;
+    }
+    for( int i = 0 ; i < MAX_TASKS ; i++){
+        if(tasks[i].pID == pid){
+            if(tasks[i].present == 1){
+                tasks[i].status = KILLED;
+            }else{
+                return;
+            }
+        }
+    }
+}
+
+void nice(int pid, int priority){
+    if( pid == 0 || !(priority >= 0 && priority <= 2)){
+        return;
+    }
+    for( int i = 0 ; i < MAX_TASKS ; i++){
+        if(tasks[i].pID == pid){
+            if(tasks[i].present == 1){
+                tasks[i].priority = priority;
+            }else{
+                return;
+            }
+        }
+    }
+}
+
+void blockProcess(int pid){
+    if( pid == 0){
+        return;
+    }
+    for( int i = 0 ; i < MAX_TASKS ; i++){
+        if(tasks[i].pID == pid){
+            if(tasks[i].present == 1){
+                if(tasks[i].status == READY)
+                    tasks[i].status = BLOCKED;
+                else if(tasks[i].status == BLOCKED)
+                    tasks[i].status = READY;
+            }else{
+                return;
+            }
+        }
+    }
+}
+
 void schedulerExit(int amountOfFuncs){
     if( activePID == 0){
         return;
@@ -203,36 +238,6 @@ void schedulerExit(int amountOfFuncs){
         if(tasks[i].present==1){
             tasks[i].status = KILLED;
             processes--;
-        }
-    }
-
-//
-//    else if( amountOfFuncs == 3){   //KILL left side
-//        if((tasks[1].present && tasks[2].present && tasks[2].status == READY) || tasks[2].status == KILLED){
-//            tasks[1].status = KILLED;
-//        }
-//    }
-//    else{   //KILL right side
-//        if((tasks[2].present && tasks[1].present && tasks[1].status == READY) || tasks[1].status == KILLED){
-//            tasks[2].status = KILLED;
-//        }
-//    }
-}
-
-//1 si se quiere freezear programa left
-//2 si se quiere freezear programa right
-void freeze(int func){
-    if(func == 1){
-        if(tasks[1].present == 1 && tasks[1].status==READY && tasks[2].present && tasks[2].status == READY){
-            tasks[1].status = FROZEN;
-        }else if(tasks[1].status == FROZEN){
-            tasks[1].status = READY;
-        }
-    }else{
-        if(tasks[2].present == 1 && tasks[2].status==READY && tasks[1].present && tasks[1].status == READY){
-            tasks[2].status = FROZEN;
-        }else if(tasks[2].status == FROZEN){
-            tasks[2].status = READY;
         }
     }
 }

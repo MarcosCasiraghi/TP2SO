@@ -23,9 +23,12 @@ int tasksReady();
 
 //a partir de los programas activos, alterna el ActivePID
 void next();
-void freeze(int func);
 int isForeground();
 void ps(char * buffer);
 void exitCurrent();
+
+void killProcess(int pid);
+void nice(int pid, int priority);
+void blockProcess(int pid);
 
 #endif

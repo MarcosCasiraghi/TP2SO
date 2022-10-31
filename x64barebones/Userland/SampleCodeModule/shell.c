@@ -24,7 +24,8 @@ static FunctionType programs[] = {{"fibonacci", &fibonacci, MEDIUM},
                                   {"clear", &clearConsole, MEDIUM},
                                   {"mmtest", &mmTest, MEDIUM},
                                   {"mmtest2", &mmTest2, MEDIUM},
-                                  {0,0,0,0}};
+                                  {"kill", &kill, MEDIUM},
+                                  {0,0,0}};
 
 void run(char * buffer){
     int added = addFunctions(buffer);
@@ -74,6 +75,7 @@ int addFunctions(char * buffer){
     int flag = 0;
 
         checkPrintMem(func1,param1);
+        checkKill(func1, param1);
         int funcIndex = getFuncIndex(func1, &flag);
         if(funcIndex != -1){
             if (flag == 1)
@@ -85,6 +87,41 @@ int addFunctions(char * buffer){
         return -1;
 
 
+}
+
+void checkKill(char * func, char * parameter){
+    char * skill = "kill";
+    int i = 0;
+    int flag = 1;
+
+    for( ; i < my_strlen(skill) && i < my_strlen(func) ; i++){
+        if(skill[i] != func[i]){
+            flag = 0;
+        }
+    }
+
+    if(i<my_strlen(skill) || func[my_strlen(skill)]!=' '){
+        flag=0;
+        parameter[0] = '\0';
+    }
+
+    if(flag){
+        func[my_strlen(skill)]='\0';
+        int a=0;
+        while(func[a+1+my_strlen(skill)] && a<3){
+            parameter[a]=func[a+1+my_strlen(skill)];
+            a++;
+        }
+        parameter[a] = '\0';
+
+        for( int b = 0 ; b < a ; b++){
+            if( parameter[b] < '0' || parameter[b] > '9'){
+                parameter[0] = '\0';
+                return;
+            }
+        }
+
+    }
 }
 
 void checkPrintMem(char* func1,char * parameter1){

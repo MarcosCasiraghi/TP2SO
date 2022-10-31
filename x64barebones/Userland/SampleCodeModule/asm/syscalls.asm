@@ -7,6 +7,9 @@ GLOBAL sys_exit
 GLOBAL sys_exec
 GLOBAL sys_registers
 GLOBAL sys_scheduler
+GLOBAL sys_kill
+GLOBAL sys_nice
+GLOBAL sys_block
 GLOBAL sys_time
 GLOBAL sys_getMem
 GLOBAL sys_malloc
@@ -67,5 +70,16 @@ sys_memStatus:
 
 sys_ps:
     int 92h
+    ret
+sys_kill:
+    int 93h
+    ret
+
+sys_nice:
+    int 94h
+    ret
+
+sys_block:
+    int 94h
     ret
     

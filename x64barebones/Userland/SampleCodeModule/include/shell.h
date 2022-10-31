@@ -26,4 +26,5 @@ void initShell();
 int addFunctions(char * buffer);
 int getFuncIndex(char * func, int * flag);
 void clearBuffer();
+void checkKill(char * func, char * parameter);
 #endif

@@ -42,4 +42,6 @@ void int_91(char * buffer);
 
 void int_92(char * buffer);
 
+void int_94(int pid, int priority);
+
 #endif
