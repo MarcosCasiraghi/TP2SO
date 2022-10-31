@@ -1,4 +1,4 @@
-target remote 172.27.97.40:1234
+target remote 172.24.216.66:1234
 add-symbol-file ~/Kernel/kernel.elf 0x100000
 add-symbol-file ~/Userland/0000-sampleCodeModule.elf 0x400000
 directory x64barebones/Kernel

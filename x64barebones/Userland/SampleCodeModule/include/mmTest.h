@@ -9,4 +9,6 @@
 
 void mmTest();
 
+void mmTest2();
+
 #endif
