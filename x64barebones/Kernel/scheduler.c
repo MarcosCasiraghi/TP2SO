@@ -175,6 +175,14 @@ int getSplitScreen(){
 return splitScreenMode;
 }
 
+void exitCurrent(){
+    if( activePID == 0){
+        return;
+    }
+    tasks[activePID].status = KILLED;
+    processes--;
+}
+
 void schedulerExit(int amountOfFuncs){
     if( activePID == 0){
         return;

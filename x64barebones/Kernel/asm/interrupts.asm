@@ -34,6 +34,7 @@ EXTERN schedulerDispatcher
 EXTERN exceptionDispatcher
 EXTERN getKey
 EXTERN schedulerExit
+EXTERN exitCurrent
 
 EXTERN registerManager
 EXTERN getProcesses
@@ -323,8 +324,7 @@ _clearHandler:
 _exitHandler:
 	pushState
 
-	mov rdi, 1
-	call schedulerExit
+	call exitCurrent
 
 	popState
 

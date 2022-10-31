@@ -77,7 +77,7 @@ void int_82(){
 
 //sys exit
 void int_83(){
-    schedulerExit(1);
+    exitCurrent();
 }
 
 void registersForInforeg(uint64_t * registers){
