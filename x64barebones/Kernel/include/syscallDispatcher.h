@@ -40,4 +40,6 @@ void int_90(void * address);
 
 void int_91(char * buffer);
 
+void int_92(char * buffer);
+
 #endif

@@ -21,6 +21,7 @@ void _invalidOpcodeHandler(void);
 void _mallocHandler(void);
 void _freeHandler(void);
 void _mmStatusHandler(void);
+void _psHandler(void);
 
 void _cli(void);
 

@@ -38,6 +38,9 @@ void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, u
         case 11:
             int_91(rdi);
             break;
+        case 12:
+            int_92(rdi);
+            break;
 
 	}
 }
@@ -48,6 +51,9 @@ void schedulerDispatcher(char * name, void * func,int ground,int priority, uint6
 
 //a lo mejor en el futuro haya que agregar cases o mas parametros para el split screen
 void int_80(char * buffer, uint8_t fontColor, uint8_t backColor, int length) {
+    if (isForeground() == 0){
+        return;
+    }
     for (int i = 0; i < length; i++) {
         restoreDefault();
         if (buffer[i] == '\n') {
@@ -185,4 +191,8 @@ void int_90(void * address){
 
 void int_91(char * buffer){
     memoryDump(buffer);
+}
+
+void int_92(char * buffer){
+    ps(buffer);
 }

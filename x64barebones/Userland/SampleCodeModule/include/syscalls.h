@@ -15,5 +15,6 @@ void sys_getMem(uint8_t * address, char * buffer);
 void sys_malloc(uint64_t size, void ** address);
 void sys_free(void * address);
 void sys_memStatus(char * buffer);
+void sys_ps(char* buffer);
 
 #endif

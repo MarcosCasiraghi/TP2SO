@@ -12,6 +12,8 @@ GLOBAL _writeHandler
 GLOBAL _clearHandler
 GLOBAL _exitHandler
 
+GLOBAL _psHandler
+
 GLOBAL _schedulerHandler
 GLOBAL _registersHandler
 GLOBAL _exec
@@ -310,6 +312,7 @@ _writeHandler:
     syscallHandlerMaster 1
 
 
+
 _readHandler:
     syscallHandlerMaster 2
 
@@ -363,6 +366,10 @@ _freeHandler:
 
 _mmStatusHandler:
 	syscallHandlerMaster 11
+
+_psHandler:
+    syscallHandlerMaster 12
+
 
 haltcpu:
     cli

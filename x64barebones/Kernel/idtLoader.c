@@ -52,6 +52,11 @@ void load_idt() {
 
   setup_IDT_entry(0x91, (uint64_t)&_mmStatusHandler);
 
+
+  setup_IDT_entry(0x92, (uint64_t)&_psHandler);
+
+
+
   //divide by 0 exception
   setup_IDT_entry (0x00, (uint64_t)&_div0Handler);
 

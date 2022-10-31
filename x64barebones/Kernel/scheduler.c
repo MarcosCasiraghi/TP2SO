@@ -6,10 +6,12 @@
 #define READY 0
 #define FROZEN 1
 #define KILLED 2
-#define BUFFERSIZE 100
+#define BUFFERSIZE 300
 #define HIGHEST 0
 #define MEDIUM 1
 #define LOWEST 2
+#define FOREGROUND 0
+#define BACKGROUND 1
 
 typedef void (*functionPointer)(void);
 
@@ -32,26 +34,63 @@ static int splitScreenMode=0;
 static char stack[MAX_TASKS+1][STACK_SIZE] = {0};
 static uint64_t reg[MAX_TASKS+1][REGISTERS] ={0};
 static int processes=0;
+static int pIDCounter = 0;
 
-//char* ps(){
-//    char result[BUFFERSIZE] = {'\0'};
-////   int j = 0;
-////   for (int i = 0; i < tasksRunning(); i++){
-////       if (tasks[i].present == 1){
-////           strcpy(result+j,  tasks[i].name);
-////           j+= strlen(tasks[i].name);
-////           char buffer[BUFFERSIZE]  = {0};
-////           itoa(tasks[i].pID, buffer, 10);
-////           strcpy(result+j, buffer);
-////           j+= strlen(buffer);
-////           itoa(tasks[i].priority, buffer, 10);
-////           strcpy(result+j, buffer);
-////           j+= strlen(buffer);
-////
-////       }
-////   }
-//   return result;
-//}
+void ps(char * result){
+   int counter = 0;
+   for (int i = 0; i < MAX_TASKS; i++){
+       if (tasks[i].present == 1 && tasks[i].status != KILLED){
+
+           for(int j = 0;tasks[i].name[j] != '\0'; j++){
+               result[counter++] = tasks[i].name[j];
+           }
+
+           char auxBuffer[BUFFERSIZE] = {'\0'};
+
+           uintToBase( tasks[i].pID,auxBuffer, 10);
+
+           for(int j = 0;auxBuffer[j] != '\0'; j++){
+               result[counter++] = auxBuffer[j];
+           }
+
+           uintToBase(tasks[i].priority,auxBuffer, 10);
+
+           for(int j = 0;auxBuffer[j] != '\0'; j++){
+               result[counter++] = auxBuffer[j];
+           }
+
+           char * fore = "Foreground";
+           char * back = "Background";
+
+           if (tasks[i].ground == FOREGROUND){
+               for (int k = 0; fore[k]!='\0'; ++k) {
+                   result[counter++] = fore[k];
+               }
+           }
+           else{
+               for (int k = 0; back[k]!='\0'; ++k) {
+                   result[counter++] = back[k];
+               }
+           }
+
+
+           uintToBase( tasks[i].ground,auxBuffer, 16); //TODO: imprime el stack base pointer
+
+           for(int j = 0;auxBuffer[j] != '\0'; j++){
+               result[counter++] = auxBuffer[j];
+           }
+
+           uintToBase( tasks[i].ground,auxBuffer,  16); //TODO: imprime el stack pointer
+
+           for(int j = 0;auxBuffer[j] != '\0'; j++){
+               result[counter++] = auxBuffer[j];
+           }
+
+           result[counter++] = '\n';
+       }
+   }
+   result[counter] = '\0';
+}
 
 void add_task(char *name, void * task,int ground,int priority,uint64_t parametro, uint64_t flags){
 
@@ -61,7 +100,7 @@ void add_task(char *name, void * task,int ground,int priority,uint64_t parametro
             tasks[i].name=name;
             tasks[i].present = 1;
             tasks[i].status = READY;
-            tasks[i].pID = 0;
+            tasks[i].pID = pIDCounter;
             reg[i][0]= tasks[i].func;
             reg[i][6]= parametro;
             reg[i][8]= (stack[i]+799);
@@ -196,7 +235,7 @@ uint64_t * registerManager(uint64_t * registers, uint8_t load){
 int tasksRunning(){
     int runningCounter = 0;
     for (int i = 0; i < MAX_TASKS; ++i) {
-        if (tasks[i].present == 1)
+        if (tasks[i].present == 1 && tasks[i].status != KILLED)
             runningCounter++;
     }
     return runningCounter;
@@ -215,3 +254,6 @@ int shellRunning(){
     return activePID==0;
 }
 
+int isForeground(){
+    return tasks[activePID].ground == FOREGROUND;
+}

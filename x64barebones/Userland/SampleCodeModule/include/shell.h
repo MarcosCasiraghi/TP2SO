@@ -24,6 +24,6 @@ void run(char * buffer);
 void shell();
 void initShell();
 int addFunctions(char * buffer);
-int getFuncIndex(char * func);
+int getFuncIndex(char * func, int * flag);
 void clearBuffer();
 #endif

@@ -7,22 +7,23 @@ static char readBuffer[BUFFER_LENGTH]={0};
 typedef struct{
     char * name;
     functionPointer func;
-    int ground;
     int priority;
 }FunctionType;
 
 static char param1[20]= {0};
 
-static FunctionType programs[] = {{"fibonacci", &fibonacci, FOREGROUND, MEDIUM},
-                                  {"help",&help, FOREGROUND, MEDIUM},
-                                  {"primos", &primos, FOREGROUND, MEDIUM}, 
-                                  {"invalidopcode",&invalidOpCode, FOREGROUND, HIGHEST},
-                                  {"inforeg",&inforeg, FOREGROUND, MEDIUM},
-                                  {"div0", &div0, FOREGROUND, HIGHEST},
-                                  {"time",&time, FOREGROUND, MEDIUM}, 
-                                  {"printmem", &printMem, FOREGROUND, MEDIUM},
-                                  {"mmtest", &mmTest, FOREGROUND, MEDIUM},
-                                  {"mmtest2", &mmTest2, FOREGROUND, MEDIUM},
+static FunctionType programs[] = {{"fibonacci", &fibonacci, MEDIUM},
+                                  {"help",&help, MEDIUM},
+                                  {"primos", &primos, MEDIUM},
+                                  {"invalidopcode",&invalidOpCode, HIGHEST},
+                                  {"inforeg",&inforeg, MEDIUM},
+                                  {"div0", &div0, HIGHEST},
+                                  {"time",&time, MEDIUM},
+                                  {"printmem", &printMem, MEDIUM},
+                                  {"ps", &ps, MEDIUM},
+                                  {"clear", &clearConsole, MEDIUM},
+                                  {"mmtest", &mmTest, MEDIUM},
+                                  {"mmtest2", &mmTest2, MEDIUM},
                                   {0,0,0,0}};
 
 void run(char * buffer){
@@ -30,12 +31,12 @@ void run(char * buffer){
     if (*buffer!=0 && (added == -1 || added == -2)){
         print(buffer,RED,BLACK);
         print(" is not a valid command \n", WHITE, BLACK);
-        print("Use 'help' to know the available commands\n", WHITE, BLACK);
+        print("Use 'help' to know the available commands\n", WHITE,BLACK);
     }
 }
 
 void initShell(){
-    sys_scheduler("shell", &shell,FOREGROUND,LOWEST,(uint64_t)"shell");
+    sys_scheduler("shell", &shell,FOREGROUND, LOWEST,(uint64_t)"shell");
 }
 
 void shell(){
@@ -70,10 +71,15 @@ int addFunctions(char * buffer){
         i3++;
     }
 
+    int flag = 0;
+
         checkPrintMem(func1,param1);
-        int funcIndex = getFuncIndex(func1);  //TODO
+        int funcIndex = getFuncIndex(func1, &flag);
         if(funcIndex != -1){
-            sys_scheduler(programs[funcIndex].name, programs[funcIndex].func,programs[funcIndex].ground,programs[funcIndex].priority, (uint64_t) param1); //TODO
+            if (flag == 1)
+                sys_scheduler(programs[funcIndex].name, programs[funcIndex].func,BACKGROUND,LOWEST, (uint64_t) param1);
+            else if (flag == 0)
+                sys_scheduler(programs[funcIndex].name, programs[funcIndex].func,FOREGROUND,programs[funcIndex].priority, (uint64_t) param1);
             return 1;
         }
         return -1;
@@ -110,7 +116,11 @@ void checkPrintMem(char* func1,char * parameter1){
 
 }
 
-int getFuncIndex(char * func){
+int getFuncIndex(char * func, int * flag){
+    if (func[my_strlen(func) - 1] == '&'){
+        func[my_strlen(func)-1] = '\0';
+        *flag = 1;
+    }
     for( int i = 0 ; programs[i].name ; i++){
         if( my_strcmp(func, programs[i].name) == 0){
             return i;

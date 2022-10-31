@@ -5,6 +5,7 @@
 #define FULL_SCREEN 0
 #define LEFT 1
 #define RIGHT 2
+#define BUFFERSIZE 350
 
 void print(char * string,uint8_t fontColor, uint8_t backColor){
     sys_write(string, fontColor, backColor, my_strlen(string));
@@ -27,3 +28,18 @@ void time(){
 void clear(){
     sys_clear();
 }
+
+void clearConsole()
+{
+    sys_clear();
+    exit();
+}
+
+void ps(){
+    char buffer[BUFFERSIZE] = {'\0'};
+    sys_ps(buffer);
+    my_printf(buffer);
+    exit();
+}
+
+

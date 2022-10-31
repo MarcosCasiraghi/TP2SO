@@ -11,5 +11,7 @@ void print(char * string,uint8_t fontColor, uint8_t backColor);
 
 void exit();
 void time();
+void ps();
+void clearConsole();
 
 #endif

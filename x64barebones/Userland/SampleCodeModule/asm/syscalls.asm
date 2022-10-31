@@ -12,6 +12,7 @@ GLOBAL sys_getMem
 GLOBAL sys_malloc
 GLOBAL sys_free
 GLOBAL sys_memStatus
+GLOBAL sys_ps
 
 ;----------------------------------------
 ; rdi=string, rsi=fontColor, rdx=backColor
@@ -62,5 +63,9 @@ sys_free:
 
 sys_memStatus:
     int 91h
+    ret
+
+sys_ps:
+    int 92h
     ret
     
