@@ -1,3 +1,5 @@
+#ifdef FREE_MANAGER
+
 #include <MemoryManager.h>
 
 static size_t heapsize;
@@ -225,3 +227,5 @@ void memoryDump(char * buffer){
     }
 
 }
+
+#endif
