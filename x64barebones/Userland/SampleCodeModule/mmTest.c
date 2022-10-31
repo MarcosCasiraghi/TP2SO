@@ -95,7 +95,7 @@ void mmTest2(){
         }
     }
 
-    char dump[500] = {'\0'};
+    char dump[200] = {'\0'};
     sys_memStatus(dump);
     my_printf("%s\n", dump);
 
