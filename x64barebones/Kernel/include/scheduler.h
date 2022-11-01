@@ -31,5 +31,6 @@ void exitCurrent();
 int killProcess(int pid);
 void nice(int pid, int priority);
 int blockProcess(int pid);
+int foregroundRunning();
 
 #endif

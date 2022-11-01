@@ -7,6 +7,7 @@
 #define HIGHEST 0
 #define MEDIUM 1
 #define LOWEST 2
+#define SHELLPRIO 3
 
 #include <fibonacci.h>
 #include <utilities.h>

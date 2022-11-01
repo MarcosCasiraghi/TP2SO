@@ -38,7 +38,7 @@ void run(char * buffer){
 }
 
 void initShell(){
-    sys_scheduler("shell", &shell,FOREGROUND, LOWEST,(uint64_t)"shell");
+    sys_scheduler("shell", &shell,FOREGROUND, SHELLPRIO,(uint64_t)"shell");
 }
 
 void shell(){
@@ -80,7 +80,7 @@ int addFunctions(char * buffer){
         int funcIndex = getFuncIndex(func1, &flag);
         if(funcIndex != -1){
             if (flag == 1)
-                sys_scheduler(programs[funcIndex].name, programs[funcIndex].func,BACKGROUND,LOWEST, (uint64_t) param1);
+                sys_scheduler(programs[funcIndex].name, programs[funcIndex].func,BACKGROUND,programs[funcIndex].priority, (uint64_t) param1);
             else if (flag == 0)
                 sys_scheduler(programs[funcIndex].name, programs[funcIndex].func,FOREGROUND,programs[funcIndex].priority, (uint64_t) param1);
             return 1;

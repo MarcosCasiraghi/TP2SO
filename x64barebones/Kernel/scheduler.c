@@ -10,6 +10,7 @@
 #define HIGHEST 0
 #define MEDIUM 1
 #define LOWEST 2
+#define SHELLPRIO 3
 #define FOREGROUND 0
 #define BACKGROUND 1
 
@@ -82,7 +83,7 @@ void ps(char * result){
            result[counter++] = ' ';
 
 
-           uintToBase( reg[i][7],auxBuffer, 16); //TODO: imprime el stack base pointer
+           uintToBase( reg[i][7],auxBuffer, 16);
 
            for(int j = 0;auxBuffer[j] != '\0'; j++){
                result[counter++] = auxBuffer[j];
@@ -90,7 +91,7 @@ void ps(char * result){
 
            result[counter++] = ' ';
 
-           uintToBase( reg[i][8],auxBuffer,  16); //TODO: imprime el stack pointer
+           uintToBase( reg[i][8],auxBuffer,  16);
 
            for(int j = 0;auxBuffer[j] != '\0'; j++){
                result[counter++] = auxBuffer[j];
@@ -156,12 +157,25 @@ void next(){
         }
         if (tasks[j].present == 1 && tasks[j].status == READY && tasks[j].priority <= tasks[activePID].priority) {
             if (j != activePID) {
-            activePID = j;
-            return;
+                activePID = j;
+                return;
             }
+        }
+        else if (tasks[j].present == 1 && tasks[j].status == READY && tasks[j].priority == SHELLPRIO && foregroundRunning() == 0)
+        {
+            activePID=0;
+            return;
         }
 
     }
+}
+
+int foregroundRunning(){
+    for (int i = 0; i < MAX_TASKS; ++i) {
+        if (tasks[i].present == 1 && tasks[i].status != KILLED && tasks[i].priority != SHELLPRIO && tasks[i].ground == FOREGROUND)
+            return 1;
+    }
+    return 0;
 }
 
 
