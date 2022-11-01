@@ -78,7 +78,7 @@ void mmTest2(){
             }
             total += mm_rqs[rq].size;
             rq++;
-        }
+    }
 
     uint32_t i;
     for (i = 0; i < rq; i++){
@@ -95,7 +95,7 @@ void mmTest2(){
         }
     }
 
-    char dump[200] = {'\0'};
+    char dump[1000] = {'\0'};
     sys_memStatus(dump);
     my_printf("%s\n", dump);
 

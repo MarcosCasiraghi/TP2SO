@@ -1,6 +1,6 @@
 #include <scheduler.h>
 
-#define STACK_SIZE 1600
+#define STACK_SIZE 4096
 #define REGISTERS 20
 #define MAX_TASKS 16
 #define READY 0
@@ -113,7 +113,7 @@ void add_task(char *name, void * task,int ground,int priority,uint64_t parametro
             tasks[i].pID = pIDCounter++;
             reg[i][0]= tasks[i].func;
             reg[i][6]= parametro;
-            reg[i][8]= (stack[i]+799);
+            reg[i][8]= (stack[i]+4095);
             reg[i][17]=flags;
             tasks[i].param=parametro;
             tasks[i].priority = priority;
