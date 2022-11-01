@@ -25,6 +25,7 @@ static FunctionType programs[] = {{"fibonacci", &fibonacci, MEDIUM},
                                   {"mmtest", &mmTest, MEDIUM},
                                   {"mmtest2", &mmTest2, MEDIUM},
                                   {"kill", &kill, MEDIUM},
+                                  {"processtest", &processTest, MEDIUM},
                                   {0,0,0}};
 
 void run(char * buffer){

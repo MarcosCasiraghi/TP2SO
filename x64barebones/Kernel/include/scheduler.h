@@ -7,7 +7,7 @@
 #include <strings.h>
 #include <stdlib.h>
 
-void add_task(char *name, void * task,int ground,int priority,uint64_t parametro, uint64_t flags);
+int add_task(char *name, void * task,int ground,int priority,uint64_t parametro, uint64_t flags);
 int tasksRunning(void);
 
 //recive por parametro flag para saber que caso tiene que ejecutarse
@@ -15,6 +15,7 @@ int tasksRunning(void);
 void schedulerExit(int amountOfFuncs);
 int getParameter();
 int getActivePId();
+int getPID();
 int shellRunning();
 uint64_t * registerManager(uint64_t * registers, uint8_t load);
 int getProcesses();
@@ -27,8 +28,8 @@ int isForeground();
 void ps(char * buffer);
 void exitCurrent();
 
-void killProcess(int pid);
+int killProcess(int pid);
 void nice(int pid, int priority);
-void blockProcess(int pid);
+int blockProcess(int pid);
 
 #endif

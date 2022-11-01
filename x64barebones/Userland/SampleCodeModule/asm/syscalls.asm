@@ -16,6 +16,7 @@ GLOBAL sys_malloc
 GLOBAL sys_free
 GLOBAL sys_memStatus
 GLOBAL sys_ps
+GLOBAL sys_getPID
 
 ;----------------------------------------
 ; rdi=string, rsi=fontColor, rdx=backColor
@@ -80,6 +81,10 @@ sys_nice:
     ret
 
 sys_block:
-    int 94h
+    int 95h
+    ret
+
+sys_getPID:
+    int 96h
     ret
     

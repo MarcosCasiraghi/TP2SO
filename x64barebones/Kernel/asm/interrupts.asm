@@ -30,6 +30,7 @@ GLOBAL _invalidOpcodeHandler
 GLOBAL _mallocHandler
 GLOBAL _freeHandler
 GLOBAL _mmStatusHandler
+GLOBAL _getPIDHandler
 
 EXTERN irqDispatcher
 EXTERN syscallDispatcher
@@ -46,6 +47,7 @@ EXTERN registersForInforeg
 EXTERN quantum_check
 EXTERN killProcess
 EXTERN blockProcess
+EXTERN getPID
 
 
 SECTION .text
@@ -375,7 +377,12 @@ _schedulerHandler:
 	mov r9, [rsp+17*8]
 	call schedulerDispatcher
 
+	mov [aux2], rax
+
 	popState
+
+	mov rax, [aux2]
+
 	iretq
 
 _registersHandler:
@@ -410,24 +417,33 @@ _psHandler:
     syscallHandlerMaster 12
 
 _killHandler:
-	pushState
+	pushStateNoRAX
 
 	call killProcess
 
-	popState
+	popStateNoRAX
 
 	_timerHandlerMacro
 _niceHandler:
 	syscallHandlerMaster 13
 
 _blockHandler:
-	pushState
+	pushStateNoRAX
 
 	call blockProcess
 
-	popState
+	popStateNoRAX
 
 	_timerHandlerMacro
+
+_getPIDHandler:
+	pushStateNoRAX
+
+	call getPID
+
+	popStateNoRAX
+
+	iretq
 
 
 haltcpu:
@@ -441,6 +457,7 @@ SECTION .bss
     regdata    resq 19 ;registros y flag
 	regsave resq 19
     aux resq 1
+	aux2 resq 8
 
 SECTION .data
 	firstTime db 0

@@ -18,6 +18,7 @@
 #include <printInfo.h>
 #include <invalidOpCode.h>
 #include <mmTest.h>
+#include <processTest.h>
 
 void checkPrintMem(char* func1,char * parameter1);
 void run(char * buffer);

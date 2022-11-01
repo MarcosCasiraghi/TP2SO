@@ -25,6 +25,7 @@ void _mallocHandler(void);
 void _freeHandler(void);
 void _mmStatusHandler(void);
 void _psHandler(void);
+void _getPIDHandler(void);
 
 void _cli(void);
 

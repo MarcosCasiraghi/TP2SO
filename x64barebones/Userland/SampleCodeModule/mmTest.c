@@ -30,7 +30,7 @@ void mmTest(){
 
             if (mm_rqs[rq].address == NULL) {
                 print("No memory left\n", RED,BLACK);
-                return;
+                exit();
             }
             total += mm_rqs[rq].size;
             rq++;
@@ -74,7 +74,7 @@ void mmTest2(){
 
             if (mm_rqs[rq].address == NULL) {
                 print("No memory left\n", RED,BLACK);
-                return;
+                exit();
             }
             total += mm_rqs[rq].size;
             rq++;

@@ -61,6 +61,9 @@ void load_idt() {
 
   setup_IDT_entry(0x95, (uint64_t)&_blockHandler);
 
+  setup_IDT_entry(0x96, (uint64_t)&_getPIDHandler);
+
+
 
 
 

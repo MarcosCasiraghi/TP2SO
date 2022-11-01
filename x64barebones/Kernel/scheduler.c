@@ -102,10 +102,10 @@ void ps(char * result){
    result[counter] = '\0';
 }
 
-void add_task(char *name, void * task,int ground,int priority,uint64_t parametro, uint64_t flags){
+int add_task(char *name, void * task,int ground,int priority,uint64_t parametro, uint64_t flags){
 
     for (int i = 0; i < MAX_TASKS; ++i) {
-        if(tasks[i].present!=1){
+        if(tasks[i].present!=1 || ( tasks[i].present == 1 && tasks[i].status == KILLED)){
             tasks[i].func=task;
             tasks[i].name=name;
             tasks[i].present = 1;
@@ -119,9 +119,10 @@ void add_task(char *name, void * task,int ground,int priority,uint64_t parametro
             tasks[i].priority = priority;
             tasks[i].ground = ground;
             processes++;
-            return;
+            return tasks[i].pID;
         }
     }
+    return -1;
 }
 
 
@@ -168,6 +169,10 @@ int getActivePId(){
     return activePID;
 }
 
+int getPID(){
+    return tasks[activePID].pID;
+}
+
 int getSplitScreen(){
 return splitScreenMode;
 }
@@ -180,19 +185,17 @@ void exitCurrent(){
     processes--;
 }
 
-void killProcess(int pid){
+int killProcess(int pid){
     if( pid == 0){
-        return;
+        return -1;
     }
     for( int i = 0 ; i < MAX_TASKS ; i++){
-        if(tasks[i].pID == pid){
-            if(tasks[i].present == 1){
-                tasks[i].status = KILLED;
-            }else{
-                return;
-            }
+        if(tasks[i].present == 1 && tasks[i].pID == pid){
+            tasks[i].status = KILLED;
+            return 1;
         }
     }
+    return -1;
 }
 
 void nice(int pid, int priority){
@@ -210,22 +213,23 @@ void nice(int pid, int priority){
     }
 }
 
-void blockProcess(int pid){
+int blockProcess(int pid){
     if( pid == 0){
-        return;
+        return -1;
     }
     for( int i = 0 ; i < MAX_TASKS ; i++){
-        if(tasks[i].pID == pid){
-            if(tasks[i].present == 1){
-                if(tasks[i].status == READY)
-                    tasks[i].status = BLOCKED;
-                else if(tasks[i].status == BLOCKED)
-                    tasks[i].status = READY;
-            }else{
-                return;
+        if(tasks[i].present == 1 && tasks[i].pID == pid){
+            if(tasks[i].status == READY){
+                tasks[i].status = BLOCKED;
+                return 1;
+            }
+            else if(tasks[i].status == BLOCKED){
+                tasks[i].status = READY;
+                return 2;
             }
         }
     }
+    return -1;
 }
 
 void schedulerExit(int amountOfFuncs){
