@@ -60,3 +60,24 @@ void kill(char * pid){
 }
 
 
+
+int semOpen(int id, int value){
+    return sys_semOpen(id,value);
+}
+
+int semClose(int id){
+    return sys_semClose(id);
+}
+int post(int id){
+    sys_semPost(id);
+
+}
+int wait(int id){
+    sys_semWait(id);
+}
+void semStatus(){
+    char buffer[BUFFERSIZE] = {'\0'};
+    sys_semStatus(buffer);
+    my_printf(buffer);
+    exit();
+}

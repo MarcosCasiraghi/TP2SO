@@ -17,7 +17,11 @@ GLOBAL sys_free
 GLOBAL sys_memStatus
 GLOBAL sys_ps
 GLOBAL sys_getPID
-
+GLOBAL sys_semOpen
+GLOBAL sys_semClose
+GLOBAL sys_semWait
+GLOBAL sys_semPost
+GLOBAL sys_semStatus
 ;----------------------------------------
 ; rdi=string, rsi=fontColor, rdx=backColor
 ;----------------------------------------
@@ -86,5 +90,22 @@ sys_block:
 
 sys_getPID:
     int 96h
+    ret
+
+sys_semOpen:
+    int 97h
+    ret
+
+sys_semClose:
+    int 98h
+    ret
+sys_semWait:
+    int 99h
+    ret
+sys_semPost:
+    int 100h
+    ret
+sys_semStatus:
+    int 101h
     ret
     

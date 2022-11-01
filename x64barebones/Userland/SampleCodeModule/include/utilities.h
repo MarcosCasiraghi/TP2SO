@@ -14,5 +14,10 @@ void time();
 void ps();
 void clearConsole();
 void kill(char * pid);
+int semOpen(int id, int value);
+int semClose(int id);
+int post(int id);
+int wait(int id);
+void semStatus();
 
 #endif

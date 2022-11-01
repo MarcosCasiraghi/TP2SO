@@ -43,7 +43,21 @@ uint64_t syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rc
         case 13:
             int_94(rdi, rsi);
             break;
-
+        case 14:
+            return int_97(rdi, rsi);
+            break;
+        case 15:
+            return int_98(rdi);
+            break;
+        case 16:
+            return int_99(rdi);
+            break;
+        case 17:
+            return int_100(rdi);
+            break;
+        case 18:
+            int_101(rdi);
+            break;
 	}
 }
 
@@ -201,4 +215,21 @@ void int_92(char * buffer){
 
 void int_94(int pid, int priority){
     nice(pid, priority);
+}
+
+int int_97(int id, int value){
+    return semOpen(id, value);
+}
+int int_98(int id){
+    return semClose(id);
+    
+}
+int int_99(int id){
+    return post(id);
+}
+int int_100(int id){
+    return wait(id);
+}
+void int_101(char * buffer){
+    semStatus(buffer);
 }

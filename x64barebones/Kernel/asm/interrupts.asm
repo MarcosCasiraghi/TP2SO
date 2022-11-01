@@ -4,6 +4,7 @@ GLOBAL picMasterMask
 GLOBAL picSlaveMask
 GLOBAL haltcpu
 GLOBAL _hlt
+GLOBAL _xchg
 
 GLOBAL _timerHandler
 GLOBAL _keyboardHandler
@@ -22,6 +23,12 @@ GLOBAL _registersHandler
 GLOBAL _exec
 
 GLOBAL _getRTCHandler
+
+GLOBAL _semOpenHandler
+GLOBAL _semCloseHandler
+GLOBAL _semWaitHandler
+GLOBAL _semPostHandler
+GLOBAL _semStatusHandler
 
 GLOBAL _getMemHandler
 GLOBAL _div0Handler
@@ -293,6 +300,11 @@ _sti:
 	sti
 	ret
 
+_xchg:
+	mov rax, rsi
+	xchg [rdi], eax 
+	ret
+
 picMasterMask:
 	push rbp
     mov rbp, rsp
@@ -426,6 +438,20 @@ _killHandler:
 	_timerHandlerMacro
 _niceHandler:
 	syscallHandlerMaster 13
+
+
+_semOpenHandler:
+	syscallHandlerMaster 14
+_semCloseHandler:
+	syscallHandlerMaster 15
+_semPostHandler:
+	syscallHandlerMaster 16
+_semWaitHandler:
+	syscallHandlerMaster 17
+_semStatusHandler:
+	syscallHandlerMaster 18
+
+
 
 _blockHandler:
 	pushStateNoRAX

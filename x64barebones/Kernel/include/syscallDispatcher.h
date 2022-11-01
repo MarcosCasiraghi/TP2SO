@@ -10,6 +10,7 @@
 #include <lib.h>
 #include <interrupts.h>
 #include <MemoryManager.h>
+#include <semaphores.h>
 
 
 uint64_t syscallDispatcher();
@@ -43,5 +44,11 @@ void int_91(char * buffer);
 void int_92(char * buffer);
 
 void int_94(int pid, int priority);
+
+int int_97(int id, int value);
+int int_98(int id);
+int int_99(int id);
+int int_100(int id);
+void int_101(char * buffer);
 
 #endif
