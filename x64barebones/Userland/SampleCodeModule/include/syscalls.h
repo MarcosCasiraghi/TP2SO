@@ -15,7 +15,7 @@ void sys_block( int pid );
 int sys_registers(uint64_t * reg);
 void sys_time(char * buffer);
 void sys_getMem(uint8_t * address, char * buffer);
-void sys_malloc(uint64_t size, void ** address);
+void * sys_malloc(uint64_t size);
 void sys_free(void * address);
 void sys_memStatus(char * buffer);
 void sys_ps(char* buffer);

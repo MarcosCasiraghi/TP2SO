@@ -26,7 +26,7 @@ void mmTest(){
 
         while( rq < MAX_BLOCKS && total < MAX_MEMORY){
             mm_rqs[rq].size = GetUniform(MAX_MEMORY - total - 1) +1;
-            sys_malloc((uint64_t) mm_rqs[rq].size, &mm_rqs[rq].address);
+            mm_rqs[rq].address = sys_malloc((uint64_t) mm_rqs[rq].size);
 
             if (mm_rqs[rq].address == NULL) {
                 print("No memory left\n", RED,BLACK);
@@ -70,7 +70,7 @@ void mmTest2(){
 
     while( rq < MAX_BLOCKS && total < MAX_MEMORY){
             mm_rqs[rq].size = GetUniform(MAX_MEMORY - total - 1) +1;
-            sys_malloc((uint64_t) mm_rqs[rq].size, &mm_rqs[rq].address);
+            mm_rqs[rq].address = sys_malloc((uint64_t) mm_rqs[rq].size);
 
             if (mm_rqs[rq].address == NULL) {
                 print("No memory left\n", RED,BLACK);

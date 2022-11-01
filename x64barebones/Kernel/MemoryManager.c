@@ -41,10 +41,9 @@ void freeAll(){
 
 }
 
-void allocMemory(uint64_t nbytes, void ** addressToRet){
+void * allocMemory(uint64_t nbytes){
     if(nbytes == 0){
-        *addressToRet = NULL;
-        return;
+        return NULL;
     }
 
     Header *Cnode, *prevPtr;
@@ -72,14 +71,13 @@ void allocMemory(uint64_t nbytes, void ** addressToRet){
             is_allocating = false;
         }
         if( Cnode == freeList){
-            addressToRet = NULL;
-            return;
+            return NULL;
         }
 
         prevPtr = Cnode;
     }
 
-    *addressToRet = result;
+    return result;
     // return result;
 }
 

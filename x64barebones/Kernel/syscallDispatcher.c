@@ -6,7 +6,7 @@
 static uint8_t hasRegDump=0;
 static uint64_t regdump[17]={0};
 
-void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8){
+uint64_t syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8){
 	switch(r8){
 		case 1:
 			int_80(rdi,rsi,rdx,rcx);
@@ -30,8 +30,7 @@ void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, u
             int_87(rdi, rsi);
             break;
         case 9:
-            int_89(rdi, rsi);
-            break;
+            return int_89(rdi);
         case 10:
             int_90(rdi);
             break;
@@ -184,8 +183,8 @@ void int_87(uint8_t * address, char * buffer){
 	}
 }
 
-void int_89(uint64_t size, void ** address){
-    allocMemory(size, address);
+void * int_89(uint64_t size){
+    return allocMemory(size);
 }
 
 void int_90(void * address){

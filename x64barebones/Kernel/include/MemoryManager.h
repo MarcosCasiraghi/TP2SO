@@ -9,7 +9,7 @@
 void freeAll();
 void initializeMemoryManager( char * startAddress, size_t size);
 
-void allocMemory( const uint64_t nbytes, void ** addressToRet);
+void * allocMemory( const uint64_t nbytes);
 
 void freeMemory( void * block);
 

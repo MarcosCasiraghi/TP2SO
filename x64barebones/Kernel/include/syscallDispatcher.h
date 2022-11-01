@@ -12,7 +12,7 @@
 #include <MemoryManager.h>
 
 
-void syscallDispatcher();
+uint64_t syscallDispatcher();
 
 //write
 void int_80(char * buffer, uint8_t fontColor, uint8_t backColor, int length);
@@ -34,7 +34,7 @@ void int_86(char * buffer);
 
 void int_87(uint8_t * address, char * buffer);
 
-void int_89(uint64_t size, void ** address);
+void * int_89(uint64_t size);
 
 void int_90(void * address);
 

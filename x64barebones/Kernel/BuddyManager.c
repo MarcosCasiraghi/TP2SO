@@ -52,12 +52,11 @@ void initializeMemoryManager( char * startAddress, size_t size){
   addNodeToBucket(&buckets[buckets_amount - 1], base_ptr, buckets_amount - 1);
 }
 
-void allocMemory( const uint64_t nbytes, void ** addressToRet){
+void * allocMemory( const uint64_t nbytes){
     size_t bytesNeeded = nbytes + sizeof(BList);
 
     if (nbytes == 0 || bytesNeeded > maximum_bucket_size + 1) {
-        *addressToRet = NULL;
-        return;
+        return NULL;
     }
 
     uint8_t idealBucket = getMinimumSuitableBucket(bytesNeeded);
@@ -76,7 +75,7 @@ void allocMemory( const uint64_t nbytes, void ** addressToRet){
 
     resultNode->free = 0;
 
-    *addressToRet = (void *)(resultNode + 1);
+    return (void *)(resultNode + 1);
 }
 
 void freeMemory(void *block) {
