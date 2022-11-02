@@ -115,3 +115,21 @@ void semStatus(){
     my_printf(buffer);
     exit();
 }
+
+void semTest1(){
+    semOpen(1,1);
+    wait(1);
+    while(1){};
+}
+void semTest2(){
+    semOpen(1,1);
+    while(1){
+    wait(1);
+    
+    
+    for(int i=0;i<10000000;i++){}
+    my_printf("2");
+    post(1);
+    }
+    exit();
+}
