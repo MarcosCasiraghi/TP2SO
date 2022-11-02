@@ -159,9 +159,10 @@ void next(){
         if(i>=MAX_TASKS){
             j=i%MAX_TASKS;
         }
-        if (tasks[j].present == 1 && tasks[j].status == READY && tasks[j].priority <= tasks[activePID].priority) {
+        if (tasks[j].present == 1 && tasks[j].status == READY && tasks[j].priority != SHELLPRIO) {
             if (j != activePID) {
                 activePID = j;
+                priorityTickers[tasks[activePID].priority]++;
                 return;
             }
         }
