@@ -59,4 +59,37 @@ void kill(char * pid){
     exit();
 }
 
+int pipeOpen(int pipeId){
+    if (sys_pipeOpen(pipeId) == -1){
+        return -1;
+    }
+    return 1;
+}
+
+int pipeClose(int pipeId){
+    if (sys_pipeClose(pipeId) == -1){
+        return -1;
+    }
+    return 1;
+}
+
+int pipeWrite(int pipeId, char * string){
+    if (sys_pipeWrite(pipeId, string) == -1){
+        return -1;
+    }
+    return 1;
+}
+
+int pipeRead(int pipeId){
+    if (sys_pipeRead(pipeId) == -1){
+        return -1;
+    }
+    return c;
+}
+
+void pipeStatus(){
+    my_printf("status de los pipes");
+    exit();
+}
+
 

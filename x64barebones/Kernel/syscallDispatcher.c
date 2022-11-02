@@ -43,6 +43,21 @@ uint64_t syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rc
         case 13:
             int_94(rdi, rsi);
             break;
+        case 19:
+            int_102(rdi);
+            break;
+        case 20:
+            int_103(rdi);
+            break;
+        case 21:
+            int_104(rdi);
+            break;
+        case 22:
+            int_105(rdi, rsi);
+            break;
+        case 23:
+            int_106(rdi, buffer);
+            break;
 
 	}
 }
@@ -201,4 +216,24 @@ void int_92(char * buffer){
 
 void int_94(int pid, int priority){
     nice(pid, priority);
+}
+
+int int_102(int pipeId){
+    openPipe(pipeId);
+}
+
+int int_103(int pipeId){
+    closePipe(pipeId);
+}
+
+int int_104(int pipeId){
+    readPipe(pipeId);
+}
+
+int int_105(int pipeId, char * string){
+    writePipe(pipeId);
+}
+
+int int_106(int pipeId, char * buffer){
+    pipeStatus(pipeId, buffer);
 }

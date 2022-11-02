@@ -31,6 +31,11 @@ GLOBAL _mallocHandler
 GLOBAL _freeHandler
 GLOBAL _mmStatusHandler
 GLOBAL _getPIDHandler
+GLOBAL _closePipeHandler
+GLOBAL _openPipeHandler
+GLOBAL _readPipeHandler
+GLOBAL _pipeStatusHandler
+GLOBAL _writePipeHandler
 
 EXTERN irqDispatcher
 EXTERN syscallDispatcher
@@ -444,6 +449,21 @@ _getPIDHandler:
 	popStateNoRAX
 
 	iretq
+
+_openPipeHandler:
+    syscallHandlerMaster 19
+
+_closePipeHandler:
+    syscallHandlerMaster 20
+
+_readPipeHandler:
+    syscallHandlerMaster 21
+
+_writePipeHandler:
+    syscallHandlerMaster 22
+
+_pipeStatusHandler:
+    syscallHandlerMaster 23
 
 
 haltcpu:

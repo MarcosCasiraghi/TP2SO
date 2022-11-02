@@ -87,4 +87,24 @@ sys_block:
 sys_getPID:
     int 96h
     ret
+
+sys_pipeStatus:
+    int 102h
+    ret
+
+sys_pipeClose:
+    int 103h
+    ret
+
+sys_pipeOpen:
+    int 104h
+    ret
+
+sys_pipeWrite:
+    int 105h
+    ret
+
+sys_pipeRead:
+    int 106h
+    ret
     

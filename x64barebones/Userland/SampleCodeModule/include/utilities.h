@@ -14,5 +14,11 @@ void time();
 void ps();
 void clearConsole();
 void kill(char * pid);
+int pipeRead(int pipeId);
+int pipeWrite(int pipeId, char * string);
+int pipeOpen(int pipeId);
+int pipeClose(int pipeId);
+int pipeStatus(int pipeId, char * buffer);
+
 
 #endif

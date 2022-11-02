@@ -10,6 +10,7 @@
 #include <lib.h>
 #include <interrupts.h>
 #include <MemoryManager.h>
+#include <pipes.h>
 
 
 uint64_t syscallDispatcher();
@@ -43,5 +44,15 @@ void int_91(char * buffer);
 void int_92(char * buffer);
 
 void int_94(int pid, int priority);
+
+void int_102(int pipeId);
+
+void int_103(int pipeId);
+
+void int_104(int pipeId);
+
+void int_105(int pipeId, char * string);
+
+void int_106(int pipeId, char * buffer);
 
 #endif

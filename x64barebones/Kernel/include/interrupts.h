@@ -16,6 +16,11 @@ void _blockHandler(void);
 void _registersHandler(void);
 void _getRTCHandler(void);
 void _getMemHandler(void);
+void _openPipeHandler(void);
+void _closePipeHandler(void);
+void _readPipeHandler(void);
+void _writePipeHandler(void);
+void _pipeStatusHandler(void);
 void _exec(void);
 
 void _div0Handler(void);
