@@ -20,6 +20,7 @@
 #include <invalidOpCode.h>
 #include <mmTest.h>
 #include <processTest.h>
+#include <priorityTest.h>
 
 void checkPrintMem(char* func1,char * parameter1);
 void run(char * buffer);

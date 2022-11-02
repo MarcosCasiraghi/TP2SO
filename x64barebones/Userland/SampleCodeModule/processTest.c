@@ -22,8 +22,8 @@ void processTest() {
     my_printf("Cycle Number: %d\n", counter++);
     for (rq = 0; rq < MAX_PROCESSES; rq++) {
       char *argv[] = {"Idle Process"};
-      p_rqs[rq].pid = sys_scheduler(argv,&idleProcess, FOREGROUND, LOWEST, '\0' );
-      if (p_rqs[rq].pid == 7) {
+      p_rqs[rq].pid = sys_scheduler(*argv,&idleProcess, BACKGROUND, MEDIUM, '\0' );
+      if (p_rqs[rq].pid == -1) {
         my_printf("Error creating process\n");
         exit();
       } else {
@@ -70,18 +70,4 @@ void processTest() {
       }
     }
   }
-}
-
-void idleProcess() {
-  int pid = sys_getPID();
-  while (1) {
-    my_printf("%d ", pid);
-    busyWait(MAJOR_WAIT);
-  }
-}
-
-void busyWait(int time) {
-  uint64_t i;
-  for (i = 0; i < time; i++)
-    ;
 }

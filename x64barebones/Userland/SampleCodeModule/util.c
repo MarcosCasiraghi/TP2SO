@@ -26,3 +26,17 @@ uint8_t memcheck(void *start, uint8_t value, uint32_t size){
   return 1;
 }
 
+void idleProcess() {
+  int pid = sys_getPID();
+  while (1) {
+    my_printf("%d ", pid);
+    busyWait(MAJOR_WAIT);
+  }
+}
+
+void busyWait(int time) {
+  uint64_t i;
+  for (i = 0; i < time; i++)
+    ;
+}
+
