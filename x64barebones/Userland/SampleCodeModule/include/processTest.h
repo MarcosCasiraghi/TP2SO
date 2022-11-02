@@ -7,12 +7,6 @@
 #include <standardlib.h>
 #include <utilities.h>
 
-#define MAJOR_WAIT 10000000
-
 void processTest();
-
-void idleProcess();
-
-void busyWait(int time);
 
 #endif
