@@ -81,13 +81,14 @@ int pipeWrite(int pipeId, char * string){
 }
 
 int pipeRead(int pipeId){
-    if (sys_pipeRead(pipeId) == -1){
+    char c = sys_pipeRead(pipeId);
+    if (c == -1){
         return -1;
     }
     return c;
 }
 
-void pipeStatus(){
+void pipeStatus(int pipeId, char * buffer){
     my_printf("status de los pipes");
     exit();
 }

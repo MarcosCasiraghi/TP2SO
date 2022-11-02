@@ -3,7 +3,7 @@
 
 #define MAX_PIPES 8
 
-t_pipe pipes[MAX_PIPES];
+pipe pipes[MAX_PIPES];
 
 int initialSemId = 100;
 
@@ -11,7 +11,7 @@ static int createPipe(int pipeId);
 static int getPipeIndex(int pipeId);
 
 int openPipe(int pipeId){
-    int index == getPipeIndex(pipeId);
+    int index = getPipeIndex(pipeId);
     if (index == -1){
         index = createPipe(pipeId);
         if (index == -1){
@@ -31,9 +31,9 @@ int writePipe(int pipeId, char * string){
         wait(pipes[index].writeLock);
 
         if (pipes[index].writeIndex > BUFFERSIZE) {
-            return;
+            return -1;
         }
-        pipes[index].buffer[pipes[idx].writeIndex] = c;
+        pipes[index].buffer[pipes[index].writeIndex] = string[i];
         pipes[index].writeIndex++;
 
         post(pipes[index].readLock);
@@ -115,8 +115,8 @@ static int createPipe(int pipeId) {
 
 
 
-//
-//void pipeStatus() {
+
+void pipeStatus() {
 //    printf("\n\nActive Pipe Status\n\n"); //TODO: no imprimir en el back
 //    for (int i = 0; i < MAX_PIPES; i++) {
 //        t_pipe pipe = pipes[i];
@@ -133,4 +133,4 @@ static int createPipe(int pipeId) {
 //        }
 //    }
 //    printf("\n\n");
-//}
+}

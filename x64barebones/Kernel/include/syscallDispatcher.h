@@ -56,13 +56,13 @@ int int_100(int id);
 
 void int_101(char * buffer);
 
-void int_102(int pipeId);
+int int_102(int pipeId);
 
-void int_103(int pipeId);
+int int_103(int pipeId);
 
-void int_104(int pipeId);
+int int_104(int pipeId);
 
-void int_105(int pipeId, char * string);
+int int_105(int pipeId, char * string);
 
 void int_106(int pipeId, char * buffer);
 
