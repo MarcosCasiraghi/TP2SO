@@ -108,29 +108,29 @@ sys_semWait:
     int 99h
     ret
 sys_semPost:
-    int 100h
+    int 8Ah
     ret
 sys_semStatus:
-    int 101h
+    int 8Bh
     ret
 
 sys_pipeStatus:
-    int 102h
+    int 8Ch
     ret
 
 sys_pipeClose:
-    int 103h
+    int 8Dh
     ret
 
 sys_pipeOpen:
-    int 104h
+    int 8Eh
     ret
 
 sys_pipeWrite:
-    int 105h
+    int 8Fh
     ret
 
 sys_pipeRead:
-    int 106h
+    int 9Ah
     ret
 
