@@ -14,6 +14,10 @@
 #define FOREGROUND 0
 #define BACKGROUND 1
 
+#define HIGHESTTICKS 3
+#define MEDIUMTICKS 2
+#define LOWESTTICKS 1
+
 typedef void (*functionPointer)(void);
 
 typedef struct{
@@ -29,6 +33,7 @@ typedef struct{
 
 static int activePID = 0;
 static FunctionType tasks[MAX_TASKS];
+static int priorityTickers[3] = {0};
 
 static int splitScreenMode=0;
 
@@ -138,18 +143,17 @@ int getParameter(){
 void next(){
     if (tasks[activePID].present==1 && tasks[activePID].status == KILLED){
         tasks[activePID].present =0;
-        int maxPrioIndex = -1;
-        int maxPrio = -1;
-        for (int i = 0; i < MAX_TASKS; ++i) {
-            if (tasks[i].present==1 && tasks[i].status==READY && (maxPrioIndex == -1 || tasks[i].priority > maxPrio)){
-                maxPrio = tasks[i].priority;
-                maxPrioIndex = i;
-            }
-        }
-        activePID = maxPrioIndex;
+    }
+    else if (tasks[activePID].priority == HIGHEST && priorityTickers[HIGHEST] < HIGHESTTICKS){
+        priorityTickers[HIGHEST]++;
         return;
     }
-    
+    else if (tasks[activePID].priority == MEDIUM && priorityTickers[MEDIUM] < MEDIUMTICKS){
+        priorityTickers[MEDIUM]++;
+        return;
+    }
+
+    priorityTickers[tasks[activePID].priority] = 0;
     for (int i = activePID +1 ; i < activePID+MAX_TASKS; i++) {
         int j = i;
         if(i>=MAX_TASKS){
@@ -297,4 +301,11 @@ int shellRunning(){
 
 int isForeground(){
     return tasks[activePID].ground == FOREGROUND;
+}
+
+void yield(uint64_t * registers, uint8_t load){
+    int aux = activePID;
+    tasks[aux].status = KILLED;
+    registerManager(registers,load);
+    tasks[aux].status = READY;
 }

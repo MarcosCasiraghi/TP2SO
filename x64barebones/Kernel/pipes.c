@@ -46,10 +46,11 @@ int readPipe(int pipeId){
     if (index == -1){
         return -1;
     }
+    if (pipes[index].readIndex >= pipes[index].writeIndex)
+        return -2;
 
     wait(pipes[index].readLock);
 
-    // if ()
 
     char c = pipes[index].buffer[pipes[index].readIndex];
     pipes[index].readIndex = (pipes[index].readIndex + 1) % BUFFERSIZE;  //Se lee el pipe de manera circular

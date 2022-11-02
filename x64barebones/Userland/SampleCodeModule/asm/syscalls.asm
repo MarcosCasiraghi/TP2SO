@@ -16,6 +16,7 @@ GLOBAL sys_malloc
 GLOBAL sys_free
 GLOBAL sys_memStatus
 GLOBAL sys_ps
+GLOBAL sys_yield
 GLOBAL sys_getPID
 GLOBAL sys_semOpen
 GLOBAL sys_semClose
@@ -129,7 +130,10 @@ sys_pipeWrite:
     int 8Fh
     ret
 
-
 sys_pipeStatus:
     int 9Ah
+    ret
+
+sys_yield:
+    int 9Bh
     ret

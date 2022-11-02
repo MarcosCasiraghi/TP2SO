@@ -83,10 +83,7 @@ void load_idt() {
 
   setup_IDT_entry(0x9A, (uint64_t)&_pipeStatusHandler);
 
-
-
-
-
+    setup_IDT_entry(0x9B, (uint64_t)&_yieldHandler);
 
   //divide by 0 exception
   setup_IDT_entry (0x00, (uint64_t)&_div0Handler);

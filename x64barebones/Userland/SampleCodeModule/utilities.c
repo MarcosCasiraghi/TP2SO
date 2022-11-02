@@ -133,3 +133,7 @@ void semTest2(){
     }
     exit();
 }
+
+void yield(){
+    sys_yield();
+}

@@ -12,6 +12,7 @@ GLOBAL _readHandler
 GLOBAL _writeHandler
 GLOBAL _clearHandler
 GLOBAL _exitHandler
+GLOBAL _yieldHandler
 
 GLOBAL _psHandler
 
@@ -170,33 +171,7 @@ SECTION .text
     mov  r15,[%1+16*8]
 %endmacro
 
-%macro _timerHandlerMacro 0
-	saveRegs regdata
-	mov rdi, 0 ; pasaje de parametro
-    call irqDispatcher
-
-
-
-	;si no hay procesos no quiero que haya context switching
-	call getProcesses
-	cmp rax,0
-	jz .fin
-
-	;guardo registros en regdata
-	mov rbx, [rsp]
-    mov [regdata], rbx ;rip
-
-	mov rbx, [rsp+3*8]
-    mov [regdata+8*8],rbx ;rsp
-
-	mov rbx,[rsp+2*8]
-	mov [regdata+17*8],rbx ;flags
-
-	; cargo regdata en rdi para pasar parametro
-	;guardo contexto de programas, recibo contexto del siguiente programa a correr
-    mov rdi, regdata
-	mov rsi, [firstTime]
-    call registerManager
+%macro _contextSwitcher 0
 
 	;la primera vez no debo settear el contexto, por eso el flag "firstTime"
 	mov BYTE [firstTime],1
@@ -240,6 +215,63 @@ SECTION .text
     iretq
 %endmacro
 
+%macro _timerHandlerMacro 0
+	saveRegs regdata
+	mov rdi, 0 ; pasaje de parametro
+    call irqDispatcher
+
+
+	;si no hay procesos no quiero que haya context switching
+	call getProcesses
+	cmp rax,0
+	jz .fin
+
+	;guardo registros en regdata
+	mov rbx, [rsp]
+    mov [regdata], rbx ;rip
+
+	mov rbx, [rsp+3*8]
+    mov [regdata+8*8],rbx ;rsp
+
+	mov rbx,[rsp+2*8]
+	mov [regdata+17*8],rbx ;flags
+
+	; cargo regdata en rdi para pasar parametro
+	;guardo contexto de programas, recibo contexto del siguiente programa a correr
+    mov rdi, regdata
+	mov rsi, [firstTime]
+    call registerManager
+    _contextSwitcher
+%endmacro
+
+%macro _yieldMacro 0
+    saveRegs regdata
+	mov rdi, 0 ; pasaje de parametro
+    call irqDispatcher
+
+
+	;si no hay procesos no quiero que haya context switching
+	call getProcesses
+	cmp rax,0
+	jz .fin
+
+	;guardo registros en regdata
+	mov rbx, [rsp]
+    mov [regdata], rbx ;rip
+
+	mov rbx, [rsp+3*8]
+    mov [regdata+8*8],rbx ;rsp
+
+	mov rbx,[rsp+2*8]
+	mov [regdata+17*8],rbx ;flags
+
+	; cargo regdata en rdi para pasar parametro
+	;guardo contexto de programas, recibo contexto del siguiente programa a correr
+    mov rdi, regdata
+	mov rsi, [firstTime]
+    call yield
+    _contextSwitcher
+%endmacro
 
 %macro interruptHandlerMaster 1
 	pushState
@@ -503,6 +535,10 @@ _writePipeHandler:
 
 _pipeStatusHandler:
     syscallHandlerMaster 23
+
+_yieldHandler:
+    syscallHandlerMaster 24
+
 
 
 haltcpu:

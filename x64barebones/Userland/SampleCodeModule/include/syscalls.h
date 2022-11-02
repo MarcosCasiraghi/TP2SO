@@ -20,6 +20,7 @@ void sys_free(void * address);
 void sys_memStatus(char * buffer);
 void sys_ps(char* buffer);
 int sys_getPID();
+void sys_yield();
 int sys_semOpen(int id, int value);
 int sys_semClose(int id);
 int sys_semWait(int id);
