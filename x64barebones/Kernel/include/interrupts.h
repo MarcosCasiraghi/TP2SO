@@ -22,7 +22,11 @@ void _readPipeHandler(void);
 void _writePipeHandler(void);
 void _pipeStatusHandler(void);
 void _exec(void);
-
+void _semOpenHandler(void);
+void _semCloseHandler(void);
+void _semWaitHandler(void);
+void _semPostHandler(void);
+void _semStatusHandler(void);
 void _div0Handler(void);
 void _invalidOpcodeHandler(void);
 

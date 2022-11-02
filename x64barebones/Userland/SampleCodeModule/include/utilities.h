@@ -19,6 +19,10 @@ int pipeWrite(int pipeId, char * string);
 int pipeOpen(int pipeId);
 int pipeClose(int pipeId);
 int pipeStatus(int pipeId, char * buffer);
-
+int semOpen(int id, int value);
+int semClose(int id);
+int post(int id);
+int wait(int id);
+void semStatus();
 
 #endif

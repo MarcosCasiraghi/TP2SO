@@ -53,3 +53,9 @@ char hexaChar(uint8_t value) {
 	     return value >= 10 ? (value - 10 + 'A') : (value + '0');
 }
 
+void mutex_lock(int *mutex){
+	while(_xchg(mutex,1)!=0);
+}
+void mutex_unlock(int * mutex){
+	_xchg(mutex,0);
+}
