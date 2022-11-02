@@ -104,17 +104,17 @@ sys_semOpen:
 sys_semClose:
     int 98h
     ret
-sys_semWait:
+sys_semPost:
     int 99h
     ret
-sys_semPost:
+sys_semWait:
     int 8Ah
     ret
 sys_semStatus:
     int 8Bh
     ret
 
-sys_pipeStatus:
+sys_pipeOpen:
     int 8Ch
     ret
 
@@ -122,15 +122,14 @@ sys_pipeClose:
     int 8Dh
     ret
 
-sys_pipeOpen:
+sys_pipeRead:
     int 8Eh
     ret
-
 sys_pipeWrite:
     int 8Fh
     ret
 
-sys_pipeRead:
+
+sys_pipeStatus:
     int 9Ah
     ret
-

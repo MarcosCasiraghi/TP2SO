@@ -73,17 +73,15 @@ void load_idt() {
 
   setup_IDT_entry(0x8B, (uint64_t)&_semStatusHandler);
 
+  setup_IDT_entry(0x8C, (uint64_t)&_openPipeHandler);
 
+  setup_IDT_entry(0x8D, (uint64_t)&_closePipeHandler);
 
-    setup_IDT_entry(0x8C, (uint64_t)&_openPipeHandler);
+  setup_IDT_entry(0x8E, (uint64_t)&_readPipeHandler);
 
-    setup_IDT_entry(0x8D, (uint64_t)&_closePipeHandler);
+  setup_IDT_entry(0x8F, (uint64_t)&_writePipeHandler);
 
-    setup_IDT_entry(0x8E, (uint64_t)&_readPipeHandler);
-
-    setup_IDT_entry(0x8F, (uint64_t)&_writePipeHandler);
-
-    setup_IDT_entry(0x9A, (uint64_t)&_pipeStatusHandler);
+  setup_IDT_entry(0x9A, (uint64_t)&_pipeStatusHandler);
 
 
 

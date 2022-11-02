@@ -21,7 +21,7 @@ int wait(int id){
         mutex_unlock(&(aux->mutex));
     }
     else{
-        int pid = getActivePId();
+        int pid = getPID();
         aux->blockedProccesses[aux->blockCounter++] = pid;
         mutex_unlock(&(aux->mutex));
         blockProcess(pid);

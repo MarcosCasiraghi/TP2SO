@@ -267,6 +267,19 @@ SECTION .text
 
 %endmacro
 
+%macro syscallHandlerMasterTick 1
+	pushStateNoRAX
+	
+	mov r8, %1
+	call syscallDispatcher
+
+	popStateNoRAX
+
+	_timerHandlerMacro
+
+%endmacro
+
+
 
 
 %macro exceptionHandler 1
@@ -452,7 +465,7 @@ _semCloseHandler:
 _semPostHandler:
 	syscallHandlerMaster 16
 _semWaitHandler:
-	syscallHandlerMaster 17
+	syscallHandlerMasterTick 17
 _semStatusHandler:
 	syscallHandlerMaster 18
 

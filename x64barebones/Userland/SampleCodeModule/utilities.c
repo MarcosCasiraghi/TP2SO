@@ -119,13 +119,13 @@ void semStatus(){
 void semTest1(){
     semOpen(1,1);
     wait(1);
-    while(1){};
+    // while(1){};
+    exit();
 }
 void semTest2(){
     semOpen(1,1);
     while(1){
     wait(1);
-    
     
     for(int i=0;i<10000000;i++){}
     my_printf("2");
