@@ -153,7 +153,9 @@ void next(){
         return;
     }
 
-    priorityTickers[tasks[activePID].priority] = 0;
+    if (tasks[activePID].priority != SHELLPRIO)
+        priorityTickers[tasks[activePID].priority] = 0;
+
     for (int i = activePID +1 ; i < activePID+MAX_TASKS; i++) {
         int j = i;
         if(i>=MAX_TASKS){
@@ -177,7 +179,7 @@ void next(){
 
 int foregroundRunning(){
     for (int i = 0; i < MAX_TASKS; ++i) {
-        if (tasks[i].present == 1 && tasks[i].status == READY && tasks[i].priority != SHELLPRIO && tasks[i].ground == FOREGROUND)
+        if (tasks[i].present == 1 && tasks[i].status != KILLED && tasks[i].priority != SHELLPRIO && tasks[i].ground == FOREGROUND)
             return 1;
     }
     return 0;
