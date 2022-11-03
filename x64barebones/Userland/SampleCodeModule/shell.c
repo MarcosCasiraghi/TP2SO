@@ -29,6 +29,7 @@ static FunctionType programs[] = {{"fibonacci", &fibonacci, MEDIUM},
                                   {"semtest1", &semTest1, MEDIUM},
                                   {"semtest2", &semTest2, MEDIUM},
                                   {"prioritytest", &priorityTest, MEDIUM},
+                                  {"semtest",&test_sync,MEDIUM},
                                   {0,0,0}};
 
 void run(char * buffer){
@@ -83,8 +84,12 @@ int addFunctions(char * buffer){
     int specialFunc = 0;
 
     checkKill(func1, param1, &specialFunc);
-    if( specialFunc == 0)
+    if( specialFunc == 0){
         checkPrintMem(func1,param1, &specialFunc);
+    }
+    if( specialFunc == 0){
+        checkSemtest(func1,param1, &specialFunc);
+    }
     int funcIndex = getFuncIndex(func1, &background);
     if(funcIndex != -1){
         if (background == 1){
@@ -117,9 +122,9 @@ int createArgv(char * name, char * params, char ** argv){
             i++;
         }
         if(params[i] == ' '){
-            params[i] = '\0';
+            params[i++] = '\0';
             argv[j++] = params+k;
-            k = i+1;
+            k = i;
             argc++;
         }else{
             argv[j++] = params+k;
@@ -169,6 +174,36 @@ void checkKill(char * func, char * parameter, int * flag){
 void checkPrintMem(char* func1,char * parameter1, int * flag){
     int flag1=1;
     char* prntmem = "printmem";
+    int i;
+
+    for(i=0;i<my_strlen(prntmem)&&i<my_strlen(func1) && flag1;i++){
+        if(prntmem[i]!=func1[i]){
+            flag1=0;
+        }
+    }
+
+    if(i<my_strlen(prntmem) || func1[my_strlen(prntmem)]!=' '){
+        flag1=0;
+        parameter1[0] = '\0';
+    }
+
+    if(flag1){
+        *flag = 1;
+        func1[my_strlen(prntmem)]='\0';
+        int a=0;
+        while(func1[a+1+my_strlen(prntmem)] && a<19){
+            parameter1[a]=func1[a+1+my_strlen(prntmem)];
+            a++;
+        }
+        parameter1[a] = '\0';
+
+    }
+
+}
+
+void checkSemtest(char* func1,char * parameter1, int * flag){
+    int flag1=1;
+    char* prntmem = "semtest";
     int i;
 
     for(i=0;i<my_strlen(prntmem)&&i<my_strlen(func1) && flag1;i++){

@@ -22,8 +22,10 @@
 #include <mmTest.h>
 #include <processTest.h>
 #include <priorityTest.h>
+#include <test_sync.h>
 
 void checkPrintMem(char* func1,char * parameter1, int * flag);
+void checkSemtest(char* func1,char * parameter1, int * flag);
 void run(char * buffer);
 void shell();
 void initShell();
