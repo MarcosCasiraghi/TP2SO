@@ -7,13 +7,12 @@
 #include <strings.h>
 #include <stdlib.h>
 
-int add_task(char *name, void * task,int ground,int priority,uint64_t parametro, uint64_t flags);
+int add_task( void * task,int ground,int priority,uint64_t argc, char * argv[], uint64_t flags);
 int tasksRunning(void);
 
 //recive por parametro flag para saber que caso tiene que ejecutarse
 //(matar a un programa activo, ambos, solo izq, solo derecha)
 void schedulerExit(int amountOfFuncs);
-int getParameter();
 int getActivePId();
 int getPID();
 int shellRunning();

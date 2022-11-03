@@ -76,8 +76,8 @@ uint64_t syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rc
 	}
 }
 
-int schedulerDispatcher(char * name, void * func,int ground,int priority, uint64_t parametro,uint64_t flags){
-    return add_task(name, func,ground,priority, parametro, flags);
+int schedulerDispatcher( void * func,int ground,int priority, uint64_t argc, char * argv[],uint64_t flags){
+    return add_task( func,ground,priority, argc, argv, flags);
 }
 
 //a lo mejor en el futuro haya que agregar cases o mas parametros para el split screen

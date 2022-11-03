@@ -22,7 +22,7 @@ void processTest() {
     my_printf("Cycle Number: %d\n", counter++);
     for (rq = 0; rq < MAX_PROCESSES; rq++) {
       char *argv[] = {"Idle Process"};
-      p_rqs[rq].pid = sys_scheduler(*argv,&idleProcess, BACKGROUND, MEDIUM, '\0' );
+      p_rqs[rq].pid = sys_scheduler(&idleProcess, BACKGROUND, MEDIUM, 1, argv );
       if (p_rqs[rq].pid == -1) {
         my_printf("Error creating process\n");
         exit();

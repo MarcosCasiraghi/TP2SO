@@ -23,15 +23,15 @@ int readAddress(char* s, uint8_t** result) {
 	return 1;
 }
 
-void printMem(char param[20]) {
-	if(param[0]==0){
+void printMem(uint64_t argc, char ** argv) {
+	if(argc != 2){
 		my_printf("Esta funcion requiere un parametro\n");
 		exit();
 	}
 
 
 	uint8_t* p;
-	if (!readAddress(param, &p)) {
+	if (!readAddress(argv[1], &p)) {
 		my_printf("El parametro ingresado no es valido\n");
 		exit();
 	}

@@ -21,12 +21,13 @@
 typedef void (*functionPointer)(void);
 
 typedef struct{
-    char * name;
     functionPointer func;
     int present;
     int status;
     int pID;
-    uint64_t param;
+    char * name;
+    uint64_t argc;
+    char ** argv;
     int priority;
     int ground;
 }FunctionType;
@@ -46,8 +47,7 @@ void ps(char * result){
    int counter = 0;
    for (int i = 0; i < MAX_TASKS; i++){
        if (tasks[i].present == 1 && tasks[i].status != KILLED){
-
-           for(int j = 0;tasks[i].name[j] != '\0'; j++){
+           for(int j = 0; tasks[i].name[j] != '\0'; j++){
                result[counter++] = tasks[i].name[j];
            }
 
@@ -108,23 +108,26 @@ void ps(char * result){
    result[counter] = '\0';
 }
 
-int add_task(char *name, void * task,int ground,int priority,uint64_t parametro, uint64_t flags){
+int add_task( void * task,int ground,int priority,uint64_t argc, char * argv[], uint64_t flags){
 
     for (int i = 0; i < MAX_TASKS; ++i) {
         if(tasks[i].present!=1 || ( tasks[i].present == 1 && tasks[i].status == KILLED)){
             tasks[i].func=task;
-            tasks[i].name=name;
             tasks[i].present = 1;
             tasks[i].status = READY;
             tasks[i].pID = pIDCounter++;
+            tasks[i].name = argv[0];
             reg[i][0]= tasks[i].func;
-            reg[i][6]= parametro;
+            reg[i][5] = argv;
+            reg[i][6]= argc;
             reg[i][8]= (stack[i]+4095);
             reg[i][17]=flags;
-            tasks[i].param=parametro;
+            tasks[i].argc = argc;
+            tasks[i].argv=argv;
             tasks[i].priority = priority;
             tasks[i].ground = ground;
             processes++;
+            // ncPrint(argv[0]);
             return tasks[i].pID;
         }
     }
@@ -135,9 +138,6 @@ int add_task(char *name, void * task,int ground,int priority,uint64_t parametro,
 uint64_t * getRegisters(){
     next();
     return reg[activePID];
-}
-int getParameter(){
-    return tasks[activePID].param;
 }
 
 void next(){

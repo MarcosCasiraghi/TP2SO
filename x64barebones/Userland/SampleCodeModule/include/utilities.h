@@ -13,7 +13,7 @@ void exit();
 void time();
 void ps();
 void clearConsole();
-void kill(char * pid);
+void kill(uint64_t, char ** argv);
 int pipeRead(int pipeId);
 int pipeWrite(int pipeId, char * string);
 int pipeOpen(int pipeId);

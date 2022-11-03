@@ -9,7 +9,7 @@ void priorityTest(){
 
   for (i = 0; i < TOTAL_PROCESSES; i++) {
     char *argv[] = {"Idle Process"};
-    pids[i] = sys_scheduler(*argv, &idleProcess, BACKGROUND, MEDIUM, '\0');
+    pids[i] = sys_scheduler( &idleProcess, BACKGROUND, MEDIUM, 1, argv);
   }
 
   busyWait(TOTAL_PROCESSES * MAJOR_WAIT);

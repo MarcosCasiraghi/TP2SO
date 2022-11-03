@@ -44,12 +44,13 @@ void ps(){
     exit();
 }
 
-void kill(char * pid){
-    if( *pid == '\0'){
+void kill(uint64_t argc, char ** argv){
+    // my_printf("%d\n%s\n%s\n", argc, argv[0], argv[1] );
+    if( argc != 2){
         my_printf("Esta funcion debe recibir un parametro\nEscribirlo de la forma 'kill <numero>'\n");
         exit();
     }
-    int PID = atoi(pid);
+    int PID = atoi(argv[1]);
 
     if( PID == 0 ){
         my_printf("No se puede matar al proceso Shell\n");

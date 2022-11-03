@@ -2,13 +2,14 @@
 #define _SYSCALLS_H_
 
 #include <stdint.h>
+#include <shell.h>
 
 void sys_write(char * buffer, uint8_t fontColor, uint8_t backColor, int length);
 void sys_exit();
 void sys_clear();
 void sys_exec();
 void sys_read(char * buffer);
-int sys_scheduler(char * name, void * func,int ground,int priority, uint64_t parametro);
+int sys_scheduler(void * func,int ground,int priority, uint64_t argc, char * argv[]);
 int sys_kill( int pid);
 void sys_nice( int pid, int priority);
 int sys_block( int pid );

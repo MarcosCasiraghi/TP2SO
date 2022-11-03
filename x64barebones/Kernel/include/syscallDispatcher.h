@@ -30,7 +30,7 @@ void registersForInforeg(uint64_t * registers);
 //registers
 int int_85(uint64_t * registers);
 //add task para scheduler
-int schedulerDispatcher(char * name, void * func,int ground, int priority,uint64_t parametro,uint64_t flags);
+int schedulerDispatcher(void * func,int ground, int priority,uint64_t argc, char * argv[],uint64_t flags);
 //time
 void int_86(char * buffer);
 

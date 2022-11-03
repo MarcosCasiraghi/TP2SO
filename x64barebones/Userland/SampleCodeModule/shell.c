@@ -41,7 +41,8 @@ void run(char * buffer){
 }
 
 void initShell(){
-    sys_scheduler("shell", &shell,FOREGROUND, SHELLPRIO,(uint64_t)"shell");
+    char * params[] = {"shell", NULL};
+    sys_scheduler(&shell,FOREGROUND, SHELLPRIO, 1, params);
 }
 
 void shell(){
@@ -71,45 +72,82 @@ int addFunctions(char * buffer){
     int i2 = 0;
     int i3 = 0;
 
+    char * argv[MAX_PARAMS] = {0};
+
     while (buffer[i3]){
         func1[i1++] = buffer[i3];
         i3++;
     }
 
-    int flag = 0;
+    int background = 0;
+    int specialFunc = 0;
 
-        checkPrintMem(func1,param1);
-        checkKill(func1, param1);
-        int funcIndex = getFuncIndex(func1, &flag);
-        if(funcIndex != -1){
-            if (flag == 1)
-                sys_scheduler(programs[funcIndex].name, programs[funcIndex].func,BACKGROUND,programs[funcIndex].priority, (uint64_t) param1);
-            else if (flag == 0)
-                sys_scheduler(programs[funcIndex].name, programs[funcIndex].func,FOREGROUND,programs[funcIndex].priority, (uint64_t) param1);
-            return 1;
+    checkKill(func1, param1, &specialFunc);
+    if( specialFunc == 0)
+        checkPrintMem(func1,param1, &specialFunc);
+    int funcIndex = getFuncIndex(func1, &background);
+    if(funcIndex != -1){
+        if (background == 1){
+            uint64_t argc = createArgv(programs[funcIndex].name, param1, argv);
+            sys_scheduler(programs[funcIndex].func,BACKGROUND,programs[funcIndex].priority, argc, argv );
+        
         }
-        return -1;
+        else if (background == 0){
+            uint64_t argc;
+            argc = createArgv(programs[funcIndex].name, param1, argv);
+            sys_scheduler( programs[funcIndex].func,FOREGROUND,programs[funcIndex].priority, argc, argv);
+        }
+        return 1;
+    }
+    return -1;
 
 
 }
 
-void checkKill(char * func, char * parameter){
+int createArgv(char * name, char * params, char ** argv){
+    int argc = 1;
+
+    argv[0] = name;
+
+    int i = 0;
+    int j = 1;
+    int k = 0;
+    while(params[i] != '\0'){
+        while( params[i] != ' ' && params[i] != '\0'){
+            i++;
+        }
+        if(params[i] == ' '){
+            params[i] = '\0';
+            argv[j++] = params+k;
+            k = i+1;
+            argc++;
+        }else{
+            argv[j++] = params+k;
+            argc++;
+            return argc;
+        }
+    }
+    return argc;
+}
+
+void checkKill(char * func, char * parameter, int * flag){
     char * skill = "kill";
     int i = 0;
-    int flag = 1;
+    int flag1 = 1;
 
     for( ; i < my_strlen(skill) && i < my_strlen(func) ; i++){
         if(skill[i] != func[i]){
-            flag = 0;
+            flag1 = 0;
         }
     }
 
     if(i<my_strlen(skill) || func[my_strlen(skill)]!=' '){
-        flag=0;
+        flag1=0;
         parameter[0] = '\0';
     }
 
-    if(flag){
+    if(flag1){
+        *flag = 1;
         func[my_strlen(skill)]='\0';
         int a=0;
         while(func[a+1+my_strlen(skill)] && a<3){
@@ -128,7 +166,7 @@ void checkKill(char * func, char * parameter){
     }
 }
 
-void checkPrintMem(char* func1,char * parameter1){
+void checkPrintMem(char* func1,char * parameter1, int * flag){
     int flag1=1;
     char* prntmem = "printmem";
     int i;
@@ -145,6 +183,7 @@ void checkPrintMem(char* func1,char * parameter1){
     }
 
     if(flag1){
+        *flag = 1;
         func1[my_strlen(prntmem)]='\0';
         int a=0;
         while(func1[a+1+my_strlen(prntmem)] && a<19){
