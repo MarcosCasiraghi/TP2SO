@@ -11,7 +11,7 @@ typedef long Aling; //para alinear al limite mayor
 typedef union header {      //ecabezado del bloque
     struct {
         union header *ptr;  //puntero al siguiente bloque si esta en la lista libre
-        unsigned size;
+        size_t size;
     }s;
     Aling x;    //obliga la alineacion de bloques
 } Header;
@@ -23,11 +23,13 @@ static Header * freeList = NULL;    //inicio de una lista libre
 size_t tUnits;  
 
 void initializeMemoryManager(char * startAddress, size_t size){
-    heapsize=size;
-    memoryManagerModuleAdress=startAddress;
     if(startAddress == NULL){
         return;
     }
+
+    heapsize=size;
+    memoryManagerModuleAdress=startAddress;
+    
     tUnits = (size + sizeof(Header) -1) / sizeof(Header) +1;
     freeList = base = (Header *)startAddress;
     freeList->s.size = tUnits;
@@ -181,11 +183,11 @@ void memoryDump(char * buffer){
             buffer[i] = text[j];
         }
 
-        char number[5] = {0};
-        uintToBase(blockNumber, number, 10);
+        char numberString[5] = {0};
+        uintToBase(blockNumber, numberString, 10);
         j = 0;
-        for(; number[j]!= 0 ; i++, j++){
-            buffer[i] = number[j];
+        for(; numberString[j]!= 0 ; i++, j++){
+            buffer[i] = numberString[j];
         }
 
         char text2[] = {"\nBase: "};
@@ -194,11 +196,11 @@ void memoryDump(char * buffer){
             buffer[i] = text2[j];
         }
 
-        char address[10] = {0};
-        uintToBase(current, address, 16);
+        char addressString[15] = {0};
+        uintToBase(current, addressString, 16);
         j = 0;
-        for(; address[j]!= 0 ; i++, j++){
-            buffer[i] = address[j];
+        for(; addressString[j]!= 0 ; i++, j++){
+            buffer[i] = addressString[j];
         }
 
         char text3[] = {"\nFree Units: "};
@@ -207,17 +209,17 @@ void memoryDump(char * buffer){
             buffer[i] = text3[j];
         }
 
-        char size[10] = {0};
-        uintToBase(current->s.size, size, 10);
+        char sizeString[15] = {0};
+        uintToBase(current->s.size, sizeString, 10);
         j = 0;
-        for(; address[j]!= 0 ; i++, j++){
-            buffer[i] = address[j];
+        for(; sizeString[j]!= 0 ; i++, j++){
+            buffer[i] = sizeString[j];
         }
 
         char text4[] = {"\n\n"};
         j = 0;
         for( ; text4[j]!= '\0'; i++, j++){
-            buffer[i] = text[j];
+            buffer[i] = text4[j];
         }
 
         current = current->s.ptr;

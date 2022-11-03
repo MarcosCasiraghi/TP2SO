@@ -2,7 +2,8 @@
 
 #define MAX_BLOCKS 128
 
-#define MAX_MEMORY 1024*1024*32
+// #define MAX_MEMORY 1024*1024*32
+#define MAX_MEMORY (1048576 / 2)
 
 typedef struct MM_rq{
   void *address;
