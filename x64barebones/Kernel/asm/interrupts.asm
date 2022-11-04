@@ -45,6 +45,7 @@ GLOBAL _readPipeHandler
 GLOBAL _pipeStatusHandler
 GLOBAL _writePipeHandler
 GLOBAL _unblockHandler
+GLOBAL _getSecondsHandler
 
 EXTERN irqDispatcher
 EXTERN syscallDispatcher
@@ -549,6 +550,8 @@ _pipeStatusHandler:
 _yieldHandler:
 	_yieldMacro
 
+_getSecondsHandler
+	syscallHandlerMaster 24
 
 haltcpu:
     cli

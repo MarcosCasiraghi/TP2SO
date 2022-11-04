@@ -15,5 +15,6 @@ int my_strlen(char * string);
 void my_scanf(char * buffer, int maxlength);
 char getChar();
 int atoi(const char * S);
+char* itoa(int value, char* buffer, int base);
 
 #endif

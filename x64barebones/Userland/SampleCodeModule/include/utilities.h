@@ -24,8 +24,8 @@ int semClose(int id);
 int post(int id);
 int wait(int id);
 void semStatus();
-void semTest1();
-void semTest2();
+void mmStatus();
 void yield();
+void sleep(int secs);
 
 #endif

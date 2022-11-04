@@ -29,6 +29,7 @@ GLOBAL sys_pipeClose
 GLOBAL sys_pipeWrite
 GLOBAL sys_pipeRead
 GLOBAL sys_unblock
+GLOBAL sys_getseconds
 ;----------------------------------------
 ; rdi=string, rsi=fontColor, rdx=backColor
 ;----------------------------------------
@@ -141,4 +142,8 @@ sys_yield:
 
 sys_unblock:
     int 9Ch
+    ret
+
+sys_getseconds:
+    int 9Dh
     ret

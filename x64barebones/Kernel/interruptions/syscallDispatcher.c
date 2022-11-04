@@ -73,6 +73,9 @@ uint64_t syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rc
         case 23:
             int_106(rdi, rsi);
             break;
+        case 24:
+            int_107();
+            break;
 	}
 }
 
@@ -267,4 +270,8 @@ int int_105(int pipeId, char * string){
 
 void int_106(int pipeId, char * buffer){
     pipeStatus(pipeId, buffer);
+}
+
+int int_107(){
+    return seconds_elapsed();
 }

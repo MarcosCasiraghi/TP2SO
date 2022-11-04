@@ -66,4 +66,6 @@ int int_105(int pipeId, char * string);
 
 void int_106(int pipeId, char * buffer);
 
+int int_107();
+
 #endif
