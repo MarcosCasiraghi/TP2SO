@@ -165,6 +165,7 @@ void next(){
             if (j != activePID) {
                 activePID = j;
                 priorityTickers[tasks[activePID].priority]++;
+                // ncPrintDec(activePID);
                 return;
             }
         }
@@ -241,6 +242,8 @@ int blockProcess(int pid){
     for( int i = 0 ; i < MAX_TASKS ; i++){
         if(tasks[i].present == 1 && tasks[i].pID == pid && tasks[i].status != KILLED ){
             tasks[i].status = BLOCKED;
+            // ncPrint("bloquee:");
+            // ncPrintDec(tasks[i].pID);
             return 1;
         }
     }

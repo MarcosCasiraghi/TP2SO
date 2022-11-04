@@ -121,6 +121,7 @@ int post(int id){
 
 }
 int wait(int id){
+    // my_printf("estoy por bloquearme %d\n", id);
     sys_semWait(id);
 }
 void semStatus(){

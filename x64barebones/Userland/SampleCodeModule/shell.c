@@ -32,7 +32,7 @@ static FunctionType programs[] = {{"fibonacci", &fibonacci, MEDIUM},
                                   {"semtest",&test_sync,MEDIUM},
                                   {"semstatus", &semStatus, MEDIUM},
                                   {"pipestatus", &pipeStatus, MEDIUM},
-                                  {"philosofertest", &philoProblem,MEDIUM},
+                                  {"phylo", &philoProblem,MEDIUM},
                                   {0,0,0}};
 
 void run(char * buffer){
