@@ -313,9 +313,10 @@ int isForeground(){
     return tasks[activePID].ground == FOREGROUND;
 }
 
-void yield(uint64_t * registers, uint8_t load){
+uint64_t yield(uint64_t * registers, uint8_t load){
     int aux = activePID;
-    tasks[aux].status = KILLED;
-    registerManager(registers,load);
-    tasks[aux].status = READY;
+    tasks[aux].present = 0;
+    uint64_t toRet = registerManager(registers,load);
+    tasks[aux].present = 1;
+    return toRet;
 }
