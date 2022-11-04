@@ -26,7 +26,7 @@ int semClose(int id);
 
 int semOpen(int  id, int value);
 
-void semStatus();
+void semStatus(char * buffer);
 
 
 #endif

@@ -74,7 +74,94 @@ int semOpen(int  id, int value){
 
 }
 
-void semStatus(){
+void semStatus(char * buffer){
+    char title[] = {"Active Semaphores:\n\n"};
+    int i;
+    for(i = 0; title[i]!= '\0' ; i++){
+        buffer[i] = title[i];
+    }
+
+    semaphore * sem = semList;
+    if(sem == NULL){
+        char message[] = {"No active semaphores\n"};
+        for(int j = 0; message[j]!= '\0' ; i++,j++){
+            buffer[i] = message[j];
+        }
+        return;
+    }
+
+    while(sem){
+        char idString[] = {"ID: "};
+        for(int j = 0; idString[j]!= '\0' ; i++,j++){
+            buffer[i] = idString[j];
+        }
+
+        char id[5] = {0};
+        uintToBase(sem->id, id, 10);
+        for(int j = 0; id[j]!= '\0' ; i++,j++){
+            buffer[i] = id[j];
+        }
+
+        char valueString[] = {"\nValue: "};
+        for(int j = 0; valueString[j]!= '\0' ; i++,j++){
+            buffer[i] = valueString[j];
+        }
+
+        char value[5] = {0};
+        uintToBase(sem->value, value, 10);
+        for(int j = 0; value[j]!= '\0' ; i++,j++){
+            buffer[i] = value[j];
+        }
+
+        char amountString[] = {"\nAmount of Processes Involved: "};
+        for(int j = 0; amountString[j]!= '\0' ; i++,j++){
+            buffer[i] = amountString[j];
+        }
+
+        char amount[5] = {0};
+        uintToBase(sem->openCounter, amount, 10);
+        for(int j = 0; amount[j]!= '\0' ; i++,j++){
+            buffer[i] = amount[j];
+        }
+
+        char blockedString[] = {"\nAmount of Processes Blocked: "};
+        for(int j = 0; blockedString[j]!= '\0' ; i++,j++){
+            buffer[i] = blockedString[j];
+        }
+
+        char blocked[5] = {0};
+        uintToBase(sem->blockCounter, blocked, 10);
+        for(int j = 0; blocked[j]!= '\0' ; i++,j++){
+            buffer[i] = blocked[j];
+        }
+
+        if(sem->blockCounter > 0){
+            char blockedS[] = {"\nBlocked Processes:\n"};
+            for(int j = 0; blockedS[j]!= '\0' ; i++,j++){
+                buffer[i] = blockedS[j];
+            }
+
+            for( int k = 0 ; k < sem->blockCounter ; k++){
+                char pidString[] = {"\tPID: "};
+                for(int j = 0; pidString[j]!= '\0' ; i++,j++){
+                    buffer[i] = pidString[j];
+                }
+
+                char pid[5] = {0};
+                uintToBase(sem->blockedProccesses[k], pid, 10);
+                for(int j = 0; pid[j]!= '\0' ; i++,j++){
+                    buffer[i] = pid[j];
+                }
+
+                char end[] = {"\n"};
+                for(int j = 0; end[j]!= '\0' ; i++,j++){
+                    buffer[i] = end[j];
+                }
+            }
+        }
+        
+        sem = sem->tail;
+    }
     return;
 };//TODO
 

@@ -62,7 +62,7 @@ uint64_t my_process_inc(uint64_t argc, char *argv[]){
   if (use_sem) 
     semClose(SEM_ID);
   
-  post(pid);
+  post(pid);    //si esto no se corre, tira invalid opcode exception, error del programador
   semClose(pid);
   exit();
 }
@@ -111,12 +111,13 @@ uint64_t test_sync(uint64_t argc, char *argv[]){ //{n, use_sem, 0}
     wait(pids[i + TOTAL_PAIR_PROCESSES]);
   }
   
-
+  my_printf("Expected value: 0\n");
   if( global < 0){
     my_printf("Final value: -%d\n", -global);
   }else{
     my_printf("Final value: %d\n", global);
   }
+  
 
   for(i = 0; i < TOTAL_PAIR_PROCESSES; i++){
     semClose(pids[i]);
