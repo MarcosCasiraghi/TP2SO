@@ -23,6 +23,7 @@
 #include <processTest.h>
 #include <priorityTest.h>
 #include <test_sync.h>
+#include <philosophers.h>
 
 void run(char * buffer);
 void shell();

@@ -87,6 +87,8 @@ void load_idt() {
 
   setup_IDT_entry(0x9C, (uint64_t)&_unblockHandler);
 
+  setup_IDT_entry(0x9D, (uint64_t)&_getSecondsHandler);
+
   //divide by 0 exception
   setup_IDT_entry (0x00, (uint64_t)&_div0Handler);
 
