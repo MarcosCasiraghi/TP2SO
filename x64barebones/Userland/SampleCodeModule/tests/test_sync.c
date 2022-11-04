@@ -5,7 +5,6 @@
 #define TOTAL_PAIR_PROCESSES 2
 
 int64_t global;  //shared memory
-// uint64_t pids[2 * TOTAL_PAIR_PROCESSES];
 
 void slowInc(int64_t *p, int64_t inc){
   uint64_t aux = *p;
@@ -17,11 +16,11 @@ void slowInc(int64_t *p, int64_t inc){
 
 uint64_t my_process_inc(uint64_t argc, char *argv[]){
   uint64_t pid = sys_getPID();
-  if(!semOpen(pid, 1)){
+  if(!semOpen(pid, 0)){
     my_printf("test_sync: ERROR opening semaphore arriba de todo\n");
     exit();
   }
-  wait(pid);
+  // wait(pid); no hay que hacer wait ya que semaforo arranca en 0
 
   uint64_t n;
   int8_t inc;
@@ -53,16 +52,18 @@ uint64_t my_process_inc(uint64_t argc, char *argv[]){
 
   uint64_t i;
   for (i = 0; i < n; i++){
-    if (use_sem) wait(SEM_ID);
+    if (use_sem) 
+      wait(SEM_ID);
     slowInc(&global, inc);
-    if (use_sem) post(SEM_ID);
+    if (use_sem) 
+      post(SEM_ID);
   }
 
-  if (use_sem) semClose(SEM_ID);
+  if (use_sem) 
+    semClose(SEM_ID);
   
   post(pid);
   semClose(pid);
-  my_printf("termine %d\n", pid);
   exit();
 }
 
@@ -94,25 +95,19 @@ uint64_t test_sync(uint64_t argc, char *argv[]){ //{n, use_sem, 0}
     pids[i] = sys_scheduler(&my_process_inc,FOREGROUND,MEDIUM,3, argvInc);//"my_process_inc", 3, argvDec
     pids[i + TOTAL_PAIR_PROCESSES] = sys_scheduler(&my_process_inc,FOREGROUND,MEDIUM,3, argvDec);
 
-    if (!semOpen(pids[i], 1)){
+    if (!semOpen(pids[i], 0)){
       my_printf("test_sync: ERROR opening semaphore\n");
       exit();
     }
-    if (!semOpen(pids[i + TOTAL_PAIR_PROCESSES], 1)){
+    if (!semOpen(pids[i + TOTAL_PAIR_PROCESSES], 0)){
       my_printf("test_sync: ERROR opening semaphore\n");
       exit();
     }
   }
 
-
-  
-  // for( int j = 0 ; j < 1000000000 ; j++);
-  // sys_exec();
-
   for(i = 0; i < TOTAL_PAIR_PROCESSES; i++){
-    my_printf("haciendo los waits padre\n");
     wait(pids[i]);
-    my_printf("hizo uno\n");
+    // for( int j = 0 ; j < 1000000000 ; j++);
     wait(pids[i + TOTAL_PAIR_PROCESSES]);
   }
   

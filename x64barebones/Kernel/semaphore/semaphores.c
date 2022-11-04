@@ -138,5 +138,5 @@ static void realeseSem(semaphore *sem){
         sem->blockedProccesses[i]=sem->blockedProccesses[i+1];
     }
     sem->blockCounter--;
-    blockProcess(pid);
+    unblockProcess(pid);
 }

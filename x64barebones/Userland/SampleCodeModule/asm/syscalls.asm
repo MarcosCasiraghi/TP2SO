@@ -28,6 +28,7 @@ GLOBAL sys_pipeOpen
 GLOBAL sys_pipeClose
 GLOBAL sys_pipeWrite
 GLOBAL sys_pipeRead
+GLOBAL sys_unblock
 ;----------------------------------------
 ; rdi=string, rsi=fontColor, rdx=backColor
 ;----------------------------------------
@@ -136,4 +137,8 @@ sys_pipeStatus:
 
 sys_yield:
     int 9Bh
+    ret
+
+sys_unblock:
+    int 9Ch
     ret

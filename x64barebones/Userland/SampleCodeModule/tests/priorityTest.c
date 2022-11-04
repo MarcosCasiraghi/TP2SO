@@ -47,7 +47,7 @@ void priorityTest(){
   my_printf("\nUNBLOCKING...\n\n");
 
   for (i = 0; i < TOTAL_PROCESSES; i++) {
-    sys_block(pids[i]);
+    sys_unblock(pids[i]);
   }
 
   busyWait(TOTAL_PROCESSES * MAJOR_WAIT);

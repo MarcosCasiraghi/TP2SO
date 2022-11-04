@@ -36,6 +36,7 @@ void _mmStatusHandler(void);
 void _psHandler(void);
 void _getPIDHandler(void);
 void _yieldHandler(void);
+void _unblockHandler(void);
 
 void _cli(void);
 

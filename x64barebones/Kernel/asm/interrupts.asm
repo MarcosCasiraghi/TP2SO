@@ -44,6 +44,7 @@ GLOBAL _openPipeHandler
 GLOBAL _readPipeHandler
 GLOBAL _pipeStatusHandler
 GLOBAL _writePipeHandler
+GLOBAL _unblockHandler
 
 EXTERN irqDispatcher
 EXTERN syscallDispatcher
@@ -60,6 +61,7 @@ EXTERN registersForInforeg
 EXTERN quantum_check
 EXTERN killProcess
 EXTERN blockProcess
+EXTERN unblockProcess
 EXTERN getPID
 EXTERN yield
 
@@ -512,6 +514,14 @@ _blockHandler:
 
 	_timerHandlerMacro
 
+_unblockHandler:
+	pushStateNoRAX
+
+	call unblockProcess
+
+	popStateNoRAX
+
+	_timerHandlerMacro
 _getPIDHandler:
 	pushStateNoRAX
 

@@ -144,11 +144,11 @@ void next(){
     if (tasks[activePID].present==1 && tasks[activePID].status == KILLED){
         tasks[activePID].present =0;
     }
-    else if (tasks[activePID].priority == HIGHEST && priorityTickers[HIGHEST] < HIGHESTTICKS){
+    else if (tasks[activePID].priority == HIGHEST && priorityTickers[HIGHEST] < HIGHESTTICKS && tasks[activePID].status == READY){
         priorityTickers[HIGHEST]++;
         return;
     }
-    else if (tasks[activePID].priority == MEDIUM && priorityTickers[MEDIUM] < MEDIUMTICKS){
+    else if (tasks[activePID].priority == MEDIUM && priorityTickers[MEDIUM] < MEDIUMTICKS && tasks[activePID].status == READY){
         priorityTickers[MEDIUM]++;
         return;
     }
@@ -239,15 +239,22 @@ int blockProcess(int pid){
         return -1;
     }
     for( int i = 0 ; i < MAX_TASKS ; i++){
-        if(tasks[i].present == 1 && tasks[i].pID == pid){
-            if(tasks[i].status == READY){
-                tasks[i].status = BLOCKED;
-                return 1;
-            }
-            else if(tasks[i].status == BLOCKED){
-                tasks[i].status = READY;
-                return 2;
-            }
+        if(tasks[i].present == 1 && tasks[i].pID == pid && tasks[i].status != KILLED ){
+            tasks[i].status = BLOCKED;
+            return 1;
+        }
+    }
+    return -1;
+}
+
+int unblockProcess(int pid){
+    if( pid == 0){
+        return -1;
+    }
+    for( int i = 0 ; i < MAX_TASKS ; i++){
+        if(tasks[i].present == 1 && tasks[i].pID == pid && tasks[i].status != KILLED){
+            tasks[i].status = READY;
+            return 1;
         }
     }
     return -1;

@@ -61,7 +61,7 @@ void processTest() {
       }
       for (rq = 0; rq < MAX_PROCESSES; rq++) {
         if (p_rqs[rq].state == BLOCKED && GetUniform(2) % 2) {
-          if (sys_block(p_rqs[rq].pid) == -1) {
+          if (sys_unblock(p_rqs[rq].pid) == -1) {
             my_printf("Error unblocking process\n");
             exit();
           }

@@ -27,5 +27,6 @@ int sys_semClose(int id);
 int sys_semWait(int id);
 int sys_semPost(int id);
 void sys_semStatus(char * buffer);
+int sys_unblock(int pid);
 
 #endif
