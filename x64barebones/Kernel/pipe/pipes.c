@@ -34,7 +34,7 @@ int writePipe(int pipeId, char * string){
             return -1;
         }
         pipes[index].buffer[pipes[index].writeIndex] = string[i];
-        pipes[index].writeIndex++;
+        pipes[index].writeIndex = (pipes[index].writeIndex + 1) % BUFFERSIZE;
 
         post(pipes[index].readLock);
     }

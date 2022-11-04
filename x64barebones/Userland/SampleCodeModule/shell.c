@@ -4,6 +4,8 @@ typedef void (*functionPointer)(void);
 
 static char readBuffer[BUFFER_LENGTH]={0};
 
+static int initialPipeId = 1000;
+
 typedef struct{
     char * name;
     functionPointer func;
@@ -74,13 +76,54 @@ int addFunctions(char * buffer){
     int i3 = 0;
 
     char * argv[MAX_PARAMS] = {0};
+    char * argv2[MAX_PARAMS] = {0};
+    int background = 0;
+    int background2 = 0;
 
-    while (buffer[i3]){
+    while (buffer[i3] && buffer[i3] != '|'){
         func1[i1++] = buffer[i3];
         i3++;
     }
 
-    int background = 0;
+    if(buffer[i3] == '|') {
+        func1[--i1] = '\0';
+        i3++;
+        if (buffer[i3] && buffer[i3] == ' ') {
+            i3++;
+            while (buffer[i3]) {
+                func2[i2++] = buffer[i3];
+                i3++;
+            }
+        }
+        func2[i2] = '\0';
+
+        int func1Index = getFuncIndex(func1, &background);
+        int func2Index = getFuncIndex(func2, &background2);
+
+        if (func1Index != -1 && func2Index != -1){  //TODO: chequear que sea de las funciones disponibles con el pipe
+            int pipeId = sys_pipeOpen(initialPipeId);
+            uint64_t argc = createArgv(programs[func1Index].name, pipeId, argv);
+            uint64_t argc2 = createArgv(programs[func2Index].name, pipeId, argv2);
+
+            if (background == 0)
+                sys_scheduler(programs[func1Index].func,FOREGROUND,programs[func1Index].priority, argc, argv );
+            else if (background == 1 )
+                sys_scheduler(programs[func1Index].func,BACKGROUND,programs[func1Index].priority, argc, argv );
+
+            if (background2 == 0){
+                sys_scheduler(programs[func2Index].func,FOREGROUND,programs[func2Index].priority, argc2, argv2 );
+            }
+            if (background2 == 0){
+                sys_scheduler(programs[func2Index].func,FOREGROUND,programs[func2Index].priority, argc2, argv2 );
+            }
+            initialPipeId++;
+
+            return 2;
+        }
+        return -1;
+    }
+
+
     int specialFunc = 0;
 
     checkKill(func1, param1, &specialFunc);
