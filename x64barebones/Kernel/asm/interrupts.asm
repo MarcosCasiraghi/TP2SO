@@ -61,7 +61,7 @@ EXTERN quantum_check
 EXTERN killProcess
 EXTERN blockProcess
 EXTERN getPID
-
+EXTERN yield
 
 SECTION .text
 
@@ -537,8 +537,7 @@ _pipeStatusHandler:
     syscallHandlerMaster 23
 
 _yieldHandler:
-    syscallHandlerMaster 24
-
+	_yieldMacro
 
 
 haltcpu:

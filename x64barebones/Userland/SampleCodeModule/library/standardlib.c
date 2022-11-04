@@ -136,13 +136,25 @@ int atoi(const char * S){
     long num = 0;
  
     int i = 0;
- 
+    int negative = 0;
+    int number = 0;
     // run till the end of the string is reached, or the
     // current character is non-numeric
+    if( S[0] == '-'){
+      negative = 1;
+      i = 1;
+    }
     while (S[i] && (S[i] >= '0' && S[i] <= '9'))
     {
+        number = 1;
         num = num * 10 + (S[i] - '0');
         i++;
+    }
+    if(negative){
+      return -num;
+    }
+    if(!number){
+      return NULL;
     }
  
     return num;

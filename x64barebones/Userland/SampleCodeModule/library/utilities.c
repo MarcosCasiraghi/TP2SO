@@ -50,13 +50,25 @@ void kill(uint64_t argc, char ** argv){
         my_printf("Esta funcion debe recibir un parametro\nEscribirlo de la forma 'kill <numero>'\n");
         exit();
     }
+    for( int i = 0; argv[1][i] != '\0' ; i++){
+        if( argv[1][i] < '0' || argv[1][i] > '9'){
+            my_printf("El parametro de esta funcion debe ser un numero\n");
+            exit();
+        }
+    }
     int PID = atoi(argv[1]);
 
     if( PID == 0 ){
         my_printf("No se puede matar al proceso Shell\n");
     }
 
-    sys_kill(PID);
+    int killed = sys_kill(PID);
+    if(killed == -1){
+        my_printf("Proceso con PID: %d no pudo ser matado\n", PID);
+    }
+    else{
+        my_printf("Proceso con PID: %d matado con exito\n", PID);
+    }
     exit();
 }
 

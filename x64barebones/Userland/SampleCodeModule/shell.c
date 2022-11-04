@@ -126,12 +126,12 @@ int addFunctions(char * buffer){
 
     int specialFunc = 0;
 
-    checkKill(func1, param1, &specialFunc);
+    checkSpecialFunc("kill",func1, param1, &specialFunc);
     if( specialFunc == 0){
-        checkPrintMem(func1,param1, &specialFunc);
+        checkSpecialFunc("printmem",func1,param1, &specialFunc);
     }
     if( specialFunc == 0){
-        checkSemtest(func1,param1, &specialFunc);
+        checkSpecialFunc("semtest",func1,param1, &specialFunc);
     }
     int funcIndex = getFuncIndex(func1, &background);
     if(funcIndex != -1){
@@ -178,100 +178,32 @@ int createArgv(char * name, char * params, char ** argv){
     return argc;
 }
 
-void checkKill(char * func, char * parameter, int * flag){
-    char * skill = "kill";
+void checkSpecialFunc(char * name, char * input, char * parameter, int * flag){
     int i = 0;
     int flag1 = 1;
 
-    for( ; i < my_strlen(skill) && i < my_strlen(func) ; i++){
-        if(skill[i] != func[i]){
+    for( ; i < my_strlen(name) && i < my_strlen(input) ; i++){
+        if(name[i] != input[i]){
             flag1 = 0;
         }
     }
 
-    if(i<my_strlen(skill) || func[my_strlen(skill)]!=' '){
+    if(i<my_strlen(name) || input[my_strlen(name)]!=' '){
         flag1=0;
         parameter[0] = '\0';
     }
 
     if(flag1){
         *flag = 1;
-        func[my_strlen(skill)]='\0';
+        input[my_strlen(name)]='\0';
         int a=0;
-        while(func[a+1+my_strlen(skill)] && a<3){
-            parameter[a]=func[a+1+my_strlen(skill)];
+        while(input[a+1+my_strlen(name)] && a<19){
+            parameter[a]=input[a+1+my_strlen(name)];
             a++;
         }
         parameter[a] = '\0';
 
-        for( int b = 0 ; b < a ; b++){
-            if( parameter[b] < '0' || parameter[b] > '9'){
-                parameter[0] = '\0';
-                return;
-            }
-        }
-
     }
-}
-
-void checkPrintMem(char* func1,char * parameter1, int * flag){
-    int flag1=1;
-    char* prntmem = "printmem";
-    int i;
-
-    for(i=0;i<my_strlen(prntmem)&&i<my_strlen(func1) && flag1;i++){
-        if(prntmem[i]!=func1[i]){
-            flag1=0;
-        }
-    }
-
-    if(i<my_strlen(prntmem) || func1[my_strlen(prntmem)]!=' '){
-        flag1=0;
-        parameter1[0] = '\0';
-    }
-
-    if(flag1){
-        *flag = 1;
-        func1[my_strlen(prntmem)]='\0';
-        int a=0;
-        while(func1[a+1+my_strlen(prntmem)] && a<19){
-            parameter1[a]=func1[a+1+my_strlen(prntmem)];
-            a++;
-        }
-        parameter1[a] = '\0';
-
-    }
-
-}
-
-void checkSemtest(char* func1,char * parameter1, int * flag){
-    int flag1=1;
-    char* prntmem = "semtest";
-    int i;
-
-    for(i=0;i<my_strlen(prntmem)&&i<my_strlen(func1) && flag1;i++){
-        if(prntmem[i]!=func1[i]){
-            flag1=0;
-        }
-    }
-
-    if(i<my_strlen(prntmem) || func1[my_strlen(prntmem)]!=' '){
-        flag1=0;
-        parameter1[0] = '\0';
-    }
-
-    if(flag1){
-        *flag = 1;
-        func1[my_strlen(prntmem)]='\0';
-        int a=0;
-        while(func1[a+1+my_strlen(prntmem)] && a<19){
-            parameter1[a]=func1[a+1+my_strlen(prntmem)];
-            a++;
-        }
-        parameter1[a] = '\0';
-
-    }
-
 }
 
 int getFuncIndex(char * func, int * flag){

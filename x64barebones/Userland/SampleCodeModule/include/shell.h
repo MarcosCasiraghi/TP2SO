@@ -24,14 +24,12 @@
 #include <priorityTest.h>
 #include <test_sync.h>
 
-void checkPrintMem(char* func1,char * parameter1, int * flag);
-void checkSemtest(char* func1,char * parameter1, int * flag);
 void run(char * buffer);
 void shell();
 void initShell();
 int addFunctions(char * buffer);
 int getFuncIndex(char * func, int * flag);
 void clearBuffer();
-void checkKill(char * func, char * parameter, int * flag);
 int createArgv(char * name, char * params, char ** argv);
+void checkSpecialFunc(char * name, char * input, char * parameter, int * flag);
 #endif

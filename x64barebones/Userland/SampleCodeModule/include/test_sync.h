@@ -6,6 +6,7 @@
 #include <syscalls.h>
 #include <util.h>
 #include <string.h>
+#include <shell.h>
 
 uint64_t test_sync(uint64_t argc, char *argv[]);
 uint64_t my_process_inc(uint64_t argc, char *argv[]);
