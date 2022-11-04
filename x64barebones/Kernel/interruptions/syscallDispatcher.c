@@ -71,7 +71,7 @@ uint64_t syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rc
             int_105(rdi, rsi);
             break;
         case 23:
-            int_106(rdi, rsi);
+            int_106(rdi);
             break;
 	}
 }
@@ -265,6 +265,6 @@ int int_105(int pipeId, char * string){
     return writePipe(pipeId, string);
 }
 
-void int_106(int pipeId, char * buffer){
-    pipeStatus(pipeId, buffer);
+void int_106(char * buffer){
+    pipeStatus(buffer);
 }

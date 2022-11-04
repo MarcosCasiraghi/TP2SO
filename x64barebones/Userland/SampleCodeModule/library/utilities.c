@@ -101,8 +101,9 @@ int pipeRead(int pipeId){
     return c;
 }
 
-void pipeStatus(int pipeId, char * buffer){
-    my_printf("status de los pipes");
+void pipeStatus(char * buffer){
+    sys_pipeStatus(buffer);
+    my_printf(buffer);
     exit();
 }
 

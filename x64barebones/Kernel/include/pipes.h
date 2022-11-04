@@ -22,6 +22,6 @@ int writePipe(int pipeId, char *str);
 int openPipe(int pipeId);
 int closePipe(int pipeId);
 int readPipe(int pipeId);
-void pipeStatus();
+void pipeStatus(char * buffer);
 
 #endif //TP2SO_PIPES_H

@@ -81,7 +81,7 @@ int closePipe(int pipeId){
 
 static int getPipeIndex(int pipeId) {
     for (int i = 0; i < MAX_PIPES; i++) {
-        if (pipes[i].id == pipeId) {
+        if (pipes[i].id == pipeId && pipes[i].present == 1) {
             return i;
         }
     }
@@ -118,22 +118,74 @@ static int createPipe(int pipeId) {
 
 
 
+void pipeStatus(char * buffer) {
+    char title[] = {"Active Pipes:\n\n"};
+    int i;
+    for(i = 0; title[i]!= '\0' ; i++) {
+        buffer[i] = title[i];
+    }
 
-void pipeStatus() {
-//    printf("\n\nActive Pipe Status\n\n"); //TODO: no imprimir en el back
-//    for (int i = 0; i < MAX_PIPES; i++) {
-//        t_pipe pipe = pipes[i];
-//        if (pipe.state == IN_USE) {
-//            printf("Pipe ID: %d\n", pipe.id);
-//            printf("    Amount of attached processes: %d\n", pipe.totalProcesses);
-//            printf("    Read semaphore: %d\n", pipe.readLock);
-//            printf("    Write semaphore: %d\n", pipe.writeLock);
-//            printf("    Pipe buffer content: ");
-//            for (int i = pipe.readIndex; i != pipe.writeIndex;
-//                 i = (i + 1) % PIPE_BUFFER_SIZE) {
-//                putChar(pipe.buffer[i]);
-//            }
-//        }
-//    }
-//    printf("\n\n");
+    int k = 0;
+    int activeFlag = 0;
+
+    while(i < MAX_PIPES){
+        if (pipes[k].present == 1){
+            activeFlag = 1;
+            char idString[] = {"ID: "};
+            for(int j = 0; idString[j]!= '\0' ; i++,j++){
+                buffer[i] = idString[j];
+            }
+
+            char id[5] = {0};
+            uintToBase(pipes[k].id, id, 10);
+            for(int j = 0; id[j]!= '\0' ; i++,j++){
+                buffer[i] = id[j];
+            }
+
+            char stateString[] = {"\nState: "};
+            for(int j = 0; stateString[j]!= '\0' ; i++,j++){
+                buffer[i] = stateString[j];
+            }
+
+            char * state;
+
+            if (pipes[i].writeIndex == 0 && pipes[i].readIndex == 0){
+                state = "Empty";
+            }
+            else{
+                state = "In use";
+            }
+
+            for(int j = 0; state[j]!= '\0' ; i++,j++){
+                buffer[i] = state[j];
+            }
+
+            char amountString[] = {"\nAmount of Processes Involved: "};
+            for(int j = 0; amountString[j]!= '\0' ; i++,j++){
+                buffer[i] = amountString[j];
+            }
+
+            char amount[5] = {0};
+            uintToBase(pipes[k].processes, amount, 10);
+            for(int j = 0; amount[j]!= '\0' ; i++,j++){
+                buffer[i] = amount[j];
+            }
+
+            char newLine[] = {"\n"};
+            buffer[i++]=newLine[0];
+            k++;
+        }
+    }
+
+    if (activeFlag == 0){
+        char message[] = {"No active pipes\n"};
+        for(int j = 0; message[j]!= '\0' ; i++,j++){
+            buffer[i] = message[j];
+        }
+        buffer[i] = '\0';
+        return;
+    }
+
+
+    return;
 }
