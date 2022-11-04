@@ -117,7 +117,7 @@ uint64_t test_sync(uint64_t argc, char *argv[]){ //{n, use_sem, 0}
   }else{
     my_printf("Final value: %d\n", global);
   }
-  
+
 
   for(i = 0; i < TOTAL_PAIR_PROCESSES; i++){
     semClose(pids[i]);

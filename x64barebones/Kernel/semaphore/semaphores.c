@@ -52,7 +52,7 @@ int semClose(int id){
     if(aux==NULL){
         return -1;
     }
-    if(aux->openCounter>0){
+    if(aux->openCounter>1){
         aux->openCounter--;
     }
     else{
@@ -142,7 +142,7 @@ void semStatus(char * buffer){
             }
 
             for( int k = 0 ; k < sem->blockCounter ; k++){
-                char pidString[] = {"\tPID: "};
+                char pidString[] = {"    PID: "};
                 for(int j = 0; pidString[j]!= '\0' ; i++,j++){
                     buffer[i] = pidString[j];
                 }
@@ -159,6 +159,9 @@ void semStatus(char * buffer){
                 }
             }
         }
+        char newLine[] = {"\n"};
+        buffer[i++]=newLine[0];
+        
         
         sem = sem->tail;
     }
