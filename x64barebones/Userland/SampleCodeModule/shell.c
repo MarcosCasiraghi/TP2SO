@@ -1,5 +1,8 @@
 #include <shell.h>
 
+#define READ 0
+#define WRITE 1
+
 typedef void (*functionPointer)(void);
 
 static char readBuffer[BUFFER_LENGTH]={0};
@@ -103,8 +106,20 @@ int addFunctions(char * buffer){
 
         if (func1Index != -1 && func2Index != -1){  //TODO: chequear que sea de las funciones disponibles con el pipe
             int pipeId = sys_pipeOpen(initialPipeId);
-            uint64_t argc = createArgv(programs[func1Index].name, pipeId, argv);
-            uint64_t argc2 = createArgv(programs[func2Index].name, pipeId, argv2);
+
+            int argc = argc2 = 3;
+
+            char * argv[3];
+            char * argv2[3];
+            argv[0] = programs[func1Index].name;
+            argv[1] = pipeId;
+            argv[2] = WRITE;
+
+            argv2[0] = programs[func2Index].name;
+            argv2[1] = pipeId;
+            argv2[2] = READ;
+
+
 
             if (background == 0)
                 sys_scheduler(programs[func1Index].func,FOREGROUND,programs[func1Index].priority, argc, argv );
