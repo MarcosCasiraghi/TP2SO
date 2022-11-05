@@ -218,7 +218,7 @@ void next(){
 
 int foregroundRunning(){
     for (int i = 0; i < MAX_TASKS; ++i) {
-        if (tasks[i].present == 1 && tasks[i].status != KILLED && tasks[i].priority != SHELLPRIO && tasks[i].ground == FOREGROUND)
+        if (tasks[i].present == 1 && tasks[i].status == READY && tasks[i].priority != SHELLPRIO && tasks[i].ground == FOREGROUND)
             return 1;
     }
     return 0;
