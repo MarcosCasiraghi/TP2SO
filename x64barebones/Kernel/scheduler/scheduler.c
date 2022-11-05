@@ -101,7 +101,45 @@ void ps(char * result){
            for(int j = 0;auxBuffer[j] != '\0'; j++){
                result[counter++] = auxBuffer[j];
            }
+                       result[counter++] = ' ';
 
+           char * low = "Lowest";
+           char * med = "Medium";
+           char * high = "Highest";
+           char * shellp = "ShellPrio";
+
+           if (tasks[i].priority == LOWEST){
+               for (int k = 0; low[k]!='\0'; ++k) {
+                   result[counter++] = low[k];
+               }
+           }
+           else if (tasks[i].priority==MEDIUM){
+               for (int k = 0; med[k]!='\0'; ++k) {
+                   result[counter++] = med[k];
+               }
+           }
+           else if(tasks[i].priority==HIGHEST){
+                for (int k = 0; high[k]!='\0'; ++k) {
+                   result[counter++] = high[k];
+               }
+           }else{
+            for (int k = 0; high[k]!='\0'; ++k) {
+                   result[counter++] = shellp[k];
+               }
+           }
+           result[counter++] = ' ';
+           char * ready = "Ready";
+           char * blocked = "Blocked";
+           if (tasks[i].status == READY){
+               for (int k = 0; ready[k]!='\0'; ++k) {
+                   result[counter++] = ready[k];
+               }
+           }
+           else{
+               for (int k = 0; blocked[k]!='\0'; ++k) {
+                   result[counter++] = blocked[k];
+               }
+           }
            result[counter++] = '\n';
        }
    }

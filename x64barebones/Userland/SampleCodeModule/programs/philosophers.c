@@ -57,9 +57,8 @@ void philoProblem() {
   my_printf("\nYa puede agregar o retirar comensales y terminar la cena.\n\n");
 
   while (tableOpen) {
-    // my_printf("getchar antes\n");
     char key = getChar();
-    // my_printf("getchar despues\n");
+    wait(MUTEX_SEM_ID);
     switch (key) {
       case 'a':
         if (addPhilo() == -1) {
@@ -84,6 +83,7 @@ void philoProblem() {
       default:
         break;
     }
+    post(MUTEX_SEM_ID);
   }
 
   for (int i = 0; i < philosopherCount; i++) {
@@ -117,7 +117,6 @@ static int addPhilo() {
   char index[3] = {0};
   itoa(philosopherCount,index,10);
 
-  // char *argv[] = {"philosohper", NULL};
   char ** argv = sys_malloc(2*sizeof(char *));
   argv[0] = "philosopher";
   argv[1] = sys_malloc(3*sizeof(char));
@@ -141,39 +140,23 @@ static int removePhilo() {
     return -1;
   }
   
-  // my_printf("remove antes\n");
-  wait(MUTEX_SEM_ID);
 
   t_philosofer *philosopher = philosophers[--philosopherCount];
   semClose(philosopher->sem);
   sys_kill(philosopher->pid);
   sys_free(philosopher);
 
-  post(MUTEX_SEM_ID);
-  // my_printf("remove despues\n");
 
   return 0;
 }
 
 static void philoMain(int argc, char **argv) {
-  // my_printf("soy%d recibi%s\n", sys_getPID()-2,argv[1]);
   int i = atoi(argv[1]);
-  // my_printf("chau%d\n", i);
   while (1) {
-    // if(i == 4)
-    //   my_printf("start\n");
     takeForks(i);
-    // if(i == 4)
-    //   my_printf("after Take Forks\n");
     thinkOrEat();
-    // if(i == 4)
-    //   my_printf("after Think or Eat\n");
     putForks(i);
-    // if(i == 4)
-    //   my_printf("after putforks\n");
     thinkOrEat();
-    // if(i == 4)
-    //   my_printf("after Think or Eat 2\n");
   }
 }
 
@@ -206,7 +189,6 @@ static void thinkOrEat() { sleep(THINK_EAT_WAIT_SECONDS); }
 
 static void printTable(int argc, char **argv) {
   while (tableOpen) {
-    // my_printf("print antes\n");
     wait(MUTEX_SEM_ID);
     int i;
     for (i = 0; i < philosopherCount; i++) {
@@ -219,12 +201,8 @@ static void printTable(int argc, char **argv) {
     }
     put_char('\n');
     post(MUTEX_SEM_ID);
-    // my_printf("print despues\n");
-    // sys_exec();
-    // sys_yield();
     yield();
   }
-  // my_printf("no deberia estar aca\n");
 }
 
 static void printPhyloHeader() {

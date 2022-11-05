@@ -498,7 +498,7 @@ _semOpenHandler:
 _semCloseHandler:
 	syscallHandlerMaster 15
 _semPostHandler:
-	syscallHandlerMaster 16
+	syscallHandlerMasterTick 16
 _semWaitHandler:
 	syscallHandlerMasterTick 17
 _semStatusHandler:
