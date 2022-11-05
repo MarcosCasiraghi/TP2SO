@@ -145,3 +145,21 @@ void sleep(int secs){
     int wait = sys_getseconds() + secs;
     while (sys_getseconds() < wait){};
 }
+
+void loop(int argc, char **argv) {
+ 
+
+  int pid = sys_getPID();
+   if (argc ==3) {
+    int pipeId= pipeOpen(atoi(argv[1]));
+    while (1) {
+    pipeWrite(pipeId,"Que hay de nuevo viejo. No es temporada de pid:\n");
+    sleep(2);
+  }
+  }else{
+  while (1) {
+    my_printf("Que hay de nuevo viejo. No es temporada de pid:%d\n", pid);
+    sleep(2);
+  }
+  }
+}

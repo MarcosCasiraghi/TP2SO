@@ -1,7 +1,7 @@
 #include <shell.h>
 
-#define READ 0
-#define WRITE 1
+#define READ "0"
+#define WRITE "1"
 
 typedef void (*functionPointer)(void);
 
@@ -106,13 +106,16 @@ int addFunctions(char * buffer){
 
         if (func1Index != -1 && func2Index != -1){  //TODO: chequear que sea de las funciones disponibles con el pipe
             int pipeId = sys_pipeOpen(initialPipeId);
-
+            int argc2;
             int argc = argc2 = 3;
 
             char * argv[3];
             char * argv2[3];
+            char buffer1[4];
+            char buffer2[4];
+
             argv[0] = programs[func1Index].name;
-            argv[1] = pipeId;
+            argv[1] = itoa(pipeId, buffer1,10);
             argv[2] = WRITE;
 
             argv2[0] = programs[func2Index].name;

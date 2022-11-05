@@ -27,5 +27,6 @@ void semStatus();
 void mmStatus();
 void yield();
 void sleep(int secs);
+void loop(int argc, char **argv);
 
 #endif
