@@ -77,7 +77,7 @@ int pipeOpen(int pipeId){
     if (sys_pipeOpen(pipeId) == -1){
         return -1;
     }
-    return 1;
+    return pipeId;
 }
 
 int pipeClose(int pipeId){
@@ -189,13 +189,13 @@ void filter(int argc, char **argv) {
     if (argc == 3) {
         sleep(3);
         int pipeId = pipeOpen(atoi(argv[1]));
-        my_printf("%d",atoi(argv[1]));
+        // my_printf("%d",atoi(argv[1]));
 
-        my_printf("%d", pipeId);
+        // my_printf("%d", pipeId);
     while ((c = pipeRead(pipeId)) != EOF) {
-//        if (!is_vowel(c)) {
+       if (!is_vowel(c)) {
           put_char(c);
-//        }
+       }
     }
         my_printf("No encontro nada pra leer y se fue a la mierda\n");
         pipeClose(pipeId);
@@ -232,27 +232,27 @@ void cat(int argc, char **argv) {
 void wc(int argc, char **argv) {
     char c;
     int lines = 1;
-  if (argc == 3) {
-    int pipeId= pipeOpen(atoi(argv[1]));
-    while ((c = pipeRead(pipeId)) != EOF) {
-    put_char(c);
-    if (c == '\n') {
-      lines++;
+    if (argc == 3) {
+        int pipeId= pipeOpen(atoi(argv[1]));
+        while ((c = pipeRead(pipeId)) != EOF) {
+        // put_char(c);
+            if (c == '\n') {
+                lines++;
+                my_printf("\n\nCantidad de lineas: %d\n", lines);
+            }
+        }
+        pipeClose(pipeId);
+    }else{
+        while ((c = getChar()) != EOF) {
+            put_char(c);
+            if (c == '\n') {
+                lines++;
+                my_printf("\n\nCantidad de lineas: %d\n", lines);
+            }
+        }
     }
-  }
-  my_printf("\n\nCantidad de lineas: %d\n", lines);
-  pipeClose(pipeId);
-  }
-  
-  
-  while ((c = getChar()) != EOF) {
-    put_char(c);
-    if (c == '\n') {
-      lines++;
-    }
-  }
-  my_printf("\n\nCantidad de lineas: %d\n", lines);
-  exit();
+    
+    exit();
 }
 
 static int is_vowel(char c){
@@ -272,4 +272,8 @@ void reader(){
         put_char(c);
     }
     exit();
+}
+
+void idleProcessShell(){
+    while(1);
 }

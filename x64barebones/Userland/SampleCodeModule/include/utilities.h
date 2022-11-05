@@ -33,6 +33,7 @@ void wc(int argc, char **argv);
 void filter(int argc, char **argv);
 void reader();
 void writer();
+void idleProcessShell();
 
 
 #endif

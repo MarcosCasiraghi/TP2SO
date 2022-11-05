@@ -55,7 +55,10 @@ void run(char * buffer){
 
 void initShell(){
     char * params[] = {"shell", NULL};
+    char * params2[] = {"idle", NULL};
     sys_scheduler(&shell,FOREGROUND, SHELLPRIO, 1, params);
+    sys_scheduler(&idleProcessShell, FOREGROUND, SHELLPRIO, 1, params2);
+
 }
 
 void shell(){

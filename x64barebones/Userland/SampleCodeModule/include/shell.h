@@ -8,6 +8,7 @@
 #define MEDIUM 1
 #define LOWEST 2
 #define SHELLPRIO 3
+#define IDLEPRIO 4
 #define MAX_PARAMS 5
 
 #include <fibonacci.h>

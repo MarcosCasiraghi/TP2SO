@@ -11,6 +11,7 @@
 #define MEDIUM 1
 #define LOWEST 2
 #define SHELLPRIO 3
+#define IDLEPRIO 4
 #define FOREGROUND 0
 #define BACKGROUND 1
 
@@ -209,6 +210,10 @@ void next(){
         }
         else if (tasks[j].present == 1 && tasks[j].status == READY && tasks[j].priority == SHELLPRIO && foregroundRunning() == 0)
         {
+            if( foregroundRunning2() == 1){
+                activePID = 1;
+                return;
+            }
             activePID=0;
             return;
         }
@@ -224,6 +229,15 @@ int foregroundRunning(){
     return 0;
 }
 
+int foregroundRunning2(){
+    for (int i = 0; i < MAX_TASKS; ++i) {
+        if (tasks[i].present == 1 && tasks[i].status != KILLED && tasks[i].priority != SHELLPRIO && tasks[i].ground == FOREGROUND){
+            return 1;
+        }
+
+    }
+    return 0;
+}
 
 int getActivePId(){
     return activePID;
