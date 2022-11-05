@@ -28,5 +28,9 @@ int semOpen(int  id, int value);
 
 void semStatus(char * buffer);
 
+int waitBack(int id);
+
+void closeAllSem();
+
 
 #endif

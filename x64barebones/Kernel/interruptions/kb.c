@@ -39,6 +39,7 @@ int getKey(){
     uint8_t myChar= kbFlag();
     if(scancodeLToAscii[myChar] == 27){//kill all with esc
        freeAll();
+        closeAllSem();
         schedulerExit(2);
         return 1;
     }

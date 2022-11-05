@@ -294,6 +294,19 @@ int blockProcess(int pid){
     for( int i = 0 ; i < MAX_TASKS ; i++){
         if(tasks[i].present == 1 && tasks[i].pID == pid && tasks[i].status != KILLED ){
             tasks[i].status = BLOCKED;
+            return 1;
+        }
+    }
+    return -1;
+}
+
+int blockProcessTick(int pid){
+    if( pid == 0){
+        return -1;
+    }
+    for( int i = 0 ; i < MAX_TASKS ; i++){
+        if(tasks[i].present == 1 && tasks[i].pID == pid && tasks[i].status != KILLED ){
+            tasks[i].status = BLOCKED;
             callTimerTick();
             return 1;
         }

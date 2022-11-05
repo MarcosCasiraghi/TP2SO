@@ -14,6 +14,6 @@
 #define THINK_EAT_WAIT_SECONDS 1
 #define FRONTEND_WAIT_SECONDS 2
 
-void philoProblem();
+void philoProblem(int argc, char ** argv);
 
 #endif

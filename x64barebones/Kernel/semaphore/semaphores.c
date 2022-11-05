@@ -25,7 +25,35 @@ int wait(int id){
         aux->blockedProccesses[aux->blockCounter++] = pid;
         mutex_unlock(&(aux->mutex));
         blockProcess(pid);
-       
+    }
+    return 0;
+}
+
+void closeAllSem(){
+    semaphore * first = semList;
+    while (first != NULL){
+        removeSem(first);
+        first = first->tail;
+    }
+    semList = NULL;
+    return 0;
+}
+
+int waitBack(int id){
+    semaphore * aux = getSem(id);
+    if(aux==NULL){
+        return -1;
+    }
+    mutex_lock(&(aux->mutex));
+    if(aux->value > 0){
+        aux->value--;
+        mutex_unlock(&(aux->mutex));
+    }
+    else{
+        int pid = getPID();
+        aux->blockedProccesses[aux->blockCounter++] = pid;
+        mutex_unlock(&(aux->mutex));
+        blockProcessTick(pid);
     }
     return 0;
 }

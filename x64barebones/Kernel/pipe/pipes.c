@@ -29,7 +29,7 @@ int writePipe(int pipeId, char * string){
         return -1;
     }
     for (int i = 0; string[i] != '\0'; ++i) {
-        wait(pipes[index].writeLock);
+        waitBack(pipes[index].writeLock);
 
 
         if (pipes[index].writeIndex > BUFFERSIZE) {
@@ -50,20 +50,11 @@ char readPipe(int pipeId){
     if (index == -1){
         return '\t';
     }
-    //    if (pipes[index].readLock > 1){
-//        mutex_lock(&(pipes[index].mutex));
-//        pipes[index].readLock--;
-//        mutex_unlock(&(pipes[index].mutex));
-//    }
-//    else{
-//        mutex_lock(&(pipes[index].readLock));
-//    }
 
-    wait(pipes[index].readLock);
+    waitBack(pipes[index].readLock);
     char c = pipes[index].buffer[pipes[index].readIndex];
     pipes[index].readIndex = (pipes[index].readIndex + 1) % BUFFERSIZE;  //Se lee el pipe de manera circular
 
-//    mutex_unlock(&(pipes[index].readLock));
     post(pipes[index].writeLock);
 
 
@@ -120,9 +111,6 @@ static int createPipe(int pipeId) {
 
     pipes[index].readLock = semOpen(initialSemId++, 0);
     pipes[index].writeLock = semOpen(initialSemId++, BUFFERSIZE);
-//////
-//    pipes[index].readLock = 0;
-//    pipes[index].writeLock = BUFFERSIZE;
 
     if (pipes[index].readLock == -1 || pipes[index].writeLock == -1) {
         return -1;

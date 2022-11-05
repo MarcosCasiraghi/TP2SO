@@ -156,22 +156,21 @@ void loop(int argc, char **argv) {
     while (1) {
         char * saludo = "Que hay de nuevo viejo. No es temporada de pid:";
         char * result= sys_malloc(100 * sizeof(char));
-//        char buff[4] = {0};
-//        itoa(pid,buff,10);
+        char buff[4] = {0};
+        itoa(pid,buff,10);
         int i =0;
         while(saludo[i]!='\0'){
             result[i]= saludo[i];
             i++;
         }
         int j =0;
-//        while(buff[j]!='\0'){
-//            result[i]= buff[j];
-//            j++;
-//            i++;
-//        }
+        while(buff[j]!='\0'){
+            result[i]= buff[j];
+            j++;
+            i++;
+        }
         result[i] = '\n';
         pipeWrite(pipeId,result);
-//        my_printf("escribi %s en el pipe\n", result);
         sleep(2);
   }
   }
