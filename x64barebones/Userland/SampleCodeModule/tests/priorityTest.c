@@ -4,9 +4,10 @@
 
 
 void priorityTest(){
-    uint64_t pids[TOTAL_PROCESSES];
+  uint64_t pids[TOTAL_PROCESSES];
   uint64_t i;
 
+my_printf("Creating Processes\n\n");
   for (i = 0; i < TOTAL_PROCESSES; i++) {
     char *argv[] = {"Idle Process"};
     pids[i] = sys_scheduler( &idleProcess, BACKGROUND, MEDIUM, 1, argv);
@@ -14,8 +15,7 @@ void priorityTest(){
 
   busyWait(TOTAL_PROCESSES * MAJOR_WAIT);
 
-  my_printf(
-      "\nChanging Priorites...\n\n");
+  my_printf("Changing Priorites...\n\n");
 
   for (i = 0; i < TOTAL_PROCESSES; i++) {
     switch (i % 3) {
@@ -33,28 +33,27 @@ void priorityTest(){
 
    busyWait(TOTAL_PROCESSES * MAJOR_WAIT);
 
-  my_printf("\nBLOCKING...\n\n");
+  my_printf("Blocking...\n\n");
   for (i = 0; i < TOTAL_PROCESSES; i++) {
     sys_block(pids[i]);
   }
 
-  my_printf(
-      "\nCHANGING PRIORITIES WHILE BLOCKED...\n\n");
+  my_printf("Changing priorities while blocked...\n\n");
   for (i = 0; i < TOTAL_PROCESSES; i++) {
     sys_nice(pids[i], MEDIUM);
   }
 
-  my_printf("\nUNBLOCKING...\n\n");
+  my_printf("Unblocking...\n\n");
 
   for (i = 0; i < TOTAL_PROCESSES; i++) {
     sys_unblock(pids[i]);
   }
 
   busyWait(TOTAL_PROCESSES * MAJOR_WAIT);
-  my_printf("\nKILLING...\n\n");
+  my_printf("Killing...\n\n");
 
   for (i = 0; i < TOTAL_PROCESSES; i++) {
     sys_kill(pids[i]);
   }
-    exit();
+  exit();
 }

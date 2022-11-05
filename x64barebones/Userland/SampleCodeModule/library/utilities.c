@@ -38,7 +38,7 @@ void clearConsole()
 }
 
 void ps(){
-    my_printf("name PID priority visibility RBP RSP\n");
+    my_printf("name PID type visibility RBP RSP Priority Status\n");
     char buffer[BUFFERSIZE] = {'\0'};
     sys_ps(buffer);
     my_printf(buffer);
