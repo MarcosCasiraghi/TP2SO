@@ -6,8 +6,9 @@
 #define LEFT 1
 #define RIGHT 2
 #define BUFFERSIZE 500
+#define EOF -1
 
-
+static int is_vowel(char c);
 void print(char * string,uint8_t fontColor, uint8_t backColor){
     sys_write(string, fontColor, backColor, my_strlen(string));
 }
@@ -153,13 +154,95 @@ void loop(int argc, char **argv) {
    if (argc ==3) {
     int pipeId= pipeOpen(atoi(argv[1]));
     while (1) {
-    pipeWrite(pipeId,"Que hay de nuevo viejo. No es temporada de pid:\n");
-    sleep(2);
+        char * saludo = "Que hay de nuevo viejo. No es temporada de pid:";
+        char result[100] = {0};
+        char buff[4];
+        itoa(pid,buff,10);
+        int i =0;
+        while(saludo[i]!='\0'){
+            result[i]= saludo[i];
+            i++;
+        }
+        int j =0;
+        while(buff[j]!='\0'){
+            result[i]= buff[j];
+            j++;
+            i++;
+        }
+        result[i] = '\n';
+        pipeWrite(pipeId,result);
+        sleep(2);
   }
-  }else{
+  }
+  else{
   while (1) {
     my_printf("Que hay de nuevo viejo. No es temporada de pid:%d\n", pid);
     sleep(2);
   }
   }
+}
+
+void filter(int argc, char **argv) {
+    char c;
+  if(argc == 3){
+    int pipeId= pipeOpen(atoi(argv[1]));
+    while ((c = pipeRead(pipeId)) != EOF) {
+    if (!is_vowel(c)) {
+      put_char(c);
+    }
+  }
+  pipeClose(pipeId);
+  }else{
+  
+  while ((c = getChar()) != EOF) {
+    if (!is_vowel(c)) {
+      put_char(c);
+    }
+  }
+  }
+}
+void cat(int argc, char **argv) {
+  char c;
+  if (argc == 3) {
+    int pipeId= pipeOpen(atoi(argv[1]));
+    while ((c = pipeRead(pipeId)) != EOF) {
+    put_char(c);
+  }
+  pipeClose(pipeId);
+  }else{
+  
+  while ((c = getChar()) != EOF) {
+    put_char(c);
+  }
+  }
+}
+
+void wc(int argc, char **argv) {
+    char c;
+    int lines = 1;
+  if (argc == 3) {
+    int pipeId= pipeOpen(atoi(argv[1]));
+    while ((c = pipeRead(pipeId)) != EOF) {
+    put_char(c);
+    if (c == '\n') {
+      lines++;
+    }
+  }
+  my_printf("\n\nCantidad de lineas: %d\n", lines);
+  pipeClose(pipeId);
+  }
+  
+  
+  while ((c = getChar()) != EOF) {
+    put_char(c);
+    if (c == '\n') {
+      lines++;
+    }
+  }
+  my_printf("\n\nCantidad de lineas: %d\n", lines);
+}
+
+static int is_vowel(char c){
+    return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c== 'A' || c == 'E'
+        || c == 'I' || c=='O' || c == 'U';
 }
