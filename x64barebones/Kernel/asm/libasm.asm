@@ -2,6 +2,7 @@ GLOBAL cpuVendor
 GLOBAL kbFlag
 GLOBAL getRTC
 GLOBAL loadRegisters
+GLOBAL callTimerTick
 ;GLOBAL hasRegDump
 ;GLOBAL regdump
 section .text
@@ -96,4 +97,8 @@ getRTC:
 	mov rsp, rbp
 	pop rbp
 	ret
+
+callTimerTick:
+    int 20h
+    ret
 

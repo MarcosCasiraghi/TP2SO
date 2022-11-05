@@ -16,12 +16,13 @@ typedef struct pipe {
     int writeIndex, readIndex;
     int processes;
     int writeLock, readLock;
+    int mutex;
 } pipe;
 
 int writePipe(int pipeId, char *str);
 int openPipe(int pipeId);
 int closePipe(int pipeId);
-int readPipe(int pipeId);
+char readPipe(int pipeId);
 void pipeStatus(char * buffer);
 
 #endif //TP2SO_PIPES_H

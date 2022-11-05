@@ -14,7 +14,7 @@ void time();
 void ps();
 void clearConsole();
 void kill(uint64_t, char ** argv);
-int pipeRead(int pipeId);
+char pipeRead(int pipeId);
 int pipeWrite(int pipeId, char * string);
 int pipeOpen(int pipeId);
 int pipeClose(int pipeId);
@@ -28,5 +28,11 @@ void mmStatus();
 void yield();
 void sleep(int secs);
 void loop(int argc, char **argv);
+void cat(int argc, char **argv);
+void wc(int argc, char **argv);
+void filter(int argc, char **argv);
+void reader();
+void writer();
+
 
 #endif

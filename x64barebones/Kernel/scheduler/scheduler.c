@@ -280,8 +280,7 @@ int blockProcess(int pid){
     for( int i = 0 ; i < MAX_TASKS ; i++){
         if(tasks[i].present == 1 && tasks[i].pID == pid && tasks[i].status != KILLED ){
             tasks[i].status = BLOCKED;
-            // ncPrint("bloquee:");
-            // ncPrintDec(tasks[i].pID);
+            callTimerTick();
             return 1;
         }
     }

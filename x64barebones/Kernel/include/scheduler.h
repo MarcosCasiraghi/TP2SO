@@ -6,6 +6,8 @@
 #include <string.h>
 #include <strings.h>
 #include <stdlib.h>
+#include <irqDispatcher.h>
+#include <interrupts.h>
 
 int add_task( void * task,int ground,int priority,uint64_t argc, char * argv[], uint64_t flags);
 int tasksRunning(void);

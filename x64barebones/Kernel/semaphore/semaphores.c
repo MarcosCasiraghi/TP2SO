@@ -13,10 +13,12 @@ static void removeSem(semaphore * sem);
 int wait(int id){
     semaphore * aux = getSem(id);
     if(aux==NULL){
+        ncPrint(" no acabo de bloquear a reader");
         return -1;
     }
     mutex_lock(&(aux->mutex));
     if(aux->value > 0){
+        ncPrint(" wat");
         aux->value--;
         mutex_unlock(&(aux->mutex));
     }
@@ -25,6 +27,7 @@ int wait(int id){
         aux->blockedProccesses[aux->blockCounter++] = pid;
         mutex_unlock(&(aux->mutex));
         blockProcess(pid);
+        ncPrint("acabo de bloquear a reader");
        
     }
     return 0;

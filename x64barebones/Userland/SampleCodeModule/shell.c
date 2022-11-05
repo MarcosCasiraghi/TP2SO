@@ -1,7 +1,7 @@
 #include <shell.h>
 
-#define READ "0"
-#define WRITE "1"
+#define READ "0\0"
+#define WRITE "1\0"
 
 typedef void (*functionPointer)(void);
 
@@ -36,6 +36,12 @@ static FunctionType programs[] = {{"fibonacci", &fibonacci, MEDIUM},
                                   {"semstatus", &semStatus, MEDIUM},
                                   {"pipestatus", &pipeStatus, MEDIUM},
                                   {"phylo", &philoProblem,MEDIUM},
+                                  {"wc", &wc, MEDIUM},
+                                  {"filter", &filter, MEDIUM},
+                                  {"loop", &loop, MEDIUM},
+                                  {"cat", &cat, MEDIUM},
+                                  {"reader", &reader, MEDIUM},
+                                  {"writer", &writer, MEDIUM},
                                   {0,0,0}};
 
 void run(char * buffer){
@@ -109,32 +115,21 @@ int addFunctions(char * buffer){
             int argc2;
             int argc = argc2 = 3;
 
-            char * argv[3];
-            char * argv2[3];
-            char buffer1[4];
-            char buffer2[4];
+            char * buffer1 = sys_malloc(sizeof(char *));
+            char * buffer2 = sys_malloc(sizeof(char *));
 
+            char ** argv = sys_malloc(3*sizeof(char *));
+            char ** argv2 = sys_malloc(3*sizeof(char *));
             argv[0] = programs[func1Index].name;
             argv[1] = itoa(pipeId, buffer1,10);
             argv[2] = WRITE;
-
             argv2[0] = programs[func2Index].name;
-            argv2[1] = pipeId;
+            argv2[1] = itoa(pipeId, buffer2,10);
             argv2[2] = READ;
 
+            sys_scheduler(programs[func1Index].func,FOREGROUND,programs[func1Index].priority, argc, argv );
 
-
-            if (background == 0)
-                sys_scheduler(programs[func1Index].func,FOREGROUND,programs[func1Index].priority, argc, argv );
-            else if (background == 1 )
-                sys_scheduler(programs[func1Index].func,BACKGROUND,programs[func1Index].priority, argc, argv );
-
-            if (background2 == 0){
-                sys_scheduler(programs[func2Index].func,FOREGROUND,programs[func2Index].priority, argc2, argv2 );
-            }
-            if (background2 == 0){
-                sys_scheduler(programs[func2Index].func,FOREGROUND,programs[func2Index].priority, argc2, argv2 );
-            }
+            sys_scheduler(programs[func2Index].func,FOREGROUND,programs[func2Index].priority, argc2, argv2 );
             initialPipeId++;
 
             return 2;

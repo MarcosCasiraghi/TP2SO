@@ -29,5 +29,11 @@ int sys_semPost(int id);
 void sys_semStatus(char * buffer);
 int sys_unblock(int pid);
 int sys_getseconds();
+int sys_pipeOpen(int pipeId);
+int sys_pipeClose(int pipeId);
+char sys_pipeRead(int pipeId);
+int sys_pipeWrite(int pipeId, char * buffer);
+void sys_pipeStatus(char * buffer);
+
 
 #endif

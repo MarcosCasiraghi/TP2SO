@@ -6,7 +6,7 @@
 #define LEFT 1
 #define RIGHT 2
 #define BUFFERSIZE 500
-#define EOF -1
+#define EOF '\t'
 
 static int is_vowel(char c);
 void print(char * string,uint8_t fontColor, uint8_t backColor){
@@ -94,9 +94,10 @@ int pipeWrite(int pipeId, char * string){
     return 1;
 }
 
-int pipeRead(int pipeId){
+char pipeRead(int pipeId){
     char c = sys_pipeRead(pipeId);
-    if (c == -1){
+    sys_exec();
+    if (c == '\t' || c == '\0'){
         return -1;
     }
     return c;
@@ -171,6 +172,7 @@ void loop(int argc, char **argv) {
         }
         result[i] = '\n';
         pipeWrite(pipeId,result);
+        my_printf("escribi algo en el pipe\n");
         sleep(2);
   }
   }
@@ -180,6 +182,7 @@ void loop(int argc, char **argv) {
     sleep(2);
   }
   }
+  exit();
 }
 
 void filter(int argc, char **argv) {
@@ -187,10 +190,11 @@ void filter(int argc, char **argv) {
   if(argc == 3){
     int pipeId= pipeOpen(atoi(argv[1]));
     while ((c = pipeRead(pipeId)) != EOF) {
-    if (!is_vowel(c)) {
-      put_char(c);
-    }
+        if (!is_vowel(c)) {
+          put_char(c);
+        }
   }
+    my_printf("No encontro nada pra leer y se fue a la mierda\n");
   pipeClose(pipeId);
   }else{
   
@@ -200,14 +204,16 @@ void filter(int argc, char **argv) {
     }
   }
   }
+  exit();
 }
+
 void cat(int argc, char **argv) {
   char c;
   if (argc == 3) {
     int pipeId= pipeOpen(atoi(argv[1]));
     while ((c = pipeRead(pipeId)) != EOF) {
-    put_char(c);
-  }
+        put_char(c);
+    }
   pipeClose(pipeId);
   }else{
   
@@ -215,6 +221,7 @@ void cat(int argc, char **argv) {
     put_char(c);
   }
   }
+  exit();
 }
 
 void wc(int argc, char **argv) {
@@ -240,9 +247,22 @@ void wc(int argc, char **argv) {
     }
   }
   my_printf("\n\nCantidad de lineas: %d\n", lines);
+  exit();
 }
 
 static int is_vowel(char c){
     return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c== 'A' || c == 'E'
         || c == 'I' || c=='O' || c == 'U';
+}
+
+void writer(){
+    pipeOpen(2);
+    pipeWrite(2,"HOLA");
+    exit();
+}
+void reader(){
+    pipeOpen(2);
+    char c= pipeRead(2);
+    put_char(c);
+    exit();
 }
