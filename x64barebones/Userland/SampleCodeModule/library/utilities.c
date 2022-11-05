@@ -6,7 +6,7 @@
 #define LEFT 1
 #define RIGHT 2
 #define BUFFERSIZE 500
-#define EOF '\t'
+#define EOF -1
 
 static int is_vowel(char c);
 void print(char * string,uint8_t fontColor, uint8_t backColor){
@@ -96,8 +96,7 @@ int pipeWrite(int pipeId, char * string){
 
 char pipeRead(int pipeId){
     char c = sys_pipeRead(pipeId);
-    sys_exec();
-    if (c == '\t' || c == '\0'){
+    if (c == '\t'){
         return -1;
     }
     return c;
@@ -156,23 +155,23 @@ void loop(int argc, char **argv) {
     int pipeId= pipeOpen(atoi(argv[1]));
     while (1) {
         char * saludo = "Que hay de nuevo viejo. No es temporada de pid:";
-        char result[100] = {0};
-        char buff[4];
-        itoa(pid,buff,10);
+        char * result= sys_malloc(100 * sizeof(char));
+//        char buff[4] = {0};
+//        itoa(pid,buff,10);
         int i =0;
         while(saludo[i]!='\0'){
             result[i]= saludo[i];
             i++;
         }
         int j =0;
-        while(buff[j]!='\0'){
-            result[i]= buff[j];
-            j++;
-            i++;
-        }
+//        while(buff[j]!='\0'){
+//            result[i]= buff[j];
+//            j++;
+//            i++;
+//        }
         result[i] = '\n';
         pipeWrite(pipeId,result);
-        my_printf("escribi algo en el pipe\n");
+//        my_printf("escribi %s en el pipe\n", result);
         sleep(2);
   }
   }
@@ -187,25 +186,31 @@ void loop(int argc, char **argv) {
 
 void filter(int argc, char **argv) {
     char c;
-  if(argc == 3){
-    int pipeId= pipeOpen(atoi(argv[1]));
+    if (argc == 3) {
+        sleep(3);
+        int pipeId = pipeOpen(atoi(argv[1]));
+        my_printf("%d",atoi(argv[1]));
+
+        my_printf("%d", pipeId);
     while ((c = pipeRead(pipeId)) != EOF) {
-        if (!is_vowel(c)) {
+//        if (!is_vowel(c)) {
           put_char(c);
-        }
-  }
-    my_printf("No encontro nada pra leer y se fue a la mierda\n");
-  pipeClose(pipeId);
-  }else{
-  
-  while ((c = getChar()) != EOF) {
-    if (!is_vowel(c)) {
-      put_char(c);
+//        }
     }
-  }
-  }
-  exit();
+        my_printf("No encontro nada pra leer y se fue a la mierda\n");
+        pipeClose(pipeId);
+    }
+    else {
+
+        while ((c = getChar()) != EOF) {
+            if (!is_vowel(c)) {
+                put_char(c);
+            }
+        }
+    }
+    exit();
 }
+
 
 void cat(int argc, char **argv) {
   char c;
@@ -262,7 +267,9 @@ void writer(){
 }
 void reader(){
     pipeOpen(2);
-    char c= pipeRead(2);
-    put_char(c);
+    char c;
+    while ((c = pipeRead(2)) != EOF){
+        put_char(c);
+    }
     exit();
 }

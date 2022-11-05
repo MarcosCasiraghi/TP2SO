@@ -127,7 +127,7 @@ int addFunctions(char * buffer){
             argv2[1] = itoa(pipeId, buffer2,10);
             argv2[2] = READ;
 
-            sys_scheduler(programs[func1Index].func,FOREGROUND,programs[func1Index].priority, argc, argv );
+            sys_scheduler(programs[func1Index].func,BACKGROUND,programs[func1Index].priority, argc, argv );
 
             sys_scheduler(programs[func2Index].func,FOREGROUND,programs[func2Index].priority, argc2, argv2 );
             initialPipeId++;

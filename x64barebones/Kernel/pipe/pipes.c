@@ -50,10 +50,7 @@ char readPipe(int pipeId){
     if (index == -1){
         return '\t';
     }
-
-
-    ncPrintDec(100);
-//    if (pipes[index].readLock > 1){
+    //    if (pipes[index].readLock > 1){
 //        mutex_lock(&(pipes[index].mutex));
 //        pipes[index].readLock--;
 //        mutex_unlock(&(pipes[index].mutex));
@@ -63,7 +60,6 @@ char readPipe(int pipeId){
 //    }
 
     wait(pipes[index].readLock);
-    ncPrintDec(101);
     char c = pipes[index].buffer[pipes[index].readIndex];
     pipes[index].readIndex = (pipes[index].readIndex + 1) % BUFFERSIZE;  //Se lee el pipe de manera circular
 
