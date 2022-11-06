@@ -118,12 +118,12 @@ int semClose(int id){
     return sys_semClose(id);
 }
 int post(int id){
-    sys_semPost(id);
+    return sys_semPost(id);
 
 }
 int wait(int id){
     // my_printf("estoy por bloquearme %d\n", id);
-    sys_semWait(id);
+    return sys_semWait(id);
 }
 void semStatus(){
     char buffer[BUFFERSIZE] = {'\0'};

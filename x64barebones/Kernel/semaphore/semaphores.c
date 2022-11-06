@@ -36,7 +36,7 @@ void closeAllSem(){
         first = first->tail;
     }
     semList = NULL;
-    return 0;
+    return;
 }
 
 int waitBack(int id){

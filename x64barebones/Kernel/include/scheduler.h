@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <irqDispatcher.h>
 #include <interrupts.h>
+#include <libasm.h>
 
 int add_task( void * task,int ground,int priority,uint64_t argc, char * argv[], uint64_t flags);
 int tasksRunning(void);
@@ -32,6 +33,7 @@ void exitCurrent();
 int killProcess(int pid);
 void nice(int pid, int priority);
 int blockProcess(int pid);
+int unblockProcess(int pid);
 int foregroundRunning();
 int foregroundRunning2();
 int blockProcessTick(int pid);

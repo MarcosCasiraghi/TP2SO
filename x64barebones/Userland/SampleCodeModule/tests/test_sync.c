@@ -14,7 +14,7 @@ void slowInc(int64_t *p, int64_t inc){
   *p = aux;
 }
 
-uint64_t my_process_inc(uint64_t argc, char *argv[]){
+void my_process_inc(uint64_t argc, char *argv[]){
   uint64_t pid = sys_getPID();
   if(!semOpen(pid, 0)){
     my_printf("test_sync: ERROR opening semaphore arriba de todo\n");
@@ -68,7 +68,7 @@ uint64_t my_process_inc(uint64_t argc, char *argv[]){
 }
 
 //recibe en argv[1] N (cantidad de ciclos), en argv[2] 0 o 1 si quiere usar semaforos o no
-uint64_t test_sync(uint64_t argc, char *argv[]){ //{n, use_sem, 0}
+void test_sync(uint64_t argc, char *argv[]){ //{n, use_sem, 0}
   uint64_t pids[2 * TOTAL_PAIR_PROCESSES];
   if (argc != 3){
     my_printf("Esta funcion debe recibir 2 parametros\n");

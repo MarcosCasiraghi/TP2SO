@@ -89,7 +89,6 @@ int addFunctions(char * buffer){
     int i3 = 0;
 
     char * argv[MAX_PARAMS] = {0};
-    char * argv2[MAX_PARAMS] = {0};
     int background = 0;
     int background2 = 0;
 
