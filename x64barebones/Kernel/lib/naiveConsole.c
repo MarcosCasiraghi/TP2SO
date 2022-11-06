@@ -15,9 +15,6 @@ static const uint32_t height = 25;
 
 //utilizado para cuando dejar de correr 2 programas 
 //que terminan
-void setCurrentVideo(){
-    currentVideo=getPosition(0,YvideoPosition+1);
-}
 
 void ncPrint(const char * string){
     int i;
@@ -57,10 +54,6 @@ void ncPrintCharWithAtt(char character, uint8_t att){
 
 
 
-uint8_t* getPosition(uint16_t x,uint16_t y){
-    uint8_t* pos= (video + 2*(x +(y*width)));
-    return pos;
-}
 
 
 void ncNewline(){
@@ -105,19 +98,12 @@ void restoreDefault(){
     *(currentVideo+1) = WHITE;
 }
 
-void ncPrintDec(uint64_t value){
-    ncPrintBase(value, 10);
-}
 
 void ncPrintHex(uint64_t value)
 {
     ncPrintBase(value, 16);
 }
 
-void ncPrintBin(uint64_t value)
-{
-    ncPrintBase(value, 2);
-}
 
 void ncPrintBase(uint64_t value, uint32_t base){
     restoreDefault();

@@ -53,7 +53,7 @@ int getKey(){
         freeAll();
         closeAllPipes();
         closeAllSem();
-        schedulerExit(2);
+        schedulerExit();
         return 1;
     }
     if (scancodeLToAscii[myChar] == 5){//load registers for inforeg
