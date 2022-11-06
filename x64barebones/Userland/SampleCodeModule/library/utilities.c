@@ -262,19 +262,6 @@ static int is_vowel(char c){
         || c == 'I' || c=='O' || c == 'U';
 }
 
-void writer(){
-    pipeOpen(2);
-    pipeWrite(2,"HOLA");
-    exit();
-}
-void reader(){
-    pipeOpen(2);
-    char c;
-    while ((c = pipeRead(2)) != EOF){
-        put_char(c);
-    }
-    exit();
-}
 
 void idleProcessShell(){
     while(1);

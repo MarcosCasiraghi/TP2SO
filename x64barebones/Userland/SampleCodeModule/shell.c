@@ -40,8 +40,6 @@ static FunctionType programs[] = {{"fibonacci", &fibonacci, MEDIUM},
                                   {"filter", &filter, MEDIUM},
                                   {"loop", &loop, MEDIUM},
                                   {"cat", &cat, MEDIUM},
-                                  {"reader", &reader, MEDIUM},
-                                  {"writer", &writer, MEDIUM},
                                   {0,0,0}};
 
 void run(char * buffer){
