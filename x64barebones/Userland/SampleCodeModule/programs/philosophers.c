@@ -2,16 +2,16 @@
 #include <philosophers.h>
 
 
-typedef enum { THINKING, HUNGRY, EATING } t_philo_state;
+typedef enum { THINKING, HUNGRY, EATING } state;
 
-typedef struct t_philosofer {
+typedef struct philosofer {
   int pid;
   int sem;
   int ID;
-  t_philo_state state;
-} t_philosofer;
+  state state;
+} philosofer;
 
-t_philosofer *philosophers[MAX_PHILOS];
+philosofer *philosophers[MAX_PHILOS];
 static int philosopherCount = 0;
 static int tableOpen;
 
@@ -51,40 +51,32 @@ void philoProblem(int argc, char ** argv) {
             i++;
         }
 
-        pipeWrite(pipeId,"\nVamos a dejar comer a los filosofos iniciales por 2 segundos.\n\n");
-
         char buffer[10];
         itoa(pipeId, buffer, 10);
 
         char *args[] = {"Phylo Table", buffer};
         tablePID = sys_scheduler(&pipeTable, BACKGROUND, HIGHEST, 2, args);
 
-        sleep(FRONTEND_WAIT_SECONDS);
+        sleep(SLEEP_SECONDS);
 
-        pipeWrite(pipeId,"\nYa puede agregar o retirar comensales y terminar la cena.\n\n");
+        pipeWrite(pipeId,"\nYa puede agregar o retirar filosofos\n\n");
 
         while (tableOpen) {
             char key = getChar();
             switch (key) {
                 case 'a':
                     if (addPhilo() == -1) {
-                        pipeWrite(pipeId,"\nNo hay mas lugar en la mesa.\n\n");
+                        pipeWrite(pipeId,"\nNo entran mas filosofos.\n\n");
                     } else {
-                        pipeWrite(pipeId,"\nSe agrego un comensal.\n\n");
+                        pipeWrite(pipeId,"\nSe agrego un filosofo.\n\n");
                     }
                     break;
                 case 'r':
                     if (removePhilo() == -1) {
-                        pipeWrite(pipeId,"\nPor favor no se vaya, ya llega el postre.\n\n");
+                        pipeWrite(pipeId,"\nNo se pueden remover mas filosofos.\n\n");
                     } else {
-                        pipeWrite(pipeId,"\nSe retiro un comensal.\n\n");
+                        pipeWrite(pipeId,"\nSe saco a un filosofo.\n\n");
                     }
-                    break;
-                case 'q':
-                    pipeWrite(pipeId,
-                            "\nMesa cerrada, cuenta: $999999, esperamos hayan disrutado "
-                            "su\ncomida.\n\n");
-                    tableOpen = 0;
                     break;
                 default:
                     break;
@@ -108,38 +100,29 @@ void philoProblem(int argc, char ** argv) {
             i++;
         }
 
-        my_printf("\nVamos a dejar comer a los filosofos iniciales por %d segundos.\n\n",
-                  FRONTEND_WAIT_SECONDS);
-
         char *args[] = {"Phylo Table"};
         tablePID = sys_scheduler(&printTable, FOREGROUND, HIGHEST, 1, args);
 
-        sleep(FRONTEND_WAIT_SECONDS);
+        sleep(SLEEP_SECONDS);
 
-        my_printf("\nYa puede agregar o retirar comensales y terminar la cena.\n\n");
+        my_printf("\nYa puede agregar o retirar filosofos\n\n");
 
         while (tableOpen) {
             char key = getChar();
             switch (key) {
                 case 'a':
                     if (addPhilo() == -1) {
-                        my_printf("\nNo hay mas lugar en la mesa.\n\n");
+                        my_printf("\nNo entran mas filosofos.\n\n");
                     } else {
-                        my_printf("\nSe agrego un comensal.\n\n");
+                        my_printf("\nSe agrego un filosofo.\n\n");
                     }
                     break;
                 case 'r':
                     if (removePhilo() == -1) {
-                        my_printf("\nPor favor no se vaya, ya llega el postre.\n\n");
+                        my_printf("\nNo se pueden remover mas filosofos\n\n");
                     } else {
-                        my_printf("\nSe retiro un comensal.\n\n");
+                        my_printf("\nSe saco a un filosofo.\n\n");
                     }
-                    break;
-                case 'q':
-                    my_printf(
-                            "\nMesa cerrada, cuenta: $999999, esperamos hayan disrutado "
-                            "su\ncomida.\n\n");
-                    tableOpen = 0;
                     break;
                 default:
                     break;
@@ -162,7 +145,7 @@ static int addPhilo() {
     return -1;
   }
     wait(MUTEX_SEM_ID);
-  t_philosofer *philosopher = sys_malloc(sizeof(t_philosofer));
+  philosofer *philosopher = sys_malloc(sizeof(philosofer));
   if (philosopher == NULL) {
     return -1;
   }
@@ -201,7 +184,7 @@ static int removePhilo() {
   }
 
     wait(MUTEX_SEM_ID);
-    t_philosofer *philosopher = philosophers[--philosopherCount];
+    philosofer *philosopher = philosophers[--philosopherCount];
     post(MUTEX_SEM_ID);
     post(MUTEX_SEM_ID);
     semClose(philosopher->sem);
@@ -246,7 +229,7 @@ static void test(int i) {
   }
 }
 
-static void thinkOrEat() { sleep(THINK_EAT_WAIT_SECONDS); }
+static void thinkOrEat() { sleep(SLEEP_SECONDS); }
 
 static void printTable(int argc, char **argv) {
   while (tableOpen) {
@@ -287,16 +270,16 @@ static void printPhyloHeader() {
   my_printf("Bienvenido al problema de los filosofos comensales.\n");
   my_printf( "Use A para agregar un filosofo\n");
   my_printf( "Use R para remover un filosofo\n");
-  my_printf( "Use Q para finalizar\n");
-  sleep(FRONTEND_WAIT_SECONDS);
+  my_printf( "Use ESC para finalizar\n");
+  sleep(SLEEP_SECONDS);
 }
 
 static void pipePhyloHeader(int pipeId) {
     pipeWrite(pipeId,"Bienvenido al problema de los filosofos comensales.\n");
     pipeWrite(pipeId, "Use A para agregar un filosofo\n");
     pipeWrite(pipeId, "Use R para remover un filosofo\n");
-    pipeWrite(pipeId, "Use Q para finalizar\n");
-    sleep(FRONTEND_WAIT_SECONDS);
+    pipeWrite(pipeId, "Use ESC para finalizar\n");
+    sleep(SLEEP_SECONDS);
 }
 
 

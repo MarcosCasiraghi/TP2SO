@@ -11,8 +11,8 @@
 
 #define FILO_SEM_ID 1234
 #define MUTEX_SEM_ID 4321
-#define THINK_EAT_WAIT_SECONDS 1
-#define FRONTEND_WAIT_SECONDS 2
+#define PHYLO_SLEEP_SECONDS 1
+#define SLEEP_SECONDS 2
 
 void philoProblem(int argc, char ** argv);
 

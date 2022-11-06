@@ -138,7 +138,7 @@ int addFunctions(char * buffer){
 
             sys_scheduler(programs[func1Index].func,BACKGROUND,programs[func1Index].priority, argc, argv );
 
-            sys_scheduler(programs[func2Index].func,FOREGROUND,programs[func2Index].priority, argc2, argv2 );
+            sys_scheduler(programs[func2Index].func,background2,programs[func2Index].priority, argc2, argv2 );
             initialPipeId++;
 
             return 2;
