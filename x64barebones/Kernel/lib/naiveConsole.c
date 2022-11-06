@@ -1,11 +1,13 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 #include <naiveConsole.h>
 
 //static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 
-static char buffer[64] = { '0' };
+static char buffer[64] = { '\0' };
 static uint8_t * const video = (uint8_t*)0xB8000;
 static uint8_t * currentVideo = (uint8_t*)0xB8000;
-static uint8_t X = 0, Y=0;
+static uint8_t XvideoPosition = 0, YvideoPosition=0;
 static const uint32_t width = 80;
 static const uint32_t height = 25;
 
@@ -14,7 +16,7 @@ static const uint32_t height = 25;
 //utilizado para cuando dejar de correr 2 programas 
 //que terminan
 void setCurrentVideo(){
-    currentVideo=getPosition(0,Y+1);
+    currentVideo=getPosition(0,YvideoPosition+1);
 }
 
 void ncPrint(const char * string){
@@ -66,7 +68,7 @@ void ncNewline(){
         ncPrintChar(' ');
     }
     while((uint64_t)(currentVideo - video) % (width * 2) != 0);
-    Y++;
+    YvideoPosition++;
     scrollUp();
 }
 
@@ -132,8 +134,8 @@ void ncClear()
         video[i*2+1]=0x0F;
     }
     currentVideo = video;
-    X = 0;
-    Y = 0;
+    XvideoPosition = 0;
+    YvideoPosition = 0;
 }
 
 uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)
