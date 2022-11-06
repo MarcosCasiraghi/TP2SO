@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 #include <kb.h>
 #include <interrupts.h>
 
@@ -37,6 +39,16 @@ static uint8_t scancodeLToAsciiMayus[] = {
 //int getKey(uint64_t * registers){
 int getKey(){
     uint8_t myChar= kbFlag();
+    if( myChar == LSHIFT || myChar == RSHIFT)
+        mayus = 1;
+    if( myChar == LSHIFT+RELEASE || myChar == RSHIFT+RELEASE )
+        mayus = 0;
+    if( myChar < RELEASE && myChar != 0x00){
+        if(mayus)
+            kbBuffer[kbBufferPos++] = scancodeLToAsciiMayus[myChar];
+        else
+            kbBuffer[kbBufferPos++] = scancodeLToAscii[myChar];
+    }
     if(scancodeLToAscii[myChar] == 27){//kill all with esc
         freeAll();
         closeAllPipes();
@@ -52,18 +64,7 @@ int getKey(){
         kbBufferConsume = 0;
         kbBufferPos = 0;
         }
-    if (kbBufferPos == 255)
-        kbBufferPos = 0;
-    if( myChar == LSHIFT || myChar == RSHIFT)
-        mayus = 1;
-    if( myChar == LSHIFT+RELEASE || myChar == RSHIFT+RELEASE )
-        mayus = 0;
-    if( myChar < RELEASE && myChar != 0x00){
-        if(mayus)
-            kbBuffer[kbBufferPos++] = scancodeLToAsciiMayus[myChar];
-        else
-            kbBuffer[kbBufferPos++] = scancodeLToAscii[myChar];
-    }
+    
     return 0;
 
 }

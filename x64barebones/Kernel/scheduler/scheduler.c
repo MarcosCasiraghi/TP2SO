@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 #include <scheduler.h>
 
 #define STACK_SIZE 4096
@@ -150,7 +152,7 @@ void ps(char * result){
 int add_task( void * task,int ground,int priority,uint64_t argc, char * argv[], uint64_t flags){
 
     for (int i = 0; i < MAX_TASKS; ++i) {
-        if(tasks[i].present!=1 || ( tasks[i].present == 1 && tasks[i].status == KILLED)){
+        if(tasks[i].present!=1 || tasks[i].status == KILLED){
             tasks[i].func=task;
             tasks[i].present = 1;
             tasks[i].status = READY;

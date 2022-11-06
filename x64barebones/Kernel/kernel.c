@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 #include <stdint.h>
 #include <string.h>
 #include <lib.h>
@@ -13,7 +15,7 @@ extern uint8_t bss;
 extern uint8_t endOfKernelBinary;
 extern uint8_t endOfKernel;
 
-#define HEAP_SIZE 1024*1024*64 //64MB
+#define HEAP_SIZE (1024*1024*64) //64MB
 
 static const uint64_t PageSize = 0x1000;
 
