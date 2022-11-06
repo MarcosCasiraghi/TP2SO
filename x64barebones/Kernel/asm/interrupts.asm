@@ -52,14 +52,12 @@ EXTERN syscallDispatcher
 EXTERN schedulerDispatcher
 EXTERN exceptionDispatcher
 EXTERN getKey
-EXTERN schedulerExit
 EXTERN exitCurrent
 
 EXTERN registerManager
 EXTERN getProcesses
 
 EXTERN registersForInforeg
-EXTERN quantum_check
 EXTERN killProcess
 EXTERN blockProcess
 EXTERN unblockProcess

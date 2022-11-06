@@ -240,17 +240,12 @@ int foregroundRunning2(){
     return 0;
 }
 
-int getActivePId(){
-    return activePID;
-}
+
 
 int getPID(){
     return tasks[activePID].pID;
 }
 
-int getSplitScreen(){
-return splitScreenMode;
-}
 
 void exitCurrent(){
     if( activePID == 0){
@@ -329,7 +324,7 @@ int unblockProcess(int pid){
     return -1;
 }
 
-void schedulerExit(int amountOfFuncs){
+void schedulerExit(){
     if( activePID == 0){
         return;
     }
@@ -356,23 +351,6 @@ uint64_t * registerManager(uint64_t * registers, uint8_t load){
     return getRegisters();
 }
 
-int tasksRunning(){
-    int runningCounter = 0;
-    for (int i = 0; i < MAX_TASKS; ++i) {
-        if (tasks[i].present == 1 && tasks[i].status != KILLED)
-            runningCounter++;
-    }
-    return runningCounter;
-}
-
-int tasksReady(){
-    int readyCounter = 0;
-    for (int i = 1; i < MAX_TASKS; ++i) {
-        if (tasks[i].present == 1 && tasks[i].status == READY)
-            readyCounter++;
-    }
-    return readyCounter;
-}
 
 int shellRunning(){
     return activePID==0;

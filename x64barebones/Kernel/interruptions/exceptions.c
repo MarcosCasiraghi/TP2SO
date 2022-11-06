@@ -32,5 +32,5 @@ void exceptionCall(char * message, uint64_t * registers) {
 		ncNewline();
 	}
 
-	schedulerExit(1);
+	schedulerExit();
 }

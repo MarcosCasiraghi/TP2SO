@@ -27,7 +27,6 @@ static void loadModule(uint8_t ** module, void * targetModuleAddress)
 	ncPrint(" to 0x");
 	ncPrintHex((uint64_t)targetModuleAddress);
 	ncPrint(" (");
-	ncPrintDec(moduleSize);
 	ncPrint(" bytes)");*/
 
 	memcpy(targetModuleAddress, *module, moduleSize);

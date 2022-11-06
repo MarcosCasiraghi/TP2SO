@@ -11,18 +11,14 @@
 #include <libasm.h>
 
 int add_task( void * task,int ground,int priority,uint64_t argc, char * argv[], uint64_t flags);
-int tasksRunning(void);
 
 //recive por parametro flag para saber que caso tiene que ejecutarse
 //(matar a un programa activo, ambos, solo izq, solo derecha)
-void schedulerExit(int amountOfFuncs);
-int getActivePId();
+void schedulerExit();
 int getPID();
 int shellRunning();
 uint64_t * registerManager(uint64_t * registers, uint8_t load);
 int getProcesses();
-int getSplitScreen();
-int tasksReady();
 
 //a partir de los programas activos, alterna el ActivePID
 void next();
