@@ -35,8 +35,8 @@ static FunctionType programs[] = {{"fibonacci", &fibonacci, MEDIUM},
                                   {"semtest",&test_sync,MEDIUM},
                                   {"semstatus", &semStatus, MEDIUM},
                                   {"pipestatus", &pipeStatus, MEDIUM},
-                                  {"phylo", &philoProblem,MEDIUM},
-                                  {"wc", &wc, MEDIUM},
+                                  {"phylo", &philoProblem,MEDIUM}, 
+                                  {"wc", &wc, MEDIUM}, 
                                   {"filter", &filter, MEDIUM},
                                   {"loop", &loop, MEDIUM},
                                   {"cat", &cat, MEDIUM},
@@ -111,8 +111,9 @@ int addFunctions(char * buffer){
 
         int func1Index = getFuncIndex(func1, &background);
         int func2Index = getFuncIndex(func2, &background2);
-
-        if (func1Index != -1 && func2Index != -1){  //TODO: chequear que sea de las funciones disponibles con el pipe
+        
+        if (func1Index != -1 && func2Index != -1 && ((func1Index == 18 || func1Index == 21)
+            &&( func2Index == 19 || func2Index  == 20 || func2Index == 22))){
             int pipeId = pipeOpen(initialPipeId);
             if( pipeId < 0){
                 my_printf("error en pipeOpen de Shell\n");
