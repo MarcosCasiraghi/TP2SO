@@ -186,18 +186,20 @@ void loop(int argc, char **argv) {
 void filter(int argc, char **argv) {
     char c;
     if (argc == 3) {
-        sleep(3);
+        // sleep(3);
         int pipeId = pipeOpen(atoi(argv[1]));
-        // my_printf("%d",atoi(argv[1]));
-
-        // my_printf("%d", pipeId);
-    while ((c = pipeRead(pipeId)) != EOF) {
-       if (!is_vowel(c)) {
-          put_char(c);
-       }
-    }
-        my_printf("No encontro nada pra leer y se fue a la mierda\n");
-        pipeClose(pipeId);
+        if(pipeId == -1){
+            my_printf("Error al abrir pipe de filter\n");
+            exit();
+        }
+        
+        while ((c = pipeRead(pipeId)) != EOF) {
+            if (!is_vowel(c)) {
+                put_char(c);
+            }
+        }
+    my_printf("No se encontro nada para leer del pipe\n");
+    pipeClose(pipeId);
     }
     else {
 

@@ -80,6 +80,17 @@ int closePipe(int pipeId){
     return 1;
 }
 
+void closeAllPipes(){
+    for (int i = 0 ; i < MAX_PIPES ; i++){
+        if(pipes[i].present == 1){
+            pipes[i].present =0;
+            semClose(pipes[i].writeLock);
+            semClose(pipes[i].readLock);
+        }
+    }
+}
+
+
 static int getPipeIndex(int pipeId) {
     for (int i = 0; i < MAX_PIPES; i++) {
         if (pipes[i].id == pipeId && pipes[i].present == 1) {
@@ -92,10 +103,12 @@ static int getPipeIndex(int pipeId) {
 
 static int createPipe(int pipeId) {
     int index;
+    int notFound = 0;
 
-    for (int i = 0; i < MAX_PIPES; ++i) {
+    for (int i = 0; i < MAX_PIPES && !notFound; ++i) {
         if (pipes[i].present != 1){
             index = i;
+            notFound = 1;
         }
         else if (i == MAX_PIPES-1){
             return -1;
@@ -131,7 +144,9 @@ void pipeStatus(char * buffer) {
     int k = 0;
     int activeFlag = 0;
 
-    while(i < MAX_PIPES){
+    // i = 0;
+
+    while(k < MAX_PIPES){
         if (pipes[k].present == 1){
             activeFlag = 1;
             char idString[] = {"ID: "};
@@ -176,8 +191,8 @@ void pipeStatus(char * buffer) {
 
             char newLine[] = {"\n"};
             buffer[i++]=newLine[0];
-            k++;
         }
+        k++;
     }
 
     if (activeFlag == 0){

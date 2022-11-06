@@ -22,6 +22,7 @@ typedef struct pipe {
 int writePipe(int pipeId, char *str);
 int openPipe(int pipeId);
 int closePipe(int pipeId);
+void closeAllPipes();
 char readPipe(int pipeId);
 void pipeStatus(char * buffer);
 

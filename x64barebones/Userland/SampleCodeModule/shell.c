@@ -114,7 +114,11 @@ int addFunctions(char * buffer){
         int func2Index = getFuncIndex(func2, &background2);
 
         if (func1Index != -1 && func2Index != -1){  //TODO: chequear que sea de las funciones disponibles con el pipe
-            int pipeId = sys_pipeOpen(initialPipeId);
+            int pipeId = pipeOpen(initialPipeId);
+            if( pipeId < 0){
+                my_printf("error en pipeOpen de Shell\n");
+                return -1;
+            }
             int argc2;
             int argc = argc2 = 3;
 
@@ -124,10 +128,12 @@ int addFunctions(char * buffer){
             char ** argv = sys_malloc(3*sizeof(char *));
             char ** argv2 = sys_malloc(3*sizeof(char *));
             argv[0] = programs[func1Index].name;
-            argv[1] = itoa(pipeId, buffer1,10);
-            argv[2] = WRITE;
             argv2[0] = programs[func2Index].name;
+
+            argv[1] = itoa(pipeId, buffer1,10);
             argv2[1] = itoa(pipeId, buffer2,10);
+
+            argv[2] = WRITE;
             argv2[2] = READ;
 
             sys_scheduler(programs[func1Index].func,BACKGROUND,programs[func1Index].priority, argc, argv );
