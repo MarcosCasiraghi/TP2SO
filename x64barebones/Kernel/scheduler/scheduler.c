@@ -204,7 +204,6 @@ void next(){
             if (j != activePID) {
                 activePID = j;
                 priorityTickers[tasks[activePID].priority]++;
-                // ncPrintDec(activePID);
                 return;
             }
         }
@@ -322,6 +321,7 @@ int unblockProcess(int pid){
         if(tasks[i].present == 1 && tasks[i].pID == pid && tasks[i].status != KILLED){
             tasks[i].status = READY;
             return 1;
+
         }
     }
     return -1;

@@ -66,7 +66,6 @@ void philoProblem(int argc, char ** argv) {
 
         while (tableOpen) {
             char key = getChar();
-            wait(MUTEX_SEM_ID);
             switch (key) {
                 case 'a':
                     if (addPhilo() == -1) {
@@ -91,7 +90,6 @@ void philoProblem(int argc, char ** argv) {
                 default:
                     break;
             }
-            post(MUTEX_SEM_ID);
         }
 
 
@@ -123,7 +121,6 @@ void philoProblem(int argc, char ** argv) {
 
         while (tableOpen) {
             char key = getChar();
-            wait(MUTEX_SEM_ID);
             switch (key) {
                 case 'a':
                     if (addPhilo() == -1) {
@@ -148,7 +145,6 @@ void philoProblem(int argc, char ** argv) {
                 default:
                     break;
             }
-            post(MUTEX_SEM_ID);
         }
     }
 
@@ -166,8 +162,7 @@ static int addPhilo() {
   if (philosopherCount == MAX_PHILOS) {
     return -1;
   }
-
-  wait(MUTEX_SEM_ID);
+    wait(MUTEX_SEM_ID);
   t_philosofer *philosopher = sys_malloc(sizeof(t_philosofer));
   if (philosopher == NULL) {
     return -1;
@@ -205,13 +200,14 @@ static int removePhilo() {
   if (philosopherCount == INITIAL_PHILOS) {
     return -1;
   }
-  
 
-  t_philosofer *philosopher = philosophers[--philosopherCount];
-  semClose(philosopher->sem);
-  sys_kill(philosopher->pid);
-  sys_free(philosopher);
-
+    wait(MUTEX_SEM_ID);
+    t_philosofer *philosopher = philosophers[--philosopherCount];
+    post(MUTEX_SEM_ID);
+    post(MUTEX_SEM_ID);
+    semClose(philosopher->sem);
+    sys_kill(philosopher->pid);
+    sys_free(philosopher);
 
   return 0;
 }
@@ -267,7 +263,6 @@ static void printTable(int argc, char **argv) {
     }
     put_char('\n');
     post(MUTEX_SEM_ID);
-    yield();
   }
 }
 
