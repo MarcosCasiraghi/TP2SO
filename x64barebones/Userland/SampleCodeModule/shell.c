@@ -42,6 +42,7 @@ static FunctionType programs[] = {{"fibonacci", &fibonacci, MEDIUM},
                                   {"filter", &filter, MEDIUM},
                                   {"loop", &loop, MEDIUM},
                                   {"cat", &cat, MEDIUM},
+                                  {"mmtest2", &mmTest2, MEDIUM},
                                   {0,0,0}};
 
 void run(char * buffer){
@@ -83,12 +84,12 @@ void clearBuffer(){
 
 int addFunctions(char * buffer){
     char func1[BUFFER_LENGTH]= {0};
-    char func2[BUFFER_LENGTH] = {0};
+
     int i1 = 0;
-    int i2 = 0;
+
     int i3 = 0;
 
-    char * argv[MAX_PARAMS] = {0};
+
     int background = 0;
     int background2 = 0;
 
@@ -98,6 +99,10 @@ int addFunctions(char * buffer){
     }
 
     if(buffer[i3] == '|') {
+
+        char func2[BUFFER_LENGTH] = {0};
+        int i2 = 0;
+
         func1[--i1] = '\0';
         i3++;
         if (buffer[i3] && buffer[i3] == ' ') {
@@ -108,6 +113,8 @@ int addFunctions(char * buffer){
             }
         }
         func2[i2] = '\0';
+
+
 
         int func1Index = getFuncIndex(func1, &background);
         int func2Index = getFuncIndex(func2, &background2);
@@ -158,6 +165,7 @@ int addFunctions(char * buffer){
     }
     int funcIndex = getFuncIndex(func1, &background);
     if(funcIndex != -1){
+        char * argv[MAX_PARAMS] = {0};
         if (background == 1){
             uint64_t argc = createArgv(programs[funcIndex].name, param1, argv);
             sys_scheduler(programs[funcIndex].func,BACKGROUND,programs[funcIndex].priority, argc, argv );

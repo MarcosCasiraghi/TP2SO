@@ -49,10 +49,10 @@ void printMem(uint64_t argc, char ** argv) {
 }
 void inforeg(){
     uint64_t reg[18]={0};
-	char* nameReg[17]={"RIP:","RAX:","RBX:","RCX:","RDX:","RSI:","RDI:","RBP:","RSP:","R8:","R9:","R10:","R11:","R12:","R13:","R14:","R15:"};
 
 	sys_registers(reg);
     if (reg[17]){
+        char* nameReg[17]={"RIP:","RAX:","RBX:","RCX:","RDX:","RSI:","RDI:","RBP:","RSP:","R8:","R9:","R10:","R11:","R12:","R13:","R14:","R15:"};
         for (int i = 0;i < 17; i++){
 			my_printf(nameReg[i]);
             my_printf("%d",reg[i]);

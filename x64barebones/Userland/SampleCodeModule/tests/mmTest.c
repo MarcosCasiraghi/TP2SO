@@ -14,8 +14,7 @@ typedef struct MM_rq{
 void mmTest(){
 
     mm_rq mm_rqs[MAX_BLOCKS];
-    uint8_t rq;
-    uint32_t total;
+
 
     print("Inicializando Test de Memoria\n", WHITE,BLACK);
 
@@ -23,8 +22,8 @@ void mmTest(){
 
     while(1){
         my_printf("Cycle Number: %d\n", counter++);
-        rq = 0;
-        total = 0;
+        uint8_t rq = 0;
+        uint32_t total = 0;
 
         while( rq < MAX_BLOCKS && total < MAX_MEMORY){
             mm_rqs[rq].size = GetUniform(MAX_MEMORY - total - 1) +1;
