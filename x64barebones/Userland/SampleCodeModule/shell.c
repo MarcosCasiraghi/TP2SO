@@ -73,7 +73,7 @@ void shell(){
 
 void clearBuffer(){
     int i=0;
-    while (readBuffer[i]!=0 && i<BUFFER_LENGTH){
+    while ( i<BUFFER_LENGTH && readBuffer[i]!=0){
         readBuffer[i]=0;
         i++;
     }
@@ -218,7 +218,7 @@ void checkSpecialFunc(char * name, char * input, char * parameter, int * flag){
         *flag = 1;
         input[my_strlen(name)]='\0';
         int a=0;
-        while(input[a+1+my_strlen(name)] && a<19){
+        while(a<19 && input[a+1+my_strlen(name)] ){
             parameter[a]=input[a+1+my_strlen(name)];
             a++;
         }

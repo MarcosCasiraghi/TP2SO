@@ -6,7 +6,7 @@
 #define LEFT 1
 #define RIGHT 2
 #define BUFFERSIZE 500
-#define EOF -1
+#define EOF '\t'
 
 static int is_vowel(char c);
 void print(char * string,uint8_t fontColor, uint8_t backColor){
@@ -97,7 +97,7 @@ int pipeWrite(int pipeId, char * string){
 char pipeRead(int pipeId){
     char c = sys_pipeRead(pipeId);
     if (c == '\t'){
-        return -1;
+        return '\t';
     }
     return c;
 }

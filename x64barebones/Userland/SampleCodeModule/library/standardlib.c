@@ -67,7 +67,7 @@ void my_printf(const char * frmt, ...){
 
   const char *aux;
 
-  uint64_t i;
+  int i;
   unsigned u;
   char *s;
 
