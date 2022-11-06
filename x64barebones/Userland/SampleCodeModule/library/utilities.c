@@ -45,7 +45,7 @@ void ps(){
     exit();
 }
 
-void kill(uint64_t argc, char ** argv){
+void kill(int argc, char ** argv){
     // my_printf("%d\n%s\n%s\n", argc, argv[0], argv[1] );
     if( argc != 2){
         my_printf("Esta funcion debe recibir un parametro\nEscribirlo de la forma 'kill <numero>'\n");
@@ -102,7 +102,8 @@ char pipeRead(int pipeId){
     return c;
 }
 
-void pipeStatus(char * buffer){
+void pipeStatus(){
+    char buffer[BUFFERSIZE] = {'\0'};
     sys_pipeStatus(buffer);
     my_printf(buffer);
     exit();

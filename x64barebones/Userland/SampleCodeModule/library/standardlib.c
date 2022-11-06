@@ -154,7 +154,7 @@ int atoi(const char * S){
       return -num;
     }
     if(!number){
-      return NULL;
+      return 0;
     }
  
     return num;

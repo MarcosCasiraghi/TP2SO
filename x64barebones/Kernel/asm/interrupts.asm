@@ -550,7 +550,7 @@ _pipeStatusHandler:
 _yieldHandler:
 	_yieldMacro
 
-_getSecondsHandler
+_getSecondsHandler:
 	syscallHandlerMaster 24
 
 haltcpu:

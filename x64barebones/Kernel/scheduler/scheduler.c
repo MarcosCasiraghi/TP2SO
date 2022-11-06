@@ -19,7 +19,7 @@
 #define MEDIUMTICKS 2
 #define LOWESTTICKS 1
 
-typedef void (*functionPointer)(void);
+typedef void (*functionPointer)(int, char **);
 
 typedef struct{
     functionPointer func;
@@ -39,8 +39,8 @@ static int priorityTickers[3] = {0};
 
 static int splitScreenMode=0;
 
-static char stack[MAX_TASKS+1][STACK_SIZE] = {0};
-static uint64_t reg[MAX_TASKS+1][REGISTERS] ={0};
+static char stack[MAX_TASKS+1][STACK_SIZE] = {{0}};
+static uint64_t reg[MAX_TASKS+1][REGISTERS] ={{0}};
 static int processes=0;
 static int pIDCounter = 0;
 
@@ -156,10 +156,10 @@ int add_task( void * task,int ground,int priority,uint64_t argc, char * argv[], 
             tasks[i].status = READY;
             tasks[i].pID = pIDCounter++;
             tasks[i].name = argv[0];
-            reg[i][0]= tasks[i].func;
-            reg[i][5] = argv;
+            reg[i][0]= (uint64_t) tasks[i].func;
+            reg[i][5] = (uint64_t)argv;
             reg[i][6]= argc;
-            reg[i][8]= (stack[i]+4095);
+            reg[i][8]= (uint64_t)(stack[i]+4095);
             reg[i][17]=flags;
             tasks[i].argc = argc;
             tasks[i].argv=argv;
@@ -380,10 +380,10 @@ int isForeground(){
     return tasks[activePID].ground == FOREGROUND;
 }
 
-uint64_t yield(uint64_t * registers, uint8_t load){
+uint64_t * yield(uint64_t * registers, uint8_t load){
     int aux = activePID;
     tasks[aux].present = 0;
-    uint64_t toRet = registerManager(registers,load);
+    uint64_t * toRet = registerManager(registers,load);
     tasks[aux].present = 1;
     return toRet;
 }

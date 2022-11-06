@@ -5,18 +5,17 @@
 #ifndef TP2SO_PIPES_H
 #define TP2SO_PIPES_H
 
-#define BUFFERSIZE 100
+#define BUFFERSIZEPIPE 100
 #define USED 1
 #define EMPTY 0
 
 typedef struct pipe {
     int present;
     int id;
-    char buffer[BUFFERSIZE];
+    char buffer[BUFFERSIZEPIPE];
     int writeIndex, readIndex;
     int processes;
     int writeLock, readLock;
-    int mutex;
 } pipe;
 
 int writePipe(int pipeId, char *str);

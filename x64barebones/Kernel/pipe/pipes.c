@@ -32,11 +32,11 @@ int writePipe(int pipeId, char * string){
         waitBack(pipes[index].writeLock);
 
 
-        if (pipes[index].writeIndex > BUFFERSIZE) {
+        if (pipes[index].writeIndex > BUFFERSIZEPIPE) {
             return -1;
         }
         pipes[index].buffer[pipes[index].writeIndex] = string[i];
-        pipes[index].writeIndex = (pipes[index].writeIndex + 1) % BUFFERSIZE;
+        pipes[index].writeIndex = (pipes[index].writeIndex + 1) % BUFFERSIZEPIPE;
 
         post(pipes[index].readLock);
 
@@ -53,7 +53,7 @@ char readPipe(int pipeId){
 
     waitBack(pipes[index].readLock);
     char c = pipes[index].buffer[pipes[index].readIndex];
-    pipes[index].readIndex = (pipes[index].readIndex + 1) % BUFFERSIZE;  //Se lee el pipe de manera circular
+    pipes[index].readIndex = (pipes[index].readIndex + 1) % BUFFERSIZEPIPE;  //Se lee el pipe de manera circular
 
     post(pipes[index].writeLock);
 
@@ -123,13 +123,13 @@ static int createPipe(int pipeId) {
     pipes[index].buffer[0] = '\0';
 
     pipes[index].readLock = semOpen(initialSemId++, 0);
-    pipes[index].writeLock = semOpen(initialSemId++, BUFFERSIZE);
+    pipes[index].writeLock = semOpen(initialSemId++, BUFFERSIZEPIPE);
 
     if (pipes[index].readLock == -1 || pipes[index].writeLock == -1) {
         return -1;
     }
 
-    return pipeId;
+    return index;
 }
 
 

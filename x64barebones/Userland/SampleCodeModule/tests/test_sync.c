@@ -8,8 +8,7 @@ int64_t global;  //shared memory
 
 void slowInc(int64_t *p, int64_t inc){
   uint64_t aux = *p;
-  // yield(); //This makes the race condition highly probable
-  yield();
+  yield(); //esto ayuda a la condicion de carrera
   aux += inc;
   *p = aux;
 }
@@ -68,7 +67,7 @@ void my_process_inc(uint64_t argc, char *argv[]){
 }
 
 //recibe en argv[1] N (cantidad de ciclos), en argv[2] 0 o 1 si quiere usar semaforos o no
-void test_sync(uint64_t argc, char *argv[]){ //{n, use_sem, 0}
+void test_sync(int argc, char **argv){ //{n, use_sem, 0}
   uint64_t pids[2 * TOTAL_PAIR_PROCESSES];
   if (argc != 3){
     my_printf("Esta funcion debe recibir 2 parametros\n");

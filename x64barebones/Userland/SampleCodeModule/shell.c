@@ -3,7 +3,7 @@
 #define READ "0\0"
 #define WRITE "1\0"
 
-typedef void (*functionPointer)(void);
+typedef void (*functionPointer)(int, char **);
 
 static char readBuffer[BUFFER_LENGTH]={0};
 

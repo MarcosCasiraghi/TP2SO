@@ -13,7 +13,6 @@ typedef struct t_philosofer {
 
 t_philosofer *philosophers[MAX_PHILOS];
 static int philosopherCount = 0;
-static int mutex;
 static int tableOpen;
 
 #define LEFT(i) (((i) + philosopherCount - 1) % philosopherCount)
@@ -281,7 +280,6 @@ static void pipeTable(int argc, char **argv){
         }
         pipeWrite(pipeId,"\n");
         post(MUTEX_SEM_ID);
-        yield();
     }
 }
 

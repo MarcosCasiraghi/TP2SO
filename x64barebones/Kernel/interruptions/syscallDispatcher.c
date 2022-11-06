@@ -9,10 +9,10 @@ static uint64_t regdump[17]={0};
 uint64_t syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8){
 	switch(r8){
 		case 1:
-			int_80(rdi,rsi,rdx,rcx);
+			int_80((char *)rdi,rsi,rdx,rcx);
             break;
         case 2:
-            int_81(rdi);
+            int_81((char *)rdi);
             break;
         case 3:
             int_82();
@@ -21,24 +21,24 @@ uint64_t syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rc
             int_83(rdi);
             break;
         case 6:
-            int_85(rdi);
+            return int_85((uint64_t *)rdi);
             break;
         case 7:
-            int_86(rdi);
+            int_86((char *)rdi);
             break;
         case 8:
-            int_87(rdi, rsi);
+            int_87((uint8_t *)rdi, (char *) rsi);
             break;
         case 9:
-            return int_89(rdi);
+            return (uint64_t) int_89(rdi);
         case 10:
-            int_90(rdi);
+            int_90((void *)rdi);
             break;
         case 11:
-            int_91(rdi);
+            int_91((char *)rdi);
             break;
         case 12:
-            int_92(rdi);
+            int_92((char *)rdi);
             break;
         case 13:
             int_94(rdi, rsi);
@@ -56,27 +56,28 @@ uint64_t syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rc
             return int_100(rdi);
             break;
         case 18:
-            int_101(rdi);
+            int_101((char *)rdi);
             break;
         case 19:
-            int_102(rdi);
+            return int_102(rdi);
             break;
         case 20:
-            int_103(rdi);
+            return int_103(rdi);
             break;
         case 21:
-            int_104(rdi);
+            return int_104(rdi);
             break;
         case 22:
-            int_105(rdi, rsi);
+            return int_105(rdi,(char *) rsi);
             break;
         case 23:
-            int_106(rdi);
+            int_106((char *)rdi);
             break;
         case 24:
-            int_107();
+            return int_107();
             break;
 	}
+    return -1;
 }
 
 int schedulerDispatcher( void * func,int ground,int priority, uint64_t argc, char * argv[],uint64_t flags){
@@ -204,7 +205,7 @@ void int_86(char * buffer){
 
 void int_87(uint8_t * address, char * buffer){
     int j = 0;
-    if(address > MAX_ADDRESS_DECIMAL|| address<0)
+    if(*address > MAX_ADDRESS_DECIMAL|| *address<0)
 		return;
     for(int i=0; i<32; i++) {
         buffer[j++] = '0';

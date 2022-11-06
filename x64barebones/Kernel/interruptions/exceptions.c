@@ -20,22 +20,15 @@ void exceptionDispatcher(int exception, uint64_t * registers) {
 }
 
 void exceptionCall(char * message, uint64_t * registers) {
-	int activePid=getActivePId();
-	int i=0;
-	char buffer[20]={0};
-
-		restoreDefault();
-		ncPrint(message);
+	restoreDefault();
+	ncPrint(message);
+	ncNewline();
+	for (int i = 0; i < 17; i++){
+		ncPrint(tags[i]);
+		ncPrint(" ");
+		ncPrintHex(registers[i]);
 		ncNewline();
-		for (int i = 0; i < 17; i++){
-			ncPrint(tags[i]);
-			ncPrint(" ");
-			ncPrintHex(registers[i]);
-			ncNewline();
-		}
+	}
 
 	schedulerExit(1);
-	// for (int i = 0; i < 50000000; i++){
-
-	// }
 }

@@ -37,7 +37,7 @@ int unblockProcess(int pid);
 int foregroundRunning();
 int foregroundRunning2();
 int blockProcessTick(int pid);
-uint64_t yield(uint64_t * registers, uint8_t load);
+uint64_t * yield(uint64_t * registers, uint8_t load);
 
 
 #endif

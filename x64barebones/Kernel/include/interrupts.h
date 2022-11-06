@@ -39,6 +39,8 @@ void _yieldHandler(void);
 void _unblockHandler(void);
 void _getSecondsHandler(void);
 
+int _xchg(int * mutex, int value);
+
 void _cli(void);
 
 void _sti(void);

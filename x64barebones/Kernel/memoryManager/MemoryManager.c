@@ -195,7 +195,7 @@ void memoryDump(char * buffer){
         }
 
         char address[10] = {0};
-        uintToBase(current, address, 16);
+        uintToBase((uint64_t)current, address, 16);
         j = 0;
         for(; address[j]!= 0 ; i++, j++){
             buffer[i] = address[j];
