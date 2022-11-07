@@ -15,7 +15,6 @@ typedef struct philosofer {
 
 philosofer *philosophers[MAX_PHILOS];
 static int philosopherCount = 0;
-static int tableOpen;
 
 #define LEFT(i) (((i) + philosopherCount - 1) % philosopherCount)
 #define RIGHT(i) (((i) + 1) % philosopherCount)
@@ -34,7 +33,6 @@ static void pipeTable(int argc, char **argv);
 
 void philoProblem(int argc, char ** argv) {
     philosopherCount = 0;
-    tableOpen = 1;
     int tablePID;
 
     if (argc == 3) {
@@ -63,7 +61,7 @@ void philoProblem(int argc, char ** argv) {
 
         pipeWrite(pipeId,"\nYa puede agregar o retirar filosofos\n\n");
 
-        while (tableOpen) {
+        while (1) {
             char key = getChar();
             switch (key) {
                 case 'a':
@@ -109,7 +107,7 @@ void philoProblem(int argc, char ** argv) {
 
         my_printf("\nYa puede agregar o retirar filosofos\n\n");
 
-        while (tableOpen) {
+        while (1) {
             char key = getChar();
             switch (key) {
                 case 'a':
@@ -131,15 +129,6 @@ void philoProblem(int argc, char ** argv) {
             }
         }
     }
-
-  for (int i = 0; i < philosopherCount; i++) {
-    semClose(philosophers[i]->sem);
-    sys_kill(philosophers[i]->pid);
-    sys_free(philosophers[i]);
-  }
-  sys_kill(tablePID);
-  semClose(MUTEX_SEM_ID);
-  exit();
 }
 
 static int addPhilo() {
@@ -234,7 +223,7 @@ static void test(int i) {
 static void thinkOrEat() { sleep(SLEEP_SECONDS); }
 
 static void printTable(int argc, char **argv) {
-  while (tableOpen) {
+  while (1) {
     wait(MUTEX_SEM_ID);
     int i;
     for (i = 0; i < philosopherCount; i++) {
@@ -252,7 +241,7 @@ static void printTable(int argc, char **argv) {
 
 static void pipeTable(int argc, char **argv){
     int pipeId = atoi(argv[1]);
-    while (tableOpen) {
+    while (1) {
         wait(MUTEX_SEM_ID);
         int i;
         for (i = 0; i < philosopherCount; i++) {

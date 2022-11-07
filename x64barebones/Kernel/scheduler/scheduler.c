@@ -39,7 +39,6 @@ static int activePID = 0;
 static FunctionType tasks[MAX_TASKS];
 static int priorityTickers[3] = {0};
 
-static int splitScreenMode=0;
 
 static char stack[MAX_TASKS+1][STACK_SIZE] = {{0}};
 static uint64_t reg[MAX_TASKS+1][REGISTERS] ={{0}};
