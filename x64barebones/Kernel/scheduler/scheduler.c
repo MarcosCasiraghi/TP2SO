@@ -324,12 +324,7 @@ int unblockProcess(int pid){
 }
 
 void schedulerExit(){
-    if( activePID == 0){
-        return;
-    }
-    
-
-    for (int i = 1; i < MAX_TASKS; ++i) {
+    for (int i = 2; i < MAX_TASKS; ++i) {
         if(tasks[i].present==1){
             tasks[i].status = KILLED;
             processes--;
