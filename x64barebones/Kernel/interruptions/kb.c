@@ -18,7 +18,7 @@ static uint8_t scancodeLToAscii[] = {
         '\b', '\t', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',  '[', ']',
         '\n',    0, 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', '`',
         0, '\\', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/',    0, '*',
-        0,  ' ',   0,   1/*f1*/,   2/*f2*/,   3/*f3*/,   4/*f4*/,   5/*f5*/,
+        0,  ' ',   0,   0/*f1*/,   0/*f2*/,   0/*f3*/,   0/*f4*/,   5/*f5*/,
         0,   0,   0,   0,    0,   0,
         0,    0,   0,   0, '-',   0,   0,   0, '+',   0,   0,   0,    0,   0,
         0,    0,   0,   0,   0,   0
@@ -43,7 +43,7 @@ int getKey(){
         mayus = 1;
     if( myChar == LSHIFT+RELEASE || myChar == RSHIFT+RELEASE )
         mayus = 0;
-    if( myChar < RELEASE && myChar != 0x00){
+    if( myChar < RELEASE && myChar != 0x00 && scancodeLToAscii[myChar] != 27 && scancodeLToAscii[myChar] != 5){
         if(mayus)
             kbBuffer[kbBufferPos++] = scancodeLToAsciiMayus[myChar];
         else

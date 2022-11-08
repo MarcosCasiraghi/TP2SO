@@ -33,7 +33,6 @@ static void pipeTable(int argc, char **argv);
 
 void philoProblem(int argc, char ** argv) {
     philosopherCount = 0;
-    int tablePID;
 
     if (argc == 3) {
         int pipeId = pipeOpen(atoi(argv[1]));
@@ -55,7 +54,7 @@ void philoProblem(int argc, char ** argv) {
         itoa(pipeId, buffer, 10);
 
         char *args[] = {"Phylo Table", buffer};
-        tablePID = sys_scheduler(&pipeTable, BACKGROUND, HIGHEST, 2, args);
+        sys_scheduler(&pipeTable, BACKGROUND, HIGHEST, 2, args);
 
         sleep(SLEEP_SECONDS);
 
@@ -101,7 +100,7 @@ void philoProblem(int argc, char ** argv) {
         }
 
         char *args[] = {"Phylo Table"};
-        tablePID = sys_scheduler(&printTable, FOREGROUND, HIGHEST, 1, args);
+        sys_scheduler(&printTable, FOREGROUND, HIGHEST, 1, args);
 
         sleep(SLEEP_SECONDS);
 
